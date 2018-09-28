@@ -7,13 +7,13 @@
 
 ## Ejercicio 2
 ```c
-#include<unistd.h>
-#include<stdio.h>
-#include<stdlib.h>
-#include<sys/types.h>  	
-#include<sys/stat.h>
-#include<fcntl.h>
-#include<errno.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>  	
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
 #include <string.h>
 
 int main(int argc, char *argv[]){
