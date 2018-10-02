@@ -21,7 +21,7 @@ if ((fd = open("archivo", O_CREAT|O_TRUNC|O_WRONLY,S_IRUSR|S_IWUSR)) < 0) // lla
   - `S_IRUSR`: comprueba que el usuario tiene permiso de escritura
 ---
 
-### Llamada `write` `SEEK_SET`
+### Llamada `write`
 ```c
 char buf1[] = "abcdefghij"; //una cadena de caracteres
 if (write(fd,buf1,10) != 10) { // false si se han escrito menos de 10 bytes y se desencadena el error
@@ -33,6 +33,16 @@ if (write(fd,buf1,10) != 10) { // false si se han escrito menos de 10 bytes y se
 - Devuelve el número de bytes escritos correctamente
 ---
 
+### Llamada `read`
+```c
+n = read(fd,buffer,nbytes);
+```
+- La llamada `read` lee de un fichero. Parámetros:
+  - `fd`: descriptor de archivo del que se lee
+  - `buffer`: variable (cstring) en la que se almacena lo leído
+  - `nbytes`: número de bytes que se leen
+---
+
 ### Llamada `lseek`
 ```c
 if (lseek(fd,40,SEEK_SET) < 0) {
@@ -41,10 +51,28 @@ if (lseek(fd,40,SEEK_SET) < 0) {
 }
 ```
 - `lseek` mueve  el puntero del archivo, lo que permite leer y/o escribir a partir de cierto byte.
-  - Primer argumento: `fd` es el descriptor de archivo
+  - Primer argumento: `fd` es el descriptor de archivo.
   - Segundo argumento: `40`, posición en bytes en la que se colocará el puntero.
   - Tercer argumento: `SEEK_SET` indica que contamos los bytes desde el principio del fichero.
-  - Devuelve menor que 0 en caso de error
+    - `SEEK_END`: final del fichero
+  - Devuelve el número de bytes que se ha desplazado y menor que 0 en caso de error.
+
+#### Aplicación de `lseek`: calcular la longitud de un fichero
+- Situamos el puntero de archivo al comienzo del fichero, si es que no lo está:
+```c
+lseek(fd, 0, SEEK_SET);
+```
+- Situamos el puntero al final del archivo. Como `lseek` devuelve el número de bytes que se ha desplazado, obtenemos la longitud en baytes del fichero:
+```c
+int nbytes = lseek(fd,0,SEEK_END); //fd es un descriptor de archivo
+```
+- Calculamos el número de bloques dividiendo el número de bytes entre el tamaño en bytes de cada bloque:
+```c
+int nbloques = nbytes / tam_bloque;
+if(nbytes % tam_bloque > 0)
+  nbloques++;
+```
+- Situamos el puntero donde convenga, de nuevo, con `lseek`.
 ---
 
 ### LLamada close
