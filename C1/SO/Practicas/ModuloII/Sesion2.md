@@ -131,7 +131,6 @@ int main(int argc, char const *argv[]) {
 La explicación se encuentra dentro del ejercicio
 
 ```c
-
 #include<sys/types.h>	
 #include<dirent.h>
 #include<unistd.h>		
@@ -186,13 +185,13 @@ void buscar_dir(DIR * directorio, char pathname[], int * contador_regulares, int
             }
             else{
                 // Imprimimos nodo
-                printf("%s %ld \n", cadena, atributos.st_ino);
                 
                 // Comprobamos que es regular y miramos si tienes los permisos deseados
                 // (ejecución en grupo y en otros)
                 // El mayor problema es la expresión para comprobar qué permisos son los indicados
                 if (S_ISREG(atributos.st_mode)
                 && ( (atributos.st_mode & ~__S_IFMT) & 011) == 011) {
+                    printf("%s %ld \n", cadena, atributos.st_ino);
                     (*contador_regulares)++;
                     // Casteo como entero. Modificas el puntero
                     (*tamano_total) += (int) atributos.st_size;
@@ -226,7 +225,7 @@ int main(int argc, char *argv[]){
     printf("Estos son los inodos: \n");
     buscar_dir(directorio, pathname, &contador_regulares, &tamano_total);
 
-    printf("Existen %d archivos regulares y en total ocupan %d bytes", contador_regulares, tamano_total);
+    printf("Existen %d archivos regulares con permiso de ejecución en grupo y otros, y en total ocupan %d bytes", contador_regulares, tamano_total);
 
 }
 ```
