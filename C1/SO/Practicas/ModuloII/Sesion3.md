@@ -214,3 +214,125 @@ Ha finalizado el hijo con PID = 22203
 Solo me quedan 0 hijos vivos
 ```
 ¿Podéis observar cómo se entremezclan ambos bucles?
+
+## Ejercicio 5
+Modificación muy sencilla del anterior:
+```c
+#include<sys/types.h>
+#include<unistd.h>	
+#include<stdio.h>
+#include<errno.h>
+#include <stdlib.h>
+
+int main(){
+    int i, estado;
+    int hijos_vivos=5;
+    pid_t PIDs[5];
+    
+    // printf() as soon as posible
+    setvbuf(stdout, (char*)NULL, _IONBF, 0);
+
+    // Creación de hijos
+    for(i=0; i<5; i++){
+         if ((PIDs[i] = fork()) <0){
+            perror("Error en fork \n");
+            exit(-1);
+        }
+        
+        if (PIDs[i]==0){  //Hijo imprime y muere
+            printf("Soy el hijo PID = %i\n", getpid());
+            exit(0);
+        }
+    }
+
+    // Padre que espera a los pares
+    for (i=4; i>=0; i -= 2){
+        waitpid(PIDs[i], &estado);
+        
+        printf("Ha finalizado el hijo con PID = %i y estado %d\n", PIDs[i], estado);
+        printf("Solo me quedan %d hijos vivos\n\n", --hijos_vivos);
+    }
+    
+    // Padre que espera a los impares
+    for (i=3; i>=1; i -= 2){
+        waitpid(PIDs[i], &estado);
+        
+        printf("Ha finalizado el hijo con PID = %i y estado %d\n", PIDs[i], estado);
+        printf("Solo me quedan %d hijos vivos\n\n", --hijos_vivos);
+    }
+
+    // Sleep(2) para garantizar que han finalizado las operaciones de salida    
+    sleep(2);
+    printf("Ya no me quedan hijos :(");
+    
+    exit(0);
+}
+```
+
+Salida de la terminal: 
+```txt
+Soy el hijo PID = 6361
+Soy el hijo PID = 6362Soy el hijo PID = 6363
+Ha finalizado el hijo con PID = 6364 y estado 32593
+Solo me quedan 4 hijos vivos
+
+Ha finalizado el hijo con PID = 6362 y estado 32593
+Solo me quedan 3 hijos vivos
+
+Ha finalizado el hijo con PID = 6360 y estado 32593
+Solo me quedan 2 hijos vivos
+
+Ha finalizado el hijo con PID = 6363 y estado 32593
+Solo me quedan 1 hijos vivos
+
+Ha finalizado el hijo con PID = 6361 y estado 32593
+Solo me quedan 0 hijos vivos
+
+Soy el hijo PID = 6364
+Soy el hijo PID = 6360
+Ya no me quedan hijos :(%
+```
+
+## Ejercicio 6 
+Código del programa: 
+```c
+#include<sys/types.h>	
+#include<sys/wait.h>	
+#include<unistd.h>
+#include<stdio.h>
+#include<errno.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[]){
+	pid_t pid;
+	int estado;
+
+	if( (pid=fork())<0) {
+		perror("\nError en el fork");
+		exit(EXIT_FAILURE);
+	}
+	else if(pid==0) {  //proceso hijo ejecutando el programa
+		if(execl("/usr/bin/ldd", "ldd", "./tarea5") < 0) {
+			perror("\nError en el execl");
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	wait(&estado);
+	/*
+	<estado> mantiene información codificada a nivel de bit sobre el motivo de finalización del proceso hijo 
+	que puede ser el número de señal o 0 si alcanzó su finalización normalmente.
+	Mediante la variable estado de wait(), el proceso padre recupera el valor especificado por el proceso hijo como argumento de la llamada exit(), pero desplazado 1 byte porque el sistema incluye en el byte menos significativo 
+	el código de la señal que puede estar asociada a la terminación del hijo. Por eso se utiliza estado>>8 
+	de forma que obtenemos el valor del argumento del exit() del hijo.
+	*/
+
+	printf("\nMi hijo %d ha finalizado con el estado %d\n",pid, estado>>8);
+
+	exit(EXIT_SUCCESS);
+}
+```
+Primero, alojamos un proceso nuevo con `fork()`, como vimos en los ejercicios anteriores. Si hemos conseguido crearlo, ejecutaremos el programa `ldd` con la función `execl()` dentro de C. Para ello, indicamos la ruta donde se encuentra el progama, con la orden y el nombre del ejecutable de nuestro programa. Si no conseguimos que se ejecute, nuestro programa en C se cerrará. 
+Mientras tanto, `wait()` le echa un ojo a lo que está ocurriendo en el proceso hijo mediante la variable estado. Está bien documentada en el código.
+
+## Ejercicio 7
