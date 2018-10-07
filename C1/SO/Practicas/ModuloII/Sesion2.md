@@ -229,3 +229,58 @@ int main(int argc, char *argv[]){
 
 }
 ```
+
+
+## Ejercicio 4
+Implementa de nuevo el programa del ejercicio 3 utilizando la llamada al sistema nftw.
+
+```c
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
+#include <stdio.h>
+#include <errno.h>
+#include <dirent.h> //DIR
+#include <ftw.h> // nftw
+
+int contador_regulares = 0, tamano_total = 0;
+
+int visitar (const char *pathname, const struct stat *statbuf, int typeflag, struct FTW *ftwbuf){
+  if (S_ISREG(statbuf->st_mode) && ( (statbuf->st_mode & ~__S_IFMT) & 011) == 011){
+    printf ("%s %ld\n",pathname, statbuf->st_ino);
+    contador_regulares++;
+    tamano_total += (int) statbuf->st_size;
+  }
+
+  return 0;
+}
+
+int main (int argc, char *argv[]){
+  char pathname[500];
+
+  if (argc == 2)
+    strcpy(pathname, argv[1]);
+  else if (argc == 1)
+    strcpy(pathname, ".");
+  else
+    printf("Error, introduzca: ./Ej3 (<pathname>)\n");
+
+  /*
+  Parámetros:
+  pathname: ruta del archivo
+  visitar: función para saber sobre el archivo
+  10: mÁximo nÚmero de descriptores
+  0: modifica la operación de la función. Aquí no modifica nada
+  */
+  if(nftw(pathname, visitar, 10,0) != 0){
+    perror("nftw");
+  }
+
+  printf("Existen %d archivos regulares y en total ocupan %d bytes\n", contador_regulares, tamano_total);
+
+  exit(EXIT_SUCCESS);
+}
+```
