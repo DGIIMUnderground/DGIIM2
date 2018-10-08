@@ -13,7 +13,7 @@ Código del programa:
 int main (int argc, char * argv[]) {
 	int fd1,fd2;
 	struct stat atributos;
-
+x
 	//CREACION DE ARCHIVOS
 	if( (fd1=open("archivo1", O_CREAT|O_TRUNC|O_WRONLY, S_IRGRP|S_IWGRP|S_IXGRP))<0) {
 		printf("\nError %d en open(archivo1,...)",errno);
@@ -60,28 +60,34 @@ Si no se ha podido cambiar alguno, se elimina sale del programa. Si ha ido bien,
 
 ## Ejercicio 2
 ```c
-#include<sys/types.h>	
-#include<dirent.h>
-#include<unistd.h>		
+#include<sys/types.h>	//Primitive system data types for abstraction of implementation-dependent data types.
+						//POSIX Standard: 2.6 Primitive System Data Types <sys/types.h>
+#include<unistd.h>		//POSIX Standard: 2.10 Symbolic Constants         <unistd.h>
 #include<sys/stat.h>
-#include<fcntl.h>		
 #include<stdio.h>
 #include<errno.h>
 #include<stdlib.h>
-#include <string.h>
+#include<dirent.h> //formato DIR, para el stream que devuelve opendir
+#include<string.h> //strlen, strcmp ...
 
 int main(int argc, char const *argv[]) {
+  
+  char mensajeerror[] ="Debe dar 2 argumentos: ruta de un directorio y entero con permiso a conceder a todos los archivillos\n";
+  
     if (argc != 3){
-        printf("Argumentos pasados incorrectamente (./ejecutable directorio octal_4_dígitos)");
-        exit(EXIT_FAILURE);
+      // printf("Argumentos pasados incorrectamente (./ejecutable directorio octal_4_dígitos)");
+       write(STDERR_FILENO, mensajeerror, strlen(mensajeerror));
+       exit(EXIT_FAILURE);
     }
 
     DIR * directorio;
     int octal = strtol(argv[2], NULL, 8);
+    // se está cambiando de base 8 a decimal el número pasado por argumentos
     // NULL en C es el delimitador de la cadena
 
     if ( (directorio = opendir(argv[1])) == NULL ){
         printf("No se ha podido abrir el directorio");
+	perror( "opendir");
         exit(EXIT_FAILURE);
     }
 
@@ -113,7 +119,7 @@ int main(int argc, char const *argv[]) {
             chmod(ruta_completa, octal);
             
             if (chmod(ruta_completa, octal) < 0)
-                printf("Error: %s\n", strerror(errno));             
+                printf("Error: %s\n", strerror(errno)); 
             else {
                 // Recogemos los nuevos atributos
                 stat(ruta_completa, &atributos);
@@ -125,6 +131,7 @@ int main(int argc, char const *argv[]) {
     closedir(directorio);
     exit(EXIT_SUCCESS);
 }
+
 ```
 
 ## Ejercicio 3
