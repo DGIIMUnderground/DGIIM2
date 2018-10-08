@@ -6,6 +6,21 @@
 5. Finaliza la ejecución
 
 ## Ejercicio 2
+Implementa un programa que realice la siguiente funcionalidad. El programa acepta como argumento el nombre de un archivo (pathname), lo abre y lo lee en bloques detamaño 80 Bytes, y crea un nuevo archivo de salida, salida.txt, en el que debe aparecer la siguiente información:
+- Bloque 1:
+
+  // Aquí van los primeros 80 Bytes del archivo pasado como argumento.
+
+- Bloque 2
+
+  // Aquí van los siguientes 80 Bytes del archivo pasado como argumento.
+
+- Bloque n
+
+  // Aquí van los siguientes 80 Bytes del archivo pasado como argumento.
+
+Si no se pasa un argumento al programa se debe utilizar la entrada estándar como archivo de entrada
+
 ```c
 #include <unistd.h>
 #include <stdio.h>
@@ -23,7 +38,7 @@ int main(int argc, char *argv[]){
 
     FILE * file_read_pointer  = fopen(argv[1], "r");
     FILE * file_write_pointer = fopen("salida.txt", "w");
-    
+
     if ( file_read_pointer == NULL){
         perror("Error al abrir el archivo de entrada");
         exit(EXIT_FAILURE);
@@ -37,13 +52,13 @@ int main(int argc, char *argv[]){
     int iterador=0;
     char buffer[80];
     char ch;
-    
+
     while ( (ch = fgetc(file_read_pointer)) != EOF){
         if ( iterador < (80/sizeof(char)) ){
             fputc(ch, file_write_pointer);
             iterador++;
         }
-        
+
         else if (ch != EOF){
             fputc('\n', file_write_pointer);
             iterador = 0;
@@ -55,27 +70,27 @@ int main(int argc, char *argv[]){
 }
 ```
 
-## Ejercicio 3 
+## Ejercicio 3
 El programa recibe el nombre de un elemento, y analiza de qué tipo es. Para ello, invoca un struct del tipo `stat`, y compara poco a poco qué flag se activa.
 
 - `S_ISREG` => Es regular
 - `S_ISCHR` => Especial de caracteres
-- `S_ISDIR` => Es un directorio 
+- `S_ISDIR` => Es un directorio
 ...
 
 Si alguno de esos bits se ha activado, copia en la cadena `tipoArchivo` el mensaje tras cada `if()`.
 
-## Ejercicio 4 
-Una macro es una pieza de código que recibe un nombre. Cada vez que su nombre se usa, se reemplaza por lo que sea que venga tras su definición. 
-Lo que necesitamos construir es una minifunción booleana, que nos devuelva verdadero o falso. 
+## Ejercicio 4
+Una macro es una pieza de código que recibe un nombre. Cada vez que su nombre se usa, se reemplaza por lo que sea que venga tras su definición.
+Lo que necesitamos construir es una minifunción booleana, que nos devuelva verdadero o falso.
 
-Para saber los permisos de un archivo, podemos crear un `struct stat` para comprobarlos. Sin embargo, existe un problema: los permisos no vienen como strings, sino en binario. Por tanto, debemos hacer comparaciones de lo que queramos. 
+Para saber los permisos de un archivo, podemos crear un `struct stat` para comprobarlos. Sin embargo, existe un problema: los permisos no vienen como strings, sino en binario. Por tanto, debemos hacer comparaciones de lo que queramos.
 
-En este caso, necesitamos hacer una comparación del parámetro `.st_mode` y `0170000`. Al hacer una operación AND, y el resultado es `0100000`, estamos ante un archivo regular. 
+En este caso, necesitamos hacer una comparación del parámetro `.st_mode` y `0170000`. Al hacer una operación AND, y el resultado es `0100000`, estamos ante un archivo regular.
 `0170000` corresponde a `S_IFMT`. Es una máscara de bits para los campos de bit del tipo de archivo
-`0100000` implica que el archivo es regular. 
+`0100000` implica que el archivo es regular.
 
-Por tanto, reutilizando el código del ejercicio 3, podemos crear lo siguiente: 
+Por tanto, reutilizando el código del ejercicio 3, podemos crear lo siguiente:
 ```c
 #include<unistd.h>
 #include<stdio.h>
@@ -100,7 +115,7 @@ int main(int argc, char const *argv[]) {
 
 	for(i=1;i<argc;i++) {
 		printf("%s: ", argv[i]);
-		
+
 		if(lstat(argv[i], &atributos) < 0) {
 			printf("\nError al intentar acceder a los atributos de %s",argv[i]);
 			perror("\nError en lstat");
@@ -111,4 +126,4 @@ int main(int argc, char const *argv[]) {
     }
     exit(EXIT_SUCCESS);
 }
-``` 
+```
