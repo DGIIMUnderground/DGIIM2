@@ -168,7 +168,7 @@ Es posible que este ejercicio esté mal. Necesita revisión
 ## Ejercicio 4 
 Código del programa:
 
-```c
+```c 
 #include<sys/types.h>
 #include<unistd.h>	
 #include<stdio.h>
@@ -354,3 +354,52 @@ Primero, alojamos un proceso nuevo con `fork()`, como vimos en los ejercicios an
 Mientras tanto, `wait()` le echa un ojo a lo que está ocurriendo en el proceso hijo mediante la variable estado. Está bien documentada en el código.
 
 ## Ejercicio 7
+Código del programa:
+```c
+#include<sys/types.h>	
+#include<sys/wait.h>	
+#include<unistd.h>
+#include<stdio.h>
+#include<errno.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+int main(int argc, char const *argv[]){
+    if (argc < 2){
+        printf("./ejecutable <programa> <listado de argumentos> <bg>");
+        exit(-1);
+    }
+
+    bool activar_background = false;
+    char argumentos[100];
+
+    // Comprobamos que el último es la cadena bg
+    if (strcmp("bg", argv[argc-1]) == 0){
+        activar_background = true;
+    }
+        
+    // Copia de parámetros para el ejecutable atendiendo a si nos pasan bg o no
+    if (argc > 2 && strcmp(argv[2], "bg") != 0)
+        strcpy(argumentos, argv[2]);
+
+    for (size_t i=2; i<argc && strcmp(argv[i], "bg") != 0; i++)
+        strcat(argumentos, argv[i]);                
+
+    // Creación del nuevo hilo 
+    pid_t pid;
+
+    if( (pid=fork())<0) {
+		perror("\nError en el fork");
+		exit(EXIT_FAILURE);
+	}
+    else if (activar_background && pid==0){ // Ejecución del hilo. Segundo plano
+        execl(argv[1], argumentos);
+    }
+    else                                    // Ejecución del padre. Primer plano
+        execl(argv[1], argumentos);
+    
+
+    exit(EXIT_SUCCESS);
+}
+```
