@@ -104,6 +104,23 @@ A continuación, crea el proceso hijo con `fork()`. Si no lo consigue alocar, se
 
 Descomentar las líneas de código adyacentes a (1) no tienen ningún efecto en el valor de las variables. Lo único que hace es deshabilitar el buffer de printf a salida estándar?
 
+Los valores de las variables mostrados son diferentes porque son contextos diferentes. Al hacer un fork, se hace una copia de la memoria. En principio, hace falta especificarle que sea capaz de cambiar los valores del padre
+
+Salida con buffer:
+```
+Mensaje previo a la ejecución de fork
+pid= 3154, global= 7, var= 89
+Mensaje previo a la ejecución de fork
+pid= 3153, global= 6, var= 88
+```
+Salida sin buffer: 
+```
+
+Mensaje previo a la ejecución de fork
+pid= 3346, global= 7, var= 89
+
+pid= 3345, global= 6, var= 88
+```
 ## Ejercicio 3 
 Sinceramente, no sé cómo interpretar el output. Si alguien lo sabe, que edite esto. 
 ```c
@@ -147,6 +164,7 @@ int main(){
     }
 }
 ```
+Salida: [link](https://pastebin.com/RzLQZ5rr)
 ## Ejercicio 4 
 Código del programa:
 
@@ -290,7 +308,7 @@ Solo me quedan 0 hijos vivos
 
 Soy el hijo PID = 6364
 Soy el hijo PID = 6360
-Ya no me quedan hijos :(%
+Ya no me quedan hijos :(
 ```
 
 ## Ejercicio 6 
