@@ -164,7 +164,7 @@ int main(){
     }
 }
 ```
-Salida: [link](https://pastebin.com/RzLQZ5rr)
+Es posible que este ejercicio esté mal. Necesita revisión
 ## Ejercicio 4 
 Código del programa:
 
