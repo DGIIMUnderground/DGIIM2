@@ -80,3 +80,46 @@ int main(int argc, char *argv[]){
   return 0;
 }
 ~~~
+### Actividad 4.2 Trabajo con cauces sin nombre
+**Ejercicio 2.** Consulte en el manual en línea la llamada al sistema pipe para la creación de cauces sin nombre. Pruebe a ejecutar el siguiente programa que utiliza un cauce sin nombre y describa la función que realiza. **El proceso padre está recibiendo datos del hijo, ya que cierra el descriptor usado para escritura fd[1] y el hijo cierra el despriptor usado para lectura, fd[0].**
+~~~c
+/*
+tarea6.c
+Trabajo con llamadas al sistema del Subsistema de Procesos y Cauces conforme a
+POSIX 2.10
+*/
+#include<sys/types.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<errno.h>
+int main(int argc, char *argv[]){    
+  int fd[2], numBytes;
+  pid_t PID;
+  char mensaje[]= "\nMensaje transmitido por un cauce\n";
+  char buffer[80];
+
+  pipe(fd); // Llamada al sistema para crear un cauce sin nombre
+  if ((PID= fork())<0){
+    perror("Error en fork");
+    exit(-1);
+  }
+
+  if (PID == 0) { //Cierre del descriptor de lectura en el proceso hijo
+    close(fd[0]);
+    // Enviar el mensaje a través del cauce usando el descriptor de escritura
+    write(fd[1],mensaje,strlen(mensaje)+1);
+    exit(0);
+  }
+  else { // Estoy en el proceso padre porque PID != 0
+    //Cerrar el descriptor de escritura en el proceso padre
+    close(fd[1]);
+    //Leer datos desde el cauce
+    numBytes= read(fd[0],buffer,sizeof(buffer));
+    printf("\nEl número de bytes recibidos es: %d",numBytes);
+    printf("\nLa cadena enviada a través del cauce es: %s", buffer);
+  }
+  return(0);
+}
+~~~
