@@ -67,5 +67,28 @@
   - Tarea dividida en actividades paralelas
   - SMP
 
-### Estructura de sistemas operativos
+### Arquitectura de sistemas operativos
+
+- **Sistema monolítico**
+  - SO como un único ejecutable en modo kernel. Un solo ejecutable
+  - Problemas:
+    - Sin ocultamiento de información. Cada procedimiento puede llamar a cualquier otro
+    - Poco manejables. Sin estructura interna
+    - Poco fiables: un error crashea el SO
+    - Poco extensibles
+    - Poca tolerancia a fallos
+- **Estructura de capas**
+  - SO organizado como jerarquía de capas
+- **Microkernel**
+  - Definición de kernel
+    - Cargado en memoria principal
+    - Ejecución en modo privilegiado/kernel
+    - Alto nivel de inhibición de interrupciones
+  - Lo más importante del SO está en el kernel. El resto, implementado en procesos
+  - Solicitudes y respuestas de servicios
+  - Ventajas:
+    - Mayor tolerancia a fallos y extensibilidad
+    - Adaptable a sistemas distribuidos
+  - Inconvenientes:
+    - Peor rendimiento. Más ejecuciones para resolver un servicio
 
