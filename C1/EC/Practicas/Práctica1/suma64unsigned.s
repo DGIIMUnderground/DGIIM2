@@ -31,17 +31,17 @@ suma:									#Función suma
 									#Se inicializan a 0 los registros que usaremos.
 	mov $0, %eax	#Acumulador
 	mov $0, %edx	#suma de acarreos
-	mov $0, %esi	#indice
+	mov $0, %esi	#índice
 bucle:									#Bucle usado para hacer la suma.
 	add (%ebx,%esi,4), %eax						#Se le suma al acumulador lo que haya en la posición de memoria
 									#%ebx+4*%esi, recordemos que %ebx guarda la dirección de inicio de lista y
 									#%esi es el índice.
 	adc $0, %edx							#Suma de acarreo y se guarda en el registro %edx.
 	inc       %esi							#Incremento del índice
-	cmp  %esi,%ecx							#Condición de salida del bucle, equiparable a indice==longlista en C.
+	cmp  %esi,%ecx							#Condición de salida del bucle, equiparable a indice == longlista en C.
 	jne bucle
-	
-	pop %esi							#Se le hace un pop a %esi para recuperar el valor que perdió al hacerle el 
+
+	pop %esi							#Se le hace un pop a %esi para recuperar el valor que perdió al hacerle el
 									#push.
 	ret								#Retorno de la función
 
