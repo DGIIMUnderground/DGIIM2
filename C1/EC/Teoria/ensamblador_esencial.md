@@ -8,14 +8,14 @@
 
 
 ## Compilación del programa  
-- El archivo debe tener una extensión .s 
+- El archivo debe tener una extensión .s
 - Para compilarlo con gcc: `gcc -g -m32 nombre.s -o nombre_ejecutable`
 El `-g ` es para poder depurarlo, el -m32 es para trabajar en 32 bytes  
 
 
 ### Posibles problemas  
 
-Si intenta compilar por primera vez puede que obtenga, como me pasó a mí: 
+Si intenta compilar por primera vez puede que obtenga, como me pasó a mí:
 ```shell
 /usr/bin/x86_64-linux-gnu-ld: no se puede encontrar Scrt1.o: No existe el archivo o el directorio
 /usr/bin/x86_64-linux-gnu-ld: no se puede encontrar crti.o: No existe el archivo o el directorio
@@ -28,10 +28,10 @@ Si intenta compilar por primera vez puede que obtenga, como me pasó a mí:
 collect2: error: ld returned 1 exit status
 ```
 
-La solución es instalar la librería de 32 bits de gcc: 
-`sudo apt-get install gcc-multilib` 
+La solución es instalar la librería de 32 bits de gcc:
+`sudo apt-get install gcc-multilib`
 
-Otro posibe erro puedría ser_: 
+Otro posibe error puedría ser_:
  ```shell
  definiciones múltiples de `_start'
 /usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib32/Scrt1.o:(.text+0x0): primero se definió aquí
@@ -39,14 +39,14 @@ Otro posibe erro puedría ser_:
 (.text+0x28): referencia a `main' sin definir
 
 ```
-Esto se debe a que estamos compilando el programa con gcc, por tanto la estructura del main debería de ser: 
+Esto se debe a que estamos compilando el programa con gcc, por tanto la estructura del main debería de ser:
 ```assembler
 .section .data
 # ... definicion de variables ...
 
 .section .text
 main:	.global main
-#... estructura main del programa ... 
+#... estructura main del programa ...
 ```
 
 ## Registro básicos  
@@ -63,10 +63,10 @@ Registro | Origen del nombre
 %esp %ebp | puntero de pila y puntero bases USO ESPECIAL  
 
 
-## Intrucciones básicas 
+## Intrucciones básicas
 
-Instrucción | Descripcioncilla | programilla donde se ejemplica   
---- | --- |---    
+Instrucción | Descripción | programa donde se ejemplifica
+--- | ---- |---    
 `push r` | añade a pila | [suma_lista.s](suma_lista.s)   
 `pop r`| elemina de pila | [suma_lista.s](suma_lista.s)   
 `call etiqueta` | se mueve hacia una etiqueta | [suma_lista.s](suma_lista.s)  
@@ -77,9 +77,8 @@ Instrucción | Descripcioncilla | programilla donde se ejemplica
 
 ## Tipos de dato  
 
-Dato | Descripción 
---- | --- 
+Dato | Descripción
+--- | ---
 .int | enteros de cuatro bytes  
 .quad | enteros de 8 bytes  
 .ascii | para escribir cadenas de caracteres  
-
