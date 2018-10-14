@@ -1,14 +1,15 @@
 	# Este programilla suma una lista de números
 	# Blanca
 	# warming: Violación de segmento (`core' generado)
-	# qeu probablemente provenga de: en imprime_dato_lista
+	# que probablemente provenga de: en imprime_dato_lista
 	# 12/10/2018
 
 	.section .data
 
 lista:	.int 1,2,3
-tam_lista:	.int (.-lista)/4 # el tamaño de la lista lo calculamos con:
-				 # ( dir actual ( . ) - dir lista) / tamaño bytes enteros	
+tam_lista:	.int (.-lista)/4   # el tamaño de la lista lo calculamos con:
+				               # ( [dirección actual] - [dirección inicio lista]) / [tamaño bytes del tipo de array]
+							   # La dirección actual puede ser accecida mediante el operador . 	
 resultado:	.int
 mensaje:	.ascii "El resultado de sumar es %u \n\0"
 dato_ms:	.ascii "%u\0"
@@ -18,7 +19,7 @@ fin_ms:		.ascii	"\n\0"
 main:	.global main
 	mov $lista, %ebx        # muevo la posición del primer elemento
 	mov tam_lista, %ecx 	# tengo en cuenta el tamaño
-	call suma		# llamada de subrutina %eax tendrá resultado
+	call suma		        # llamada de subrutina %eax tendrá resultado
 
 	call imprime
 
@@ -31,14 +32,14 @@ main:	.global main
 
 suma:
 	push %edx		# guardamos en pila el contenido de %edx
-	mov $0, %eax		# ponemos el registro a cero, lo utilizaremos de ACUMULADOR
-	mov $0, %edx 		# a 0, lo utilizaré de CONTADOR
+	mov $0, %eax	# ponemos el registro a cero, lo utilizaremos de ACUMULADOR
+	mov $0, %edx 	# a 0, lo utilizaré de CONTADOR
 
 bucle:
-	add (%ebx,%edx,4), %eax # ACUMULADOR = (primer elemento lista   (ebx) + contador (edx)*tamaño_cada dato(4) )
-	inc %edx 		# CONTADOR++
-	cmp %edx, %ecx	
-	jne bucle 		# contador != tam-lista
+	add (%ebx,%edx,4), %eax 	# ACUMULADOR = (primer elemento lista   (ebx) + contador (edx)*tamaño_cada dato(4) )
+	inc %edx 					# CONTADOR++
+	cmp %edx, %ecx				# Comparación del iterador con el tamaño de la lista. Levanta flags
+	jne bucle 					# if contador != tam-lista => salta a la sección bucle
 
 	pop %edx		# recuperamos de la pila el contenido de %edx 
 	ret 			# retorno de la subrutina 
