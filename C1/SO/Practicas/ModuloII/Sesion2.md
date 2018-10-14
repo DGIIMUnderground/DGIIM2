@@ -53,9 +53,8 @@ Si algo falla, el programa termina.
 
 La segunda parte del programa empieza activando la máscara que permite modificar permisos de archivos. Dependiendo del parámetro pasado a umask, se crea con diferentes permisos. Tras esto, comprueba que se puede acceder a los atributos de `archivo1`
 Después, cambia los permisos de `archivo1` y `archivo2`
-
-- En `archivo1`, al hacer la negación de S_IXGRP, como `S_IXGRP` es de la forma 0...01, se vuelve 1...10. Al hacer la AND, se ponen los permisos que coincidan entre `st_mode` y `~S_IXGRP`. Le añade, finalmente, `S_ISGID`. Esta activa la asignación del GID del propietario al GID efectivo del proceso que ejecute el archivo.
-- Para `archivo2`, activa la lectura, escritura y ejecución para el archivo. Le da lectura al grupo y lectura para otros.
+- En `archivo1`, de primeras se añade lectura escritura y ejecución para el grupo, que al pasarle la máscara `~022`, se hace la operación `000 111 000 & 111 101 101 = 000 101 000`. Antes de la llamada a `chmod` esos son los permisos que tiene `archivo1`. `chmod` toma los permisos actuales y les quita el permiso de ejecución al grupo `(atributos.st_mode & ~S_IXGRP)`, para después activar la asignación del GID propietario al GID efectivo. Esta acción, al hacer `ls -l` se ve codificada con una S en el bit correspondiente a la ejecución del grupo. Por este motivo, tras ejecutar el programa, en `archivo1` el comando `ls -l` nos devuelve la siguiente secuencia: `---r-S---`
+- Para `archivo2`, activa la lectura, escritura y ejecución para el usuario. Le da lectura y escritura al grupo y lectura para otros.
 Si no se ha podido cambiar alguno, se elimina sale del programa. Si ha ido bien, termina la ejecución 
 
 ## Ejercicio 2
