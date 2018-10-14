@@ -49,18 +49,18 @@ main:	.global main
 #... estructura main del programa ...
 ```
 
-## Registro básicos  
+## Registros básicos  
 Los registros generales que utilizaremos son:
 
 Registro | Origen del nombre  
 --- | ---   
-%eax | acumulador  
-%ecx | contador  
-%edx | datos  
-%ebx | base  
-%esi | índice fuente  
-%edi |índice destino  
-%esp %ebp | puntero de pila y puntero bases USO ESPECIAL  
+%eax | Acumulador  
+%ecx | Contador  
+%edx | Datos  
+%ebx | Base  
+%esi | Índice fuente  
+%edi |Índice destino  
+%esp %ebp | Puntero de pila y puntero bases USO ESPECIAL  
 
 
 ## Intrucciones básicas
@@ -73,7 +73,7 @@ Instrucción | Descripción | programa donde se ejemplifica
 `ret` | retorno de subrutina, se carga de la pila | [suma_lista.s](suma_lista.s)   
 ` mov a, b` | mueve a -> b | [suma_lista.s](suma_lista.s)   
 `cmp a, b` | compara a y b levanta flags | [suma_lista.s](suma_lista.s)   
-`jne etiqueta` | compruena flag y si no son iguales salta | [suma_lista.s](suma_lista.s)  
+`jne etiqueta` | comprueba flag y si no son iguales salta | [suma_lista.s](suma_lista.s)  
 
 ## Tipos de datos 
 
