@@ -396,7 +396,7 @@ int main(int argc, char const *argv[]){
     else if (activar_background && pid==0){ // Ejecución del hilo. Segundo plano
         execl(argv[1], argumentos);
     }
-    else                                    // Ejecución del padre. Primer plano
+    else if (!activar_background && pid!=0)  // Ejecución del padre. Primer plano
         execl(argv[1], argumentos);
     
 
