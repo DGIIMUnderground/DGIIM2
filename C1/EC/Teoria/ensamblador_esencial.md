@@ -1,7 +1,7 @@
 # Conceptos básico para programar en ensamblador   
 
 ## Índice de contenidos  
-- [ Compilación ](#compilacion-del-programa )  
+- [ Compilación](#compilacion-del-programa )  
 - [Registros básicos](#registros-basicos)
 - [Instrucciones básicas](#intrucciones-basicas )  
 - [Tipos de datos](#tipos-de-datos )
@@ -31,7 +31,7 @@ collect2: error: ld returned 1 exit status
 La solución es instalar la librería de 32 bits de gcc:
 `sudo apt-get install gcc-multilib`
 
-Otro posibe error puedría ser_:
+Otro posibe error puedría ser:
  ```shell
  definiciones múltiples de `_start'
 /usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib32/Scrt1.o:(.text+0x0): primero se definió aquí
@@ -50,7 +50,7 @@ main:	.global main
 ```
 
 ## Registro básicos  
-Los registros generaes que utilizaremos son:
+Los registros generales que utilizaremos son:
 
 Registro | Origen del nombre  
 --- | ---   
@@ -75,10 +75,10 @@ Instrucción | Descripción | programa donde se ejemplifica
 `cmp a, b` | compara a y b levanta flags | [suma_lista.s](suma_lista.s)   
 `jne etiqueta` | compruena flag y si no son iguales salta | [suma_lista.s](suma_lista.s)  
 
-## Tipos de dato  
+## Tipos de datos 
 
 Dato | Descripción
 --- | ---
-.int | enteros de cuatro bytes  
+.int | enteros de 4 bytes  
 .quad | enteros de 8 bytes  
 .ascii | para escribir cadenas de caracteres  
