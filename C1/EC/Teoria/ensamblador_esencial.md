@@ -83,6 +83,24 @@ Instrucción | Registros a modificar
 --- | ---  
 print | 	```mov         $4, %eax # se coloca el número de servicio 4 para escribir<br>mov         $1, %ebx # salida estandar<br> 	mov    $saludo, %ecx # puntero hacia la zona de memoria <br>	mov longsaludo, %edx # longitud del puntero <br>	int $0x80```
 
+### Macros y .rpc
+
+Esta instrucción se utiliza con el objetivo de facilitar el a la hora de escribir. 
+La sintaxis de las macros es: 
+```.s
+.macro linea
+.int 1,1,1,1
+.int 2,2,2,2
+
+.endm
+```
+irpc, es una especie de for, donde i toma el valor de un la ristra de número definida y te devuelve tal posición dentro de la macro. En el caso de estar repetida, te devuelve tal número 
+```
+lista: .irpc i,12345678
+linea
+.endr
+```
+
 ## <a id='s1-4' />Tipos de dato  
 
 
