@@ -356,50 +356,104 @@ Mientras tanto, `wait()` le echa un ojo a lo que está ocurriendo en el proceso 
 ## Ejercicio 7
 Código del programa:
 ```c
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
+#include<sys/types.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<errno.h>
+#include<stdlib.h>
+#include<string.h>
+#include<stdbool.h>
+#include <malloc.h> //para reservar memoria
 
-int main(int argc, char const *argv[]){
-    if (argc < 2){
-        printf("./ejecutable <programa> <listado de argumentos> <bg>");
-        exit(-1);
-    }
 
-    bool activar_background = false;
-    char argumentos[100];
 
-    // Comprobamos que el último es la cadena bg
-    if (strcmp("bg", argv[argc-1]) == 0){
-        activar_background = true;
-    }
+int main(int argc, char *argv[])
+{
 
-    // Copia de parámetros para el ejecutable atendiendo a si nos pasan bg o no
-    if (argc > 2 && strcmp(argv[2], "bg") != 0)
-        strcpy(argumentos, argv[2]);
+//Compruebo el nÃºmero de argumentos
 
-    for (size_t i=2; i<argc && strcmp(argv[i], "bg") != 0; i++)
-        strcat(argumentos, argv[i]);                
-
-    // Creación del nuevo hilo
-    pid_t pid;
-
-    if( (pid=fork())<0) {
-		perror("\nError en el fork");
-		exit(EXIT_FAILURE);
+	if(argc==1){
+		printf("NÃºmero de argumentos incorrecto (%d).\n", argc);
+		exit(-1);
 	}
-    else if (activar_background && pid==0){ // Ejecución del hilo. Segundo plano
-        execl(argv[1], argumentos);
-    }
-    else if (!activar_background && pid!=0)  // Ejecución del padre. Primer plano
-        execl(argv[1], argumentos);
+
+//Copio los argumentos del programa a ejecutar
+
+	char * argumentos[argc];
+	bool bg = false; //foreground o background
+
+	int contador = 0;	
+	for(int i=1; i<argc; i++){
+		if(strcmp(argv[i], "bg")==0){
+			bg = true;
+		}
+		else{
+			argumentos[contador] = (char *) malloc(strlen(argv[i])+1);
+			strcpy(argumentos[contador], argv[i]);
+			argumentos[contador][strlen(argv[i])];
+			contador++;
+		}
+	}
+	argumentos[contador] = NULL; /*el array que se pasa como argumento a execvp
+								 debe tener NULL en su Ãºltima componente*/
 
 
-    exit(EXIT_SUCCESS);
+//Ajusto los argumentos a pasar a execvp
+
+	char ruta[strlen(argumentos[0])+1]; 
+	strcpy(ruta, argumentos[0]); //primer argumento del execvp
+
+/*La primera cadena del array pasado a execvp solo debe tener el nombre
+del programa a ejecutar, no toda la ruta*/
+
+	int posicion = -1; 
+	for(int i=strlen(ruta) && posicion!=-1; i>=0; i--){
+		if(ruta[i] == '/')
+			posicion = i;
+	}
+
+	strcpy(argumentos[0], "");
+	contador = 0;
+	for(int i = posicion+1; i<strlen(ruta); i++){
+		argumentos[0][contador] = ruta[posicion];
+		contador++; 
+	}
+
+//Ejecutamos el programa
+
+	if(bg){	
+		pid_t PID;	
+		if((PID = fork())<0){
+			perror("Error en el fork.\n");
+			exit(-1);
+		}
+	
+		if(!PID){
+			if(execvp(ruta, argumentos)==-1){
+				perror("Error en execvp.\n");
+				exit(-1);
+			}
+		}
+	}
+	
+	else{
+		if(execvp(ruta, argumentos)==-1){
+				perror("Error en execvp.\n");
+				exit(-1);
+		}
+	}
+	
+	exit(EXIT_SUCCESS);
 }
+
+/*Al ejecutarlo con valgrind da el siguiente error de lectura 
+(aunque el programa sigue ejecutándose correctamente):
+
+Invalid read of size 1
+at 0x80487BD: main 
+Address 0xbe9a9f0f is on thread 1's stack
+1 bytes below stack pointer
+
+*/
+
 ```
