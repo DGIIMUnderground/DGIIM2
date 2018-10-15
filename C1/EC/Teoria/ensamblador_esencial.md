@@ -76,6 +76,13 @@ Instrucción | Descripción | programa donde se ejemplifica
 `cmp a, b` | compara a y b levanta flags | [suma_lista.s](suma_lista.s)   
 `jne etiqueta` | comprueba flag y si no son iguales salta | [suma_lista.s](suma_lista.s)  
 
+### Instrucción int 0x80  
+Proboca una interucción del programa y llama a los servicios de GNU/linux 
+
+Instrucción | Registros a modificar   
+--- | ---  
+print | 	```mov         $4, %eax # se coloca el número de servicio 4 para escribir<br>mov         $1, %ebx # salida estandar<br> 	mov    $saludo, %ecx # puntero hacia la zona de memoria <br>	mov longsaludo, %edx # longitud del puntero <br>	int $0x80```
+
 ## <a id='s1-4' />Tipos de dato  
 
 
