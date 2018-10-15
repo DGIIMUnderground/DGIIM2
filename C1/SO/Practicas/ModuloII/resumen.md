@@ -79,3 +79,13 @@ if(nbytes % tam_bloque > 0)
 ```c
 close(fd) //cierra el fichero cuyo descriptor es `fd`
 ```
+## Sesión 3 
+
+Instruciones | Descripción | sintaxis 
+---| --- | ---   
+fork | Crea un proceso hijo que mantiene el valor de las variables y se continua ejecutando desde ahí | fork()  
+wait() | suspende la ejecución de un proceso hasta que alguno de sus hijos se suspente | `wait()`  
+waitpid | suspendende el proceos hasta que determinado hijo termine |` waitpid(-1, &status, 0)`  
+exit () | Finaliza el proceso u devuelve al proceso padre el valor que se le asigne | ` exit( int)`  
+
+
