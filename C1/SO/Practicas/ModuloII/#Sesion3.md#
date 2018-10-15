@@ -122,8 +122,9 @@ pid= 3346, global= 7, var= 89
 pid= 3345, global= 6, var= 88
 ```
 ## Ejercicio 3
+Indica qué tipo de jerarquías de procesos se generan mediante la ejecución de cada uno de los siguientes fragmentos de código. Comprueba tu solución implementando un código para generar 20 procesos en cada caso, en donde cada proceso imprima su PID y el del padre,PPID.
 
-Sinceramente, no sé cómo interpretar el output. Si alguien lo sabe, que edite esto.
+
 ```c
 #include<sys/types.h>
 #include<sys/wait.h>
