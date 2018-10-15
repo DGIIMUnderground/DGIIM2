@@ -366,59 +366,40 @@ Código del programa:
 #include <stdbool.h>
 
 int main(int argc, char const *argv[]){
-  bool activar_backg = false;
-  pid_t pid;
-  char * argumentos[argc];
-  int j = 0;
-
-  if (argc == 1){
-    printf("Error, se necesitan más argumentos\n");
-    exit(0);
-  }
-
-  // Comprobamos que el último es la cadena bg
-  if (strcmp(argv[argc-1], "bg") == 0)
-    activar_backg = true;
-
-  if (activar_backg){
-    argumentos[argc-1] = '&';
-    argumentos[argc] = NULL;
-  }
-  else {
-    argumentos[argc-1] = NULL;
-  }
-
-  if (strcmp(argv[1], "bg")!=0){
-    argumentos[0] = argv[1];
-  }
-
-  // Copia de parámetros para el ejecutable atendiendo a si nos pasan bg o no
-  for (int i=1; i<argc && strcmp(argv[i], "bg")!=0; i++){
-    argumentos[j] = argv[i];
-    j++;
-  }
-
-  argumentos[j] = NULL;
-
-  if ((pid=fork()) < 0){
-    perror("\nError en el fork");
-    exit(EXIT_FAILURE);
-  }
-  // Ejecución del hilo. Segundo plano
-  else if (activar_backg && pid==0){
-    if ((execv(argv[1], argumentos)) < 0){
-      perror("\nError en el execl\n");
-      exit(EXIT_FAILURE);
+    if (argc < 2){
+        printf("./ejecutable <programa> <listado de argumentos> <bg>");
+        exit(-1);
     }
-  }
-  // Ejecución del padre. Primer plano
-  else if (!activar_backg && pid!=0){
-    if ((execv(argv[1], argumentos)) < 0){
-      perror("\nError en el execl\n");
-      exit(EXIT_FAILURE);
-    }
-  }
 
-  exit(EXIT_SUCCESS);
+    bool activar_background = false;
+    char argumentos[100];
+
+    // Comprobamos que el último es la cadena bg
+    if (strcmp("bg", argv[argc-1]) == 0){
+        activar_background = true;
+    }
+
+    // Copia de parámetros para el ejecutable atendiendo a si nos pasan bg o no
+    if (argc > 2 && strcmp(argv[2], "bg") != 0)
+        strcpy(argumentos, argv[2]);
+
+    for (size_t i=2; i<argc && strcmp(argv[i], "bg") != 0; i++)
+        strcat(argumentos, argv[i]);                
+
+    // Creación del nuevo hilo
+    pid_t pid;
+
+    if( (pid=fork())<0) {
+		perror("\nError en el fork");
+		exit(EXIT_FAILURE);
+	}
+    else if (activar_background && pid==0){ // Ejecución del hilo. Segundo plano
+        execl(argv[1], argumentos);
+    }
+    else if (!activar_background && pid!=0)  // Ejecución del padre. Primer plano
+        execl(argv[1], argumentos);
+
+
+    exit(EXIT_SUCCESS);
 }
 ```
