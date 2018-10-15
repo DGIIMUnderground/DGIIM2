@@ -9,10 +9,16 @@
   * [Tipos de dato  ](#s1-4)
 
 ## <a id='s1-1' />Compilación del programa  
-- El archivo debe tener una extensión .s 
+- El archivo debe tener una extensión .s
 - Para compilarlo con gcc: `gcc -g -m32 nombre.s -o nombre_ejecutable`
-El `-g ` es para poder depurarlo, el -m32 es para trabajar en 32 bytes  
+El `-g ` es para poder depurarlo, el -m32 es para trabajar en 32 bytes
 
+- También es posible enamblar con as:
+```shell
+as --32 -g nombre.s -o nombre.o
+ld -m elf_i386 nombre.o -o nombre
+```
+As presenta la ventaja de no tener que llamar main a la función principal, como sí que tendría que hacerse en caso de utilizar gcc
 
 ### <a id='s1-1-1' />Posibles problemas  
 
@@ -46,7 +52,7 @@ Esto se debe a que estamos compilando el programa con gcc, por tanto la estructu
  # ... definicion de variables ...
 .section .text
 main:	.global main
- #... estructura main del programa ... 
+ #... estructura main del programa ...
 ```
 
 ## <a id='s1-2' />Registro básicos  
@@ -63,7 +69,7 @@ Registro | Origen del nombre
 %edi |Índice destino  
 %esp %ebp | Puntero de pila y puntero bases USO ESPECIAL  
 
-## <a id='s1-3' />Intrucciones básicas 
+## <a id='s1-3' />Intrucciones básicas
 
 
 Instrucción | Descripción | programa donde se ejemplifica
@@ -77,7 +83,7 @@ Instrucción | Descripción | programa donde se ejemplifica
 `jne etiqueta` | comprueba flag y si no son iguales salta | [suma_lista.s](suma_lista.s)  
 
 ### Instrucción int 0x80  
-Proboca una interucción del programa y llama a los servicios de GNU/linux 
+Proboca una interucción del programa y llama a los servicios de GNU/linux
 
 Instrucción | Registros a modificar   
 --- | ---  
@@ -85,8 +91,8 @@ print | 	```mov         $4, %eax # se coloca el número de servicio 4 para escri
 
 ### Macros y .rpc
 
-Esta instrucción se utiliza con el objetivo de facilitar el a la hora de escribir. 
-La sintaxis de las macros es: 
+Esta instrucción se utiliza con el objetivo de facilitar el a la hora de escribir.
+La sintaxis de las macros es:
 ```.s
 .macro linea
 .int 1,1,1,1
@@ -94,7 +100,7 @@ La sintaxis de las macros es:
 
 .endm
 ```
-irpc, es una especie de for, donde i toma el valor de un la ristra de número definida y te devuelve tal posición dentro de la macro. En el caso de estar repetida, te devuelve tal número 
+irpc, es una especie de for, donde i toma el valor de un la ristra de número definida y te devuelve tal posición dentro de la macro. En el caso de estar repetida, te devuelve tal número
 ```
 lista: .irpc i,12345678
 linea
