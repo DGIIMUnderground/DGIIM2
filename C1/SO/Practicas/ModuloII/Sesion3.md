@@ -11,7 +11,7 @@ Proceso con pid 22407, y parent 22406. Se comprobará si el número es par o imp
 Código del programa:
 ```c
 #include<sys/types.h>
-#include<unistd.h>	
+#include<unistd.h>
 #include<stdio.h>
 #include<errno.h>
 #include <stdlib.h>
@@ -42,7 +42,7 @@ int main(int argc, char const *argv[]){
     // Proceso padre
     if (pid){
         printf("Ahora soy el padre (%d), y el de mi hijo era %d. Vamos a ver si el número es divisible por 4\n", getpid(), pid);
-    
+
         if (numero % 4 == 0)
             printf("%d es divisible por 4\n", numero);
         else
@@ -53,9 +53,9 @@ int main(int argc, char const *argv[]){
 }
 ```
 
-## Ejercicio 2 
+## Ejercicio 2
 ```c
-#include<sys/types.h>	
+#include<sys/types.h>
 #include<unistd.h>		
 #include<stdio.h>
 #include<errno.h>
@@ -69,16 +69,16 @@ int main(int argc, char *argv[]) {
 	pid_t pid;
 
 	var=88;
-	
+
 	if(write(STDOUT_FILENO,buf,sizeof(buf)+1) != sizeof(buf)+1) {
 		perror("\nError en write");
 		exit(EXIT_FAILURE);
 	}
-	
+
 	//(1)if(setvbuf(stdout,NULL,_IONBF,0)) {
 	//	perror("\nError en setvbuf");
 	//}
-	
+
 	printf("\nMensaje previo a la ejecución de fork");
 
 	if( (pid=fork())<0){
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
 		global++;
 		var++;
 	} else  //proceso padre ejecutando el programa
-		sleep(1);	
+		sleep(1);
 
 	printf("\npid= %d, global= %d, var= %d\n", getpid(),global,var);
 	exit(EXIT_SUCCESS);
@@ -113,7 +113,7 @@ pid= 3154, global= 7, var= 89
 Mensaje previo a la ejecución de fork
 pid= 3153, global= 6, var= 88
 ```
-Salida sin buffer: 
+Salida sin buffer:
 ```
 
 Mensaje previo a la ejecución de fork
@@ -121,11 +121,11 @@ pid= 3346, global= 7, var= 89
 
 pid= 3345, global= 6, var= 88
 ```
-## Ejercicio 3 
-Sinceramente, no sé cómo interpretar el output. Si alguien lo sabe, que edite esto. 
+## Ejercicio 3
+Sinceramente, no sé cómo interpretar el output. Si alguien lo sabe, que edite esto.
 ```c
-#include<sys/types.h>	
-#include<sys/wait.h>	
+#include<sys/types.h>
+#include<sys/wait.h>
 #include<unistd.h>
 #include<stdio.h>
 #include<errno.h>
@@ -135,14 +135,14 @@ int main(){
     int num_procesos = 20;
     pid_t childpid;
 
-    // Jerarquía tipo 1 // 
+    // Jerarquía tipo 1 //
     for (int i=1; i < num_procesos; i++){
         if ( (childpid = fork()) == -1){
             fprintf(stderr, "Could not create child %d: %s\n",i,strerror(errno));
             exit(-1);
         }
 
-        
+
         if (childpid){
             printf("Padre: %d, proceso: %d\n", getppid(), getpid());
             break;
@@ -165,12 +165,12 @@ int main(){
 }
 ```
 Es posible que este ejercicio esté mal. Necesita revisión
-## Ejercicio 4 
+## Ejercicio 4
 Código del programa:
 
-```c 
+```c
 #include<sys/types.h>
-#include<unistd.h>	
+#include<unistd.h>
 #include<stdio.h>
 #include<errno.h>
 #include <stdlib.h>
@@ -178,7 +178,7 @@ Código del programa:
 int main(){
     int i, estado;
     pid_t PID;
-    
+
     // printf() as soon as posible
     setvbuf(stdout, (char*)NULL, _IONBF, 0);
 
@@ -188,7 +188,7 @@ int main(){
             perror("Error en fork \n");
             exit(-1);
         }
-        
+
         if (PID==0){  //Hijo imprime y muere
             printf("Soy el hijo PID = %i\n", getpid());
             exit(0);
@@ -205,9 +205,9 @@ int main(){
     exit(0);
 }
 ```
-Cuesta ver la lógica del programa, así que analicémosla: 
-- Los procesos hijos se empiezan a crear. Imprimen una cadena, y se cierran 
-- Mientras tanto, el segundo bloque for() los vigila. Es decir, `PID = wait()` vigila constantemente el cambio en el estado del proceso. Si alguno termina, entonces, el bucle continúa. 
+Cuesta ver la lógica del programa, así que analicémosla:
+- Los procesos hijos se empiezan a crear. Imprimen una cadena, y se cierran
+- Mientras tanto, el segundo bloque for() los vigila. Es decir, `PID = wait()` vigila constantemente el cambio en el estado del proceso. Si alguno termina, entonces, el bucle continúa.
 
 Podemos ver el comportamiento del programa mejor si quitamos el buffer de `printf()`:
 ```
@@ -237,7 +237,7 @@ Solo me quedan 0 hijos vivos
 Modificación muy sencilla del anterior:
 ```c
 #include<sys/types.h>
-#include<unistd.h>	
+#include<unistd.h>
 #include<stdio.h>
 #include<errno.h>
 #include <stdlib.h>
@@ -246,7 +246,7 @@ int main(){
     int i, estado;
     int hijos_vivos=5;
     pid_t PIDs[5];
-    
+
     // printf() as soon as posible
     setvbuf(stdout, (char*)NULL, _IONBF, 0);
 
@@ -256,7 +256,7 @@ int main(){
             perror("Error en fork \n");
             exit(-1);
         }
-        
+
         if (PIDs[i]==0){  //Hijo imprime y muere
             printf("Soy el hijo PID = %i\n", getpid());
             exit(0);
@@ -266,15 +266,15 @@ int main(){
     // Padre que espera a los pares
     for (i=4; i>=0; i -= 2){
         waitpid(PIDs[i], &estado);
-        
+
         printf("Ha finalizado el hijo con PID = %i y estado %d\n", PIDs[i], estado);
         printf("Solo me quedan %d hijos vivos\n\n", --hijos_vivos);
     }
-    
+
     // Padre que espera a los impares
     for (i=3; i>=1; i -= 2){
         waitpid(PIDs[i], &estado);
-        
+
         printf("Ha finalizado el hijo con PID = %i y estado %d\n", PIDs[i], estado);
         printf("Solo me quedan %d hijos vivos\n\n", --hijos_vivos);
     }
@@ -282,12 +282,12 @@ int main(){
     // Sleep(2) para garantizar que han finalizado las operaciones de salida    
     sleep(2);
     printf("Ya no me quedan hijos :(");
-    
+
     exit(0);
 }
 ```
 
-Salida de la terminal: 
+Salida de la terminal:
 ```txt
 Soy el hijo PID = 6361
 Soy el hijo PID = 6362Soy el hijo PID = 6363
@@ -311,11 +311,11 @@ Soy el hijo PID = 6360
 Ya no me quedan hijos :(
 ```
 
-## Ejercicio 6 
-Código del programa: 
+## Ejercicio 6
+Código del programa:
 ```c
-#include<sys/types.h>	
-#include<sys/wait.h>	
+#include<sys/types.h>
+#include<sys/wait.h>
 #include<unistd.h>
 #include<stdio.h>
 #include<errno.h>
@@ -338,10 +338,10 @@ int main(int argc, char *argv[]){
 
 	wait(&estado);
 	/*
-	<estado> mantiene información codificada a nivel de bit sobre el motivo de finalización del proceso hijo 
+	<estado> mantiene información codificada a nivel de bit sobre el motivo de finalización del proceso hijo
 	que puede ser el número de señal o 0 si alcanzó su finalización normalmente.
-	Mediante la variable estado de wait(), el proceso padre recupera el valor especificado por el proceso hijo como argumento de la llamada exit(), pero desplazado 1 byte porque el sistema incluye en el byte menos significativo 
-	el código de la señal que puede estar asociada a la terminación del hijo. Por eso se utiliza estado>>8 
+	Mediante la variable estado de wait(), el proceso padre recupera el valor especificado por el proceso hijo como argumento de la llamada exit(), pero desplazado 1 byte porque el sistema incluye en el byte menos significativo
+	el código de la señal que puede estar asociada a la terminación del hijo. Por eso se utiliza estado>>8
 	de forma que obtenemos el valor del argumento del exit() del hijo.
 	*/
 
@@ -350,56 +350,75 @@ int main(int argc, char *argv[]){
 	exit(EXIT_SUCCESS);
 }
 ```
-Primero, alojamos un proceso nuevo con `fork()`, como vimos en los ejercicios anteriores. Si hemos conseguido crearlo, ejecutaremos el programa `ldd` con la función `execl()` dentro de C. Para ello, indicamos la ruta donde se encuentra el progama, con la orden y el nombre del ejecutable de nuestro programa. Si no conseguimos que se ejecute, nuestro programa en C se cerrará. 
+Primero, alojamos un proceso nuevo con `fork()`, como vimos en los ejercicios anteriores. Si hemos conseguido crearlo, ejecutaremos el programa `ldd` con la función `execl()` dentro de C. Para ello, indicamos la ruta donde se encuentra el progama, con la orden y el nombre del ejecutable de nuestro programa. Si no conseguimos que se ejecute, nuestro programa en C se cerrará.
 Mientras tanto, `wait()` le echa un ojo a lo que está ocurriendo en el proceso hijo mediante la variable estado. Está bien documentada en el código.
 
 ## Ejercicio 7
 Código del programa:
 ```c
-#include<sys/types.h>	
-#include<sys/wait.h>	
-#include<unistd.h>
-#include<stdio.h>
-#include<errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 
 int main(int argc, char const *argv[]){
-    if (argc < 2){
-        printf("./ejecutable <programa> <listado de argumentos> <bg>");
-        exit(-1);
+  bool activar_backg = false;
+  pid_t pid;
+  char * argumentos[argc];
+  int j = 0;
+
+  if (argc == 1){
+    printf("Error, se necesitan más argumentos\n");
+    exit(0);
+  }
+
+  // Comprobamos que el último es la cadena bg
+  if (strcmp(argv[argc-1], "bg") == 0)
+    activar_backg = true;
+
+  if (activar_backg){
+    argumentos[argc-1] = '&';
+    argumentos[argc] = NULL;
+  }
+  else {
+    argumentos[argc-1] = NULL;
+  }
+
+  if (strcmp(argv[1], "bg")!=0){
+    argumentos[0] = argv[1];
+  }
+
+  // Copia de parámetros para el ejecutable atendiendo a si nos pasan bg o no
+  for (int i=1; i<argc && strcmp(argv[i], "bg")!=0; i++){
+    argumentos[j] = argv[i];
+    j++;
+  }
+
+  argumentos[j] = NULL;
+
+  if ((pid=fork()) < 0){
+    perror("\nError en el fork");
+    exit(EXIT_FAILURE);
+  }
+  // Ejecución del hilo. Segundo plano
+  else if (activar_backg && pid==0){
+    if ((execv(argv[1], argumentos)) < 0){
+      perror("\nError en el execl\n");
+      exit(EXIT_FAILURE);
     }
-
-    bool activar_background = false;
-    char argumentos[100];
-
-    // Comprobamos que el último es la cadena bg
-    if (strcmp("bg", argv[argc-1]) == 0){
-        activar_background = true;
+  }
+  // Ejecución del padre. Primer plano
+  else if (!activar_backg && pid!=0){
+    if ((execv(argv[1], argumentos)) < 0){
+      perror("\nError en el execl\n");
+      exit(EXIT_FAILURE);
     }
-        
-    // Copia de parámetros para el ejecutable atendiendo a si nos pasan bg o no
-    if (argc > 2 && strcmp(argv[2], "bg") != 0)
-        strcpy(argumentos, argv[2]);
+  }
 
-    for (size_t i=2; i<argc && strcmp(argv[i], "bg") != 0; i++)
-        strcat(argumentos, argv[i]);                
-
-    // Creación del nuevo hilo 
-    pid_t pid;
-
-    if( (pid=fork())<0) {
-		perror("\nError en el fork");
-		exit(EXIT_FAILURE);
-	}
-    else if (activar_background && pid==0){ // Ejecución del hilo. Segundo plano
-        execl(argv[1], argumentos);
-    }
-    else if (!activar_background && pid!=0)  // Ejecución del padre. Primer plano
-        execl(argv[1], argumentos);
-    
-
-    exit(EXIT_SUCCESS);
+  exit(EXIT_SUCCESS);
 }
 ```
