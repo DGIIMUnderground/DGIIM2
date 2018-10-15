@@ -1,19 +1,20 @@
-# Conceptos básico para programar en ensamblador   
+# <a id='s1' />Conceptos básico para programar en ensamblador   
 
-## Índice de contenidos  
-- [ Compilación ](#compilacion-del-programa )  
-- [Registros básicos](#registros-basicos)
-- [Instrucciones básicas](#intrucciones-basicas )  
-- [Tipos de datos](#tipos-de-datos )
+## Tabla de contenido
+* [Conceptos básico para programar en ensamblador   ](#s1)
+  * [Compilación del programa  ](#s1-1)
+      * [Posibles problemas  ](#s1-1-1)
+  * [Registro básicos  ](#s1-2)
+  * [Intrucciones básicas ](#s1-3)
+  * [Tipos de dato  ](#s1-4)
 
-
-## Compilación del programa  
+## <a id='s1-1' />Compilación del programa  
 - El archivo debe tener una extensión .s 
 - Para compilarlo con gcc: `gcc -g -m32 nombre.s -o nombre_ejecutable`
 El `-g ` es para poder depurarlo, el -m32 es para trabajar en 32 bytes  
 
 
-### Posibles problemas  
+### <a id='s1-1-1' />Posibles problemas  
 
 Si intenta compilar por primera vez puede que obtenga, como me pasó a mí: 
 ```shell
@@ -42,14 +43,14 @@ Otro posibe erro puedría ser_:
 Esto se debe a que estamos compilando el programa con gcc, por tanto la estructura del main debería de ser: 
 ```assembler
 .section .data
-# ... definicion de variables ...
+ # ... definicion de variables ...
 
 .section .text
 main:	.global main
-#... estructura main del programa ... 
+ #... estructura main del programa ... 
 ```
 
-## Registro básicos  
+## <a id='s1-2' />Registro básicos  
 Los registros generaes que utilizaremos son:
 
 Registro | Origen del nombre  
@@ -63,7 +64,7 @@ Registro | Origen del nombre
 %esp %ebp | puntero de pila y puntero bases USO ESPECIAL  
 
 
-## Intrucciones básicas 
+## <a id='s1-3' />Intrucciones básicas 
 
 Instrucción | Descripcioncilla | programilla donde se ejemplica   
 --- | --- |---    
@@ -75,7 +76,7 @@ Instrucción | Descripcioncilla | programilla donde se ejemplica
 `cmp a, b` | compara a y b levanta flags | [suma_lista.s](suma_lista.s)   
 `jne etiqueta` | compruena flag y si no son iguales salta | [suma_lista.s](suma_lista.s)  
 
-## Tipos de dato  
+## <a id='s1-4' />Tipos de dato  
 
 Dato | Descripción 
 --- | --- 
