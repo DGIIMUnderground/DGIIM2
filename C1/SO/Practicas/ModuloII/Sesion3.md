@@ -372,13 +372,14 @@ int main(int argc, char *argv[])
 
   //Compruebo el número de argumentos
 	if(argc==1){
-		printf("NÃºmero de argumentos incorrecto (%d).\n", argc);
+		printf("Número de argumentos incorrecto (%d).\n", argc);
 		exit(-1);
 	}
 
   //Copio los argumentos del programa a ejecutar
 	char * argumentos[argc];
 	bool bg = false; //foreground o background
+	int tam;
 
 	int contador = 0;
 	for(int i=1; i<argc; i++){
@@ -392,6 +393,7 @@ int main(int argc, char *argv[])
 			contador++;
 		}
 	}
+	tam = contador;
 	argumentos[contador] = NULL; /*el array que se pasa como argumento a execvp debe tener NULL en su última componente*/
 
 
@@ -435,7 +437,12 @@ int main(int argc, char *argv[])
 				exit(-1);
 		}
 	}
-
+	
+  //Libero la memoria
+  	for(int i=0; i<tam; i++){
+		free(argumentos[i]);
+	}
+	
 	exit(EXIT_SUCCESS);
 }
 
