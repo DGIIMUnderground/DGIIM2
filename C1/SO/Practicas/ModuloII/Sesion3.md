@@ -122,8 +122,43 @@ pid= 3346, global= 7, var= 89
 pid= 3345, global= 6, var= 88
 ```
 ## Ejercicio 3
+Indica qué tipo de jerarquías de procesos se generan mediante la ejecución de cada
+uno de los siguientes fragmentos de código. Comprueba tu solución implementando un código
+para generar 20 procesos en cada caso, en donde cada proceso imprima su PID y el del padre,
+PPID.
+```c
+#include <stdio.h>
+#include <stdlib.h> //poder utilizar exit
+#include <sys/types.h> //pid_t tipy
+#include <errno.h>
+#include <unistd.h> //fork, pipe , write
+#include <sys/wait.h>
 
-Sinceramente, no sé cómo interpretar el output. Si alguien lo sabe, que edite esto.
+int main( int arg , char * argv[])
+{
+  pid_t id_proceso;
+  pid_t id_padre;
+  pid_t pid = 0;
+  int i = 0;
+  while( ++i < 20 && pid == 0) 
+    {
+      //creamos el hijillo
+	  if( (pid=fork())  < 0)
+	  {
+		  perror("\n Por algún motivo que ahora mismo desconozco, no se ha podido crear el hijo\n");
+		  exit(-1);
+	  }
+      
+    }
+  id_proceso = getpid();
+  id_padre = getppid();
+  while(wait(NULL) != -1);
+  printf (" \nIdentificador del proceso %d, identificador del proceso padre: %d,\n" , id_proceso , id_padre );
+  exit (0);
+}
+
+```
+
 ```c
 #include<sys/types.h>
 #include<sys/wait.h>
@@ -165,8 +200,10 @@ int main(){
     }
 }
 ```
-Es posible que este ejercicio esté mal. Necesita revisión
+
 ## Ejercicio 4
+
+Es posible que este ejercicio esté mal. Necesita revisió
 Código del programa:
 
 ```c
