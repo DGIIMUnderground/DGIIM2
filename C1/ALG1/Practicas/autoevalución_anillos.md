@@ -39,7 +39,7 @@ Por otra parte contamos con que $\mathbb{Z}_6$ no es dominio de integridad, ya q
 Enlazando los razonamientos anteriores $\mathbb{Z}_6$ no es un dominio de integridad y por tanto no puede ser un cuerpo, demostrando con esto lo que se pretendía.
 
 
----
+
 ## Pregunta 2
 Seleccionar la afirmación verdadera:
 a) $\mathbb{Q} \times \mathbb{Z}$ no tiene divisores de cero no nulos.
@@ -74,7 +74,8 @@ $$
 (1, -1)\cdot(1, -1) = (-1, 1)\cdot(-1, 1) = (-1, -1)\cdot(-1, -1) = (1, 1)\cdot(1, 1) = (1, 1)
 $$
 
----
+
+
 ## Pregunta 3
 Escoger la afirmación verdadera:
 a) $\mathbb{Q} \times \mathbb{Z}$ no tiene divisores de cero no nulos.
