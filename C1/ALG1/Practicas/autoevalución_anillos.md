@@ -28,11 +28,11 @@ Todo cuerpo es un dominio de integridad, esto se debe a la definición de domini
 
 Sea A es un anillo conmutativo no trivial, se dice que a es un anillo conmutativo si y sólo si se verifica que el único divisor de cero es cero, o equivalentemente que para todo elemento del anillo conmutativo, dados dos numéros cualesquiera de éste, si el producto del anterior con ambos es igual, quiere decir que ambos son el mismo elemento:
 
-$\forall a \in A \setminus \{0\} $  $ 	\quad x,y \in A \quad ax = ay \Rightarrow x = y$
+$\forall a \in A \setminus \{0\} \quad x,y \in A \quad ax = ay \Rightarrow x = y$
 
 En un cuerpo se cumple la última propiedad ya que contamos con elementos inversos:
 
-$\forall a \in A \setminus \{0\}$  $\quad x,y \in A \quad ax = ay \quad \Leftrightarrow \quad a^{-1}ax = a^{-1}ay  \quad \Leftrightarrow \quad x = y$
+$\forall a \in A \setminus \{0\} \quad x,y \in A \quad ax = ay \quad \Leftrightarrow \quad a^{-1}ax = a^{-1}ay  \quad \Leftrightarrow \quad x = y$
 
 Por otra parte contamos con que $\mathbb{Z}_6$ no es dominio de integridad, ya que $2 \times 3 = 6 = 0$.
 
@@ -44,7 +44,7 @@ Enlazando los razonamientos anteriores $\mathbb{Z}_6$ no es un dominio de integr
 Seleccionar la afirmación verdadera:
 a) $\mathbb{Q} \times \mathbb{Z}$ no tiene divisores de cero no nulos.
 b) $\mathbb{Z}_{7}$ tiene tres unidades.
-c) $\mathbb{Z}$ tiene inifinitas unidades.
+c) $\mathbb{Z}$ tiene infinitas unidades.
 d) $\mathbb{Z} \times \mathbb{Z}$ tiene dos unidades.
 
 
