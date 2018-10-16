@@ -119,3 +119,29 @@ $$
 
 d) Falso.
 Contraejemplo: $(0, 0) \in \mathbb{Q} \times \mathbb{Q}$ no es unidad porque no tiene inverso.
+
+# Pregunta 5
+Sea D un dominio de integridad. ¿ Qué afirmación es correcta?
+Selecciones una:  
+- Nunca D puede ser un cuerpo.
+- En cualquier caso D es un cuerpo.
+- Es un cuerpo si tiene infinitos elementos.
+- Es un cuerpo si tiene cardinal finito.
+
+## Solución
+La respuesta correcta  **Es un cuerpo si tiene cardinal finito.**
+
+Para **desmentir la primera** veremos que un cuerpo es siempre un dominio de integridad, ya que por tener elemento inverso si se tiene que ab = ac  entonces $a^{-1}ab = a^{-1}ac$ de donde se deduce que b = c, cumpliendo la definición de dominio de integridad.
+
+**La segunda es falsa**, ya que no todo dominio de integridad tiene que ser un cuerpo, véase por ejemplo: el anillo conmutativo  de integridad **$ 2\mathbb{Z}$**
+
+Veamos ahora que todo dominio de integridad es un cuerpo si tiene cardinal finito. 
+
+Recordemao que un dominio de integridad es un anillo conmutativo, por tanto para ver que es un cuerpo bastaría con comprobar que todo elemento distinto del neutro de la suma cuenta con inverso. 
+Sea A un dominio de integridad finito, por ser finito sabremos que debe existir un i > 1 y un j>0 tal que para todo $ a \in A-\{0\}$ se tiene que $ a^i = a^{i+j}$
+Si ahora planteamos la ecuación $ a^i x = a^{i+j}$ resultan dos soluciones para x; $x= a^j$ y $x = 1$ así que con esto llegamos a la conclusión de que $a^j = 1$ y aplicando que nos encontramos en un dominio de integridad: 
+$ a^i = a^{i+1} \Leftrightarrow a^i a^{-1}= a^{i+j}a^{-1} \Leftrightarrow a^i a^{-1}= a^{j-1}a^i{-1}  $ 
+Aplicando otra que nos encontramos en un dominio de integridad llegamos a que  $a^{-1}= a^{j-1}$ y por tanto hemos encontrado al inverso de todo elemento de A distinto de 0 probando con ello que nos hallamos ante  un cuerpo.  
+
+Respecto a la tercera afirmación...
+QUE NO TENGAMOS UN DEMOSTRACIÓN PARA UN CUERPO INFINITO NO SIGNIFICA QUE ESTO NO EXISTA... Sin emabrgo podríamos pensar por lo general no se podría tener la certeza de que todos los elementos tengan inversos ya que no los podemos conocer a todos por eso de que sean infinitos...

@@ -89,3 +89,19 @@ waitpid | suspendende el proceos hasta que determinado hijo termine |` waitpid(-
 exit () | Finaliza el proceso u devuelve al proceso padre el valor que se le asigne | ` exit( int)`  
 
 
+## Sesión 5  
+
+
+Señal | Singinificado | sitaxis   
+--- | --- | ---  
+kill | enviar señal a proceso o conjunto de procesos  | `int kill(pid_t pid, int sig); `sig señal a enviar   
+sigaction | función que realizará un proceso al recibir una señal  (SIGKILL y SIGSTOP, son las únicas que por defecto no se puede cambiar ) | `int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);`  
+
+
+trabajaremos con struct sigaction con un hadle sólo: ' struct sigaction {
+void (*sa_handler)(int);
+se encuentran en la cabecera `#inlcude <signal.h>
+
+sa_handle: especifica la acción a realizar  SIG_DFL: acción predeterminada, SIG_IGN ignorar la señal
+sa_mask: establecer máscara de acciones que bloquear 
+
