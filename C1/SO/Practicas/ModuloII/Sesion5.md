@@ -120,3 +120,44 @@ int main(int argc, char *argv[])
     for(;;) {}
 }
 ```
+
+## Ejercicio 2 
+Código del programa: 
+```c
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <signal.h>
+#include <errno.h>
+#include <stdlib.h>
+
+static int j;
+static int contadores[31];
+
+static void handler(int i){
+    contadores[i]++;
+    printf("La señal %d se ha recibido %d veces\n", i, contadores[i]);
+};
+
+int main(){
+    struct sigaction sa;
+    sa.sa_handler = handler;    //Ignora la señal
+    sigemptyset(&sa.sa_mask);
+
+    
+    // Reiniciar las funciones que hayan sido interrumpidas por un manejador
+    sa.sa_flags = SA_RESTART;
+    
+    int contadores[31];
+
+    for (j=1; j<31; j++){}
+        contadores[j] = 0;
+
+    int i;
+    for (i=1; i<=60; i++)
+        if (sigaction(i, &sa, NULL) == -1)
+            printf("Error en el handler");
+        
+    while(1);
+}
+```
