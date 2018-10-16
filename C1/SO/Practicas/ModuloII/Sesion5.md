@@ -12,9 +12,10 @@ Código del programa EnvioSignal.c:
  SINTAXIS: envioSignal [012] <PID> 
 */
 
-#include <sys/types.h>
-#include<limits.h> 
-#include <unistd.h>
+
+#include <sys/types.h> //POSIX Standard: 2.6 Primitive System Data Types 
+#include<limits.h> //Incluye <bits/posix1_lim.h> POSIX Standard: 2.9.2 //Minimum    //Values Added to <limits.h> y <bits/posix2_lim.h>
+#include <unistd.h> //POSIX Standard: 2.10 Symbolic Constants         <unistd.h>
 #include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,7 +32,7 @@ int main(int argc, char *argv[]){
 	}
     
 	pid= strtol(argv[2],NULL,10);
-	if(pid == LONG_MIN || pid == LONG_MAX)
+	if(pid == LONG_MIN || pid == LONG_MAX) //Comprobación del rango permitido para PIDs
 	{
 		if(pid == LONG_MIN)
 			printf("\nError por desbordamiento inferior LONG_MIN %ld",pid);
@@ -43,9 +44,9 @@ int main(int argc, char *argv[]){
     
 	signal=atoi(argv[1]);
 	switch(signal){
-		case 0: //SIGTERM => se carga el proceso
+		case 0: //SIGTERM
 			kill(pid,SIGTERM); break;
-		case 1: //SIGUSR1 
+		case 1: //SIGUSR1
 			kill(pid,SIGUSR1); break;
 		case 2: //SIGUSR2
 			kill(pid,SIGUSR2); break;
@@ -76,7 +77,7 @@ Código del programa ReciboSignal.c:
 #include <errno.h>
 #include <stdlib.h>
 
-static void sig_USR_hdlr(int sigNum)
+static void sig_USR_hdlr(int sigNum) // Número de señal recibida
 {
     if(sigNum == SIGUSR1)
         printf("\nRecibida la senal SIGUSR1\n\n");
@@ -94,7 +95,7 @@ int main(int argc, char *argv[])
 
     //Inicializar la estructura sig_USR_na para especificar la nueva acci�n para la se�al.
 
-    sig_USR_nact.sa_handler= sig_USR_hdlr;
+    sig_USR_nact.sa_handler= sig_USR_hdlr; //El handler se encara de interceptar las señales mandadas desde fuer
 
 
     //'sigemptyset' inicia el conjunto de se�ales dado al conjunto vacio. 
@@ -104,6 +105,7 @@ int main(int argc, char *argv[])
 
     //Establecer mi manejador particular de se�al para SIGUSR1
     if( sigaction(SIGUSR1,&sig_USR_nact,NULL) <0) 
+    //                       ^^^^^^    tratamiento para la señal
     {
         perror("\nError al intentar establecer el manejador de senal para SIGUSR1");
         exit(EXIT_FAILURE);
@@ -116,13 +118,17 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    // while true?
-    for(;;) {}
+    while (true);
 }
 ```
 
 ## Ejercicio 2 
-Código del programa: 
+Podemos ver la lista de señales poniendo en la terminal `kill -l`. `SIGUSER1` y `SIGUSER2` en principio, no están definidas. Las podemos definir nosotros mismos.
+`sigaction(int, const struct sigaction*, struct sigaction*)` es capaz de indicar qué hacer bajo cierta señal. El entero es el número de señal. 
+
+Podemos enviar las señaes con `kill -[Identificador de señal] [PID del proceso]`. Para dejar al proceso muerto matao', usamos `kill -KILL PID`, o `kill -SIGKILL PID`. Son equivalentes.
+
+Código del programa usando la estructura `sigaction`: 
 ```c
 #include <sys/types.h>
 #include <unistd.h>
@@ -141,7 +147,11 @@ static void handler(int i){
 
 int main(){
     struct sigaction sa;
-    sa.sa_handler = handler;    //Ignora la señal
+
+    // Nuestro handler se encargará de gestionar qué narices pasa cuando
+    // se le manda una señal específica. En nuestro caso, incrementará
+    // una variable, dependiendo de la señal.
+    sa.sa_handler = handler;
     sigemptyset(&sa.sa_mask);
 
     
@@ -161,3 +171,145 @@ int main(){
     while(1);
 }
 ```
+
+Programa alternativo utilizando la biblioteca signal:
+```c
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <signal.h>
+#include <stdlib.h>
+
+//Contador de las veces que se ha usado cada señal
+int contador[35];
+
+//Funcion para llevar el contador
+static void handler(int sig) {
+  contador[sig]++;
+  printf("\nSe ha recibido la señal %d, que se ha realizado %d veces.",sig, contador[sig]);
+}
+
+
+int main() {
+   setvbuf(stdout, NULL, _IONBF, 0);
+
+  //Pongo a 0 todo el contador de las señales
+  int i;
+  for(i=0; i < 35; i++)
+    contador[i] = 0;
+
+  //Informamos de las señales que no podemos manejar
+
+  printf("No puedo manejar la señal %d\n", SIGKILL);
+  printf("No puedo manejar la señal %d\n", SIGSTOP);
+
+  //Ahora trabajamos con las señales recibidas
+  //Primero vamos a dar de alta las señales que podemos utilizar, en mi caso, van a hacer todas lo mismo, incrementar en 1 su contador
+
+ //Asociamos las 35 señales a la función handler, para que cuando las llamemos, se incremente su contador 
+  for(i=1; i <= 35; i++) 
+        signal(i,handler);
+
+  //Bucle infinito para que el programa se ejecute mientras no le mandemos las señales para terminar(9,19)
+  while (1);
+
+}
+```
+
+## Ejercicio 3 
+
+Código del programa: 
+```c
+#include <stdio.h>
+#include <signal.h>
+
+int main(){
+    sigset_t mascara;
+
+    // Creamos la máscara, y la vaciamos por si tuviera basura
+    sigemptyset(&mascara);
+
+    // La rellenamos con todas las máscaras posibles
+    sigfillset(&mascara);
+
+    // Eliminamos la que nos interesa: SIGUSR1
+    sigdelset(&mascara, SIGUSR1);
+
+    // Cuando suspendamos, el programa no reaccionará a ninguna señal, excepto SIGUSER1
+    sigsuspend(&mascara);
+}
+```
+
+## Ejercicio 4
+Código del programa: 
+```c
+// tarea12.c
+
+#include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+static int signal_recibida = 0;
+
+static void manejador (int sig) {
+          signal_recibida = 1;
+}
+
+int main (int argc, char *argv[]) {
+    sigset_t conjunto_mascaras;
+    sigset_t conj_mascaras_original;
+    struct sigaction act;
+
+    //Iniciamos a 0 todos los elementos de la estructura act 
+    memset (&act, 0, sizeof(act));
+
+    act.sa_handler = manejador;
+
+    if (sigaction(SIGTERM, &act, 0)) {
+        perror ("sigaction");
+        exit(EXIT_FAILURE);
+    }
+    
+    //Iniciamos un nuevo conjunto de mascaras
+    sigemptyset (&conjunto_mascaras);
+    //Añadimos SIGTERM al conjunto de mascaras
+    sigaddset (&conjunto_mascaras, SIGTERM);
+    
+    //Bloqueamos SIGTERM
+    // 
+    if (sigprocmask(SIG_BLOCK, &conjunto_mascaras, &conj_mascaras_original) < 0) {
+       perror ("primer sigprocmask");
+       exit(EXIT_FAILURE);
+    }
+
+    sleep (10);
+
+    //Restauramos la señal � desbloqueamos SIGTERM
+    if (sigprocmask(SIG_SETMASK, &conj_mascaras_original, NULL) < 0) {
+       perror ("segundo sigprocmask");
+       exit(EXIT_FAILURE);
+    }
+
+    sleep (1);
+
+   if (signal_recibida)
+       printf ("\nSenal recibida\n");
+   exit(EXIT_SUCCESS);
+}
+```
+La función sigprocmask se emplea para modificar la lista de señales bloqueadas en un momento dado. Tiene la siguiente sintáxis:
+```c++
+int sigprocmask (int how, const sigset_t * set, sigset_t * old_set)
+```
+El primer parámetro, `how`, determina el comportamiento ante las máscaras. Sus posibles valores son:
+- **SIG_BLOCK**: El conjunto de señales bloqueadas es la unión del actual y las de `set`
+- **SIG_UNBLOCK**: El conjunto de señales presentes en set se eliminan de las bloquedas. Se considera permitido el intento de desbloquear una señal que no se haya bloqueada
+- **SIG_SETMASK**: El conjunto de señales bloqueadas pasa a ser las de `set`
+
+Por tanto, en nuestro programa, bloqueamos las típicas y la SIGTERM. SIGTERM es una señal de apagado *amable*: permite cerrar buffers, archivos abiertos, liberar memoria, etc... Es la señal por defecto cuando hacemos `kill PID` en la terminal. 
+
+Volviendo al cauce del programa: cuando usamos el segundo `sigprocmask()`, esta vez, usamos el parámetro SIG_SETMASK. Por tanto, vamos a bloquear las que contenga `conj_mascaras_original`. Esta contiene las originales: aquellas que se encontraban bloqueadas *antes* del primer `sigprocmask()`. Puedes ver que adquirimos el valor de las originales al pasárselo como tercer argumento en la primera ejecución. 
+
+Entre sigprocmask y sigprocmask, hemos dejado al programa inactivo 10s. Este periodo de tiempo nos permite capturar las señales. Como el manejador de señales es la función `manejador()`, si alguna señal ha llegado durante esos 10s (incluido SIGTERM), se ejecutará el `if()` final, indicándonos que, efectivamente, se ha recibido alguna señal
