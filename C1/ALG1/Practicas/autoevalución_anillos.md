@@ -47,7 +47,6 @@ b) $\mathbb{Z}_{7}$ tiene tres unidades.
 c) $\mathbb{Z}$ tiene infinitas unidades.
 d) $\mathbb{Z} \times \mathbb{Z}$ tiene dos unidades.
 
-
 ### Solución:
 
 a) Verdadera.
