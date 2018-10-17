@@ -127,28 +127,28 @@ Contraejemplo: $(0, 0) \in \mathbb{Q} \times \mathbb{Q}$ no es unidad porque no 
 
 Falso. Contraejemplo:
 
-$$\begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix} \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix}$$
+$$\begin{pmatrix} 1 & 1 \\\ 1 & 0 \end{pmatrix} \begin{pmatrix} 0 & 0 \\\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 0 & 0 \\\ 0 & 1 \end{pmatrix}$$
 
 Lo cual es distinto de
 
-$$\begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix} \begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}  = \begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix}]$$
+$$\begin{pmatrix} 0 & 0 \\\ 0 & 1 \end{pmatrix} \begin{pmatrix} 1 & 1 \\\ 1 & 0 \end{pmatrix}  = \begin{pmatrix} 0 & 0 \\\ 1 & 0 \end{pmatrix}]$$
 
 ### b) $\mathcal{M}_2(\mathbb{Z})$ tiene divisores de cero no nulos
 
 Verdadera
 
-$\begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}$ es divisor no nulo de $0$ ya que:
+$\begin{pmatrix} 0 & 1 \\\ 0 & 0 \end{pmatrix}$ es divisor no nulo de $0$ ya que:
 
 $$
-\begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix} \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix} = \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix}
+\begin{pmatrix} 0 & 1 \\\ 0 & 0 \end{pmatrix} \begin{pmatrix} 1 & 0 \\\ 0 & 0 \end{pmatrix} = \begin{pmatrix} 0 & 0 \\\ 0 & 0 \end{pmatrix}
 $$
 
 ### c) $\mathcal{M}_2(\mathbb{C})$ tiene infinitas unidades
 
-Verdadera. Las unidades son las matrices regulares, las cuales tienen determinante no nulo. Éstas son infinitas ya que hay infinitas matrices $\begin{pmatrix} a & 0 \\ 0 & 1 \end{pmatrix}$ con
+Verdadera. Las unidades son las matrices regulares, las cuales tienen determinante no nulo. Éstas son infinitas ya que hay infinitas matrices $\begin{pmatrix} a & 0 \\\ 0 & 1 \end{pmatrix}$ con
 
 $$
-\begin{vmatrix} a & 0 \\ 0 & 1 \end{vmatrix} = a \neq 0
+\begin{vmatrix} a & 0 \\\ 0 & 1 \end{vmatrix} = a \neq 0
 $$
 
 Por haber infinitos reales distintos de 0.
@@ -158,7 +158,7 @@ Por haber infinitos reales distintos de 0.
 Falso. La inversa de la matriz pertenece a $\mathcal{M}(\mathbb{R})$, no a $\mathcal{M}(\mathbb{Z})$:
 
 $$
-\begin{pmatrix} 2 & 3\\0 & 1\end{pmatrix}^{-1} = \begin{pmatrix} 1/2 & -3/2 \\0 & 1\end{pmatrix} \notin \mathcal{M}(\mathbb{Z})
+\begin{pmatrix} 2 & 3 \\\ 0 & 1\end{pmatrix}^{-1} = \begin{pmatrix} 1/2 & -3/2 \\\ 0 & 1\end{pmatrix} \notin \mathcal{M}(\mathbb{Z})
 $$
 
 
