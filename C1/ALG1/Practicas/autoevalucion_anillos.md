@@ -175,7 +175,7 @@ La respuesta correcta  **Es un cuerpo si tiene cardinal finito.**
 
 Para **desmentir la primera** veremos que un cuerpo es siempre un dominio de integridad, ya que por tener elemento inverso si se tiene que ab = ac  entonces $a^{-1}ab = a^{-1}ac$ de donde se deduce que b = c, cumpliendo la definición de dominio de integridad.
 
-**La segunda es falsa**, ya que no todo dominio de integridad tiene que ser un cuerpo, véase por ejemplo: el anillo conmutativo  de integridad **$ 2\mathbb{Z}$**
+**La segunda es falsa**, ya que no todo dominio de integridad tiene que ser un cuerpo, véase por ejemplo: el anillo conmutativo  de integridad $2\mathbb{Z}$
 
 Veamos ahora que todo dominio de integridad es un cuerpo si tiene cardinal finito.
 
