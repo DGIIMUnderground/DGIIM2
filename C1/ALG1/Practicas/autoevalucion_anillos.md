@@ -153,7 +153,7 @@ $$
 
 Por haber infinitos reales distintos de 0.
 
-### d) $\begin{pmatrix} 2 & 3\\0 & 1\end{pmatrix}$ es unidad en $\mathcal{M}_2(\mathbb{Z})$
+### d) $\begin{pmatrix} 2 & 3 \\\ 0 & 1\end{pmatrix}$ es unidad en $\mathcal{M}_2(\mathbb{Z})$
 
 Falso. La inversa de la matriz pertenece a $\mathcal{M}(\mathbb{R})$, no a $\mathcal{M}(\mathbb{Z})$:
 
