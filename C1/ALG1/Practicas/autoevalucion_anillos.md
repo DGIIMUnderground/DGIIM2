@@ -14,6 +14,7 @@ Y un conjunto de elementos de A es un ideal de éste si, si es cerrado para la s
 
 Para ver que no es un ideal maximal bastará con ver que $5\mathbb{Z}$  es un ideal, ya que contiene a $10\mathbb{Z}$:
 
+
 Es cerrado para la suma, ya que los elementos de $5\mathbb{Z}$ son de la forma z5, con z un entero, por tanto al sumar dos elementos de esta forma sólo habría que sacar factor común y ver que sigue siento de la forma un entero por 5.
 
 Y de una forma más evidente sigue ocurriendo con el producto, el resultado de multiplicar un entero por un múltiplo de 5 sigue siendo un múltiplo de 5 y por tanto pertenece $5\mathbb{Z}$ .
@@ -135,13 +136,45 @@ Para **desmentir la primera** veremos que un cuerpo es siempre un dominio de int
 
 **La segunda es falsa**, ya que no todo dominio de integridad tiene que ser un cuerpo, véase por ejemplo: el anillo conmutativo  de integridad **$ 2\mathbb{Z}$**
 
-Veamos ahora que todo dominio de integridad es un cuerpo si tiene cardinal finito. 
+Veamos ahora que todo dominio de integridad es un cuerpo si tiene cardinal finito.
 
-Recordemao que un dominio de integridad es un anillo conmutativo, por tanto para ver que es un cuerpo bastaría con comprobar que todo elemento distinto del neutro de la suma cuenta con inverso. 
+Recordemos que un dominio de integridad es un anillo conmutativo, por tanto para ver que es un cuerpo bastaría con comprobar que todo elemento distinto del neutro de la suma cuenta con inverso.
 Sea A un dominio de integridad finito, por ser finito sabremos que debe existir un i > 1 y un j>0 tal que para todo $ a \in A-\{0\}$ se tiene que $ a^i = a^{i+j}$
-Si ahora planteamos la ecuación $ a^i x = a^{i+j}$ resultan dos soluciones para x; $x= a^j$ y $x = 1$ así que con esto llegamos a la conclusión de que $a^j = 1$ y aplicando que nos encontramos en un dominio de integridad: 
-$ a^i = a^{i+1} \Leftrightarrow a^i a^{-1}= a^{i+j}a^{-1} \Leftrightarrow a^i a^{-1}= a^{j-1}a^i{-1}  $ 
+Si ahora planteamos la ecuación $ a^i x = a^{i+j}$ resultan dos soluciones para x; $x= a^j$ y $x = 1$ así que con esto llegamos a la conclusión de que $a^j = 1$ y aplicando que nos encontramos en un dominio de integridad:
+$ a^i = a^{i+1} \Leftrightarrow a^i a^{-1}= a^{i+j}a^{-1} \Leftrightarrow a^i a^{-1}= a^{j-1}a^i{-1}  $
 Aplicando otra que nos encontramos en un dominio de integridad llegamos a que  $a^{-1}= a^{j-1}$ y por tanto hemos encontrado al inverso de todo elemento de A distinto de 0 probando con ello que nos hallamos ante  un cuerpo.  
 
 Respecto a la tercera afirmación...
-QUE NO TENGAMOS UN DEMOSTRACIÓN PARA UN CUERPO INFINITO NO SIGNIFICA QUE ESTO NO EXISTA... Sin emabrgo podríamos pensar por lo general no se podría tener la certeza de que todos los elementos tengan inversos ya que no los podemos conocer a todos por eso de que sean infinitos...
+QUE NO TENGAMOS UN DEMOSTRACIÓN PARA UN CUERPO INFINITO NO SIGNIFICA QUE ESTO NO EXISTA... Sin embargo podríamos pensar por lo general no se podría tener la certeza de que todos los elementos tengan inversos ya que no los podemos conocer a todos por eso de que sean infinitos...
+
+
+## Pregunta 6
+
+Entre las consiguientes afirmaciones hay una única verdadera.
+Seleccione una:
+- $5\mathbb{Z}$ es un subanillo de $\mathbb{Z}$
+- $\mathbb{Q}$ no tiene subanillos propios
+- cualquier ideal de un anillo es un subanillo.
+- $\mathbb{Z}$ no tiene subanillos propios.
+
+### Solución
+- $5\mathbb{Z}$ es un subanillo de $\mathbb{Z}$  
+Esta es falsa, ya que para que sea un subanillo $\mathbb{Z}$ entre otras, se le exige que su elemento neutro para el producto, el uno en nuestro caso esté contenido en $5\mathbb{Z}$, pero este no es el caso, y aque los elementos de $5\mathbb{Z}$ son de la forma: un entero por cinco.
+
+- $\mathbb{Q}$ no tiene subanillos propios  
+
+Falso ya que el propio $\mathbb{Z}$  es un subanillo de $\mathbb{Q}$  
+
+- cualquier ideal de un anillo es un subanillo.  
+Falso, ya que para ello debe contener al neutro del producto. Y su ausencia no impide que sea un ideal. Por ejemplo:
+$2\mathbb{Z}$ es un ideal de $\mathbb{Z}$ y sin embargo no es un subanillo ya que no contiene al uno.  
+
+- $\mathbb{Z}$ no tiene subanillos propios.  
+Un subanillo es propio cuando no coincide con el vacío o con el propio anillo.
+Supongamos que sí los tiene y lleguemos a una contradicción:
+El subanillo no es vacía y debe contener al uno, pero como es cerrado para la suma de elementos 1+1 = 2 y por tanto 2 debe pertenecer al conjunto y por lo tanto ahora el 1 y el 2 son dos elementos del subanillo, pero por ser cerrado para la suma 1+2=3 y por tanto 3 pertenecerá al subanillo.
+Por tanto veamos que si n pertece al subanillo n+1 también ya que es cerrado para la suma y el 1 pertenece al subanillo.
+
+Por otra parte tenemos que si un pertenece al subanillo su opuesto también pertenecerá, por tanto ya contamos con todos los enteros salvo el cero, lo obtenemos sumando dos opuestos.
+
+Y con esto hemos llegado a que el subanillo debe ser el propio $\mathbb{Z}$ y por tanto no es propio. 
