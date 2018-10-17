@@ -79,13 +79,14 @@
     - Poca tolerancia a fallos
 - **Estructura de capas**
   - SO organizado como jerarquía de capas
+  - Una capa i-ésima se apoya en la i-1
 - **Microkernel**
-  - Definición de kernel
+  - Kernel: funciones fundamentales del sistema
     - Cargado en memoria principal
     - Ejecución en modo privilegiado/kernel
     - Alto nivel de inhibición de interrupciones
   - Lo más importante del SO está en el kernel. El resto, implementado en procesos
-  - Solicitudes y respuestas de servicios
+  - Microkernel crea y comunica procesos (cliente-servidor)
   - Ventajas:
     - Mayor tolerancia a fallos y extensibilidad
     - Adaptable a sistemas distribuidos
