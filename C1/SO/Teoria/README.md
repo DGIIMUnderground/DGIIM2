@@ -1,4 +1,4 @@
-##SISTEMAS OPERATIVOS
+## SISTEMAS OPERATIVOS
 Dentro de esta carpeta puedes encontrar los siguientes archivos:
 
 | Nombre del archivo | Detalles |
