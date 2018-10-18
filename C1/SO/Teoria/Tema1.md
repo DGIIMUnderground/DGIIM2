@@ -46,8 +46,10 @@ Un sistema operativo debe presentar las siguientes características:
 - Tolerancia a fallos: Un fallo en la ejecución de un programa no debe repercutir ni conllevar a un fallo total del sistema.
 
 - Reentrancia:  Un programa o proceso debe tener la capacidad de llamar a otra instancia de sí mismo durante la ejecución.
-###2. Sistemas operativos de propósito específico.
-####Sistemas operativos de tiempo real.
+
+### 2. Sistemas operativos de propósito específico.
+
+#### Sistemas operativos de tiempo real.
 Un sistema de tiempo real es un sistema informático que no sólo requiere que los resultados calculados sean 'correctos', sino que esos resultados deben también producirse dentro de un periodo específico de tiempo. Los resultados producidos tras el periodo de tiempo especificado no tienen valor real, aunque sean correctos. Estos sistemas pueden clasificarse en dos tipos distintos en función de la importancia de la segunda condición antes descrita:
 
 - **Sistemas de tiempo real estricto (Hard Real Time):** Tienen unos requisitos muy fuertes que garantizan que las tareas de tiempo real críticas se completen dentro del periodo especificado.
