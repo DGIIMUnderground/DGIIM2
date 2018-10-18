@@ -16,7 +16,7 @@ Sistemas operativos. Curso 2018/2019
 Los primeros computadores no disponían de un sistema operativo, por lo que era el usuario el que debía realizar todas las tareas. Estos sistemas tenían dos grandes problemas: El usuario debía planificar el tiempo que debía reservar para una cierta operación, y un error durante la compilación o carga obligaba a volver a comenzar el proceso desde el principio.
 
 Esta gestión se denomina procesamiento en serie, y ha sido ampliamente mejorada, aumentando su eficiencia.
-#####Procesamiento en lotes sencillos.
+##### Procesamiento en lotes sencillos.
 Este esquema tiene como idea central el uso del monitor, que transforma la entrada de trabajos en lotes sencillos y devuelve el control cuando ha acabado para cargar el siguiente programa. Este sistema tiene también grandes fallos, como el desperdicio de tiempo, además de que el monitor consume parte de la memoria y la CPU del computador.
 
 #### Sistemas multiprogramados.
