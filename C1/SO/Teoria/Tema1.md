@@ -1,13 +1,18 @@
 Sistemas operativos. Curso 2018/2019
-#Tema 1. Estructuras de sistemas operativos.
-###1. Introducción
+
+# Tema 1. Estructuras de sistemas operativos.
+
+### 1. Introducción
+
 <div style="text-align: justify">Un sistema operativo es un programa que controla la ejecución de aplicaciones y programas, que actúa como interfaz entre las aplicaciones y el hardware del computador. Un sistema operativo tiene tres objetivos:
 
 1. Facilidad de uso: Se realiza mediante el uso de servicios.
 2. Eficiencia: Permite que los recursos se utilicen de forma eficiente.
 3. Capacidad para evolucionar: Se debe construir de tal forma que permita el añadido de nueva funciones sin interferir  con los servicios.
-####Evolución de los sistemas operativos.
-#####El procesamiento en serie.
+
+#### Evolución de los sistemas operativos.
+
+##### El procesamiento en serie.
 Los primeros computadores no disponían de un sistema operativo, por lo que era el usuario el que debía realizar todas las tareas. Estos sistemas tenían dos grandes problemas: El usuario debía planificar el tiempo que debía reservar para una cierta operación, y un error durante la compilación o carga obligaba a volver a comenzar el proceso desde el principio.
 
 Esta gestión se denomina procesamiento en serie, y ha sido ampliamente mejorada, aumentando su eficiencia.
@@ -21,9 +26,11 @@ En este tipo de estructuras, el SO debe:
 - Proporcionar rutinas de gestión y control sobre las operaciones de E/S.
 - Gestionar la memoria principal, ya que varios procesos deben estar listos para ser ejecutados.
 - Planificar el uso del procesador, puesto que debe decidir que proceso ejecutar.
-####Sistemas de tiempo compartido
+
+#### Sistemas de tiempo compartido
 Capacidad análoga la de la multiprogramación, salvo que en este caso los programas que se ejecutan a la vez son interactivos, esto es, programas en los que el usuario interacciona con el computador.
-####Características de un SO
+
+#### Características de un SO
 Un sistema operativo debe presentar las siguientes características:
 
 - Corrección: El sistema operativo debe poder corregir fallos durante la ejecucion, usando por ejemplo interrupciones y excepciones.
