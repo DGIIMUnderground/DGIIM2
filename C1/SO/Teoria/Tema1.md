@@ -18,7 +18,9 @@ Los primeros computadores no disponían de un sistema operativo, por lo que era 
 Esta gestión se denomina procesamiento en serie, y ha sido ampliamente mejorada, aumentando su eficiencia.
 #####Procesamiento en lotes sencillos.
 Este esquema tiene como idea central el uso del monitor, que transforma la entrada de trabajos en lotes sencillos y devuelve el control cuando ha acabado para cargar el siguiente programa. Este sistema tiene también grandes fallos, como el desperdicio de tiempo, además de que el monitor consume parte de la memoria y la CPU del computador.
-####Sistemas multiprogramados.
+
+#### Sistemas multiprogramados.
+
 La **multiprogramación** es la capacidad de un SO de realizar varios programas que residen en memoria principal al mismo tiempo, aunque necesita interrupciones para las operaciones de E/S.
 
 En este tipo de estructuras, el SO debe:
@@ -52,7 +54,8 @@ Un sistema de tiempo real es un sistema informático que no sólo requiere que l
 
 - **Sistemas de tiempo real no estricto (Soft Real Time):** Los requisitos en estos sistemas no son tan fuertes, limitándose a garantizar que las tareas críticas de tiempo real tengan prioridad sobre otras tareas y que retengan esa prioridad hasta complementarse. Muchos sistemas operativos comerciales, como Linux, entran dentro de este grupo de sistemas.
 
-####Sistemas operativos en red y sistemas operativos distribuidos.
+#### Sistemas operativos en red y sistemas operativos distribuidos.
+
 Un **sistema informático distribuido** es un conjunto de ordenadores sin memoria ni reloj común interconectados a través de un sistema de comunicación que puede permitir que estén geográficamente dispersos. Este sistema de comunicación constituye la  única posibilidad de comunicar información. La  comunicación  se  realiza  mediante operaciones  de  enviar/recibir  mensajes,  siendo  la  duración  del envío de un mensaje grande respecto al tiempo de ejecución de una instrucción máquina. Un sistema distribuido tiene como objetivo compartir recursos o permitir la dispersión geográfica.
 
 Un **sistema operativo en red** se trata de una red de máquinas, que suelen ser estaciones de trabajo, y una o dos máquinas que actúan como servidoras. Se trata de un añadido a los sistemas operativos locales, es decir, cada máquina tiene su propio sistema operativo. El usuario conoce la existencia de los múltiples computadores y debe trabajar con ellos de forma explícita, conociendo dónde se ubican los archivos y dónde se ejecutan los procesos.
@@ -60,8 +63,11 @@ Un **sistema operativo en red** se trata de una red de máquinas, que suelen ser
 Un **sistema operativo distribuido** es un sistema operativo común compartido por una red de computadores, pareciendo a los usuarios un sistema operativo normal centralizado. En un sistema operativo distribuido el usuario no conoce dónde se encuentran los archivos o dónde se ejecutan los procesos.
 
 Un **sistema operativo paralelo** consiste en una máquina en la cual se disponen de varios procesadores, los cuales disponen de sus propias unidades de control, unidades aritmético-lógicas y registros pero que comparten una misma memoria principal y acceso a los dispositivos de E/S. En un sistema operativo paralelo, puede dividirse una tarea en múltiples actividades realizadas por los distintos procesadores, lo que a su vez implica que la comunicación y sincronización en este tipo de sistemas es muy eficiente.
-###3. Estructura de un sistema operativo.
-####Sistemas operativos monolíticos
+
+### 3. Estructura de un sistema operativo.
+
+#### Sistemas operativos monolíticos
+
 Los sistemas operativos monolíticos los constituyen la gran mayoría de los primeros sistemas operativos, desarrollados en los años 50. Todo el sistema operativo se ejecuta como un sólo ejecutable en modo kernel o núcleo. La falta de estructura de estos sistemas operativos tiene como consecuencia que se escriba como una colección de procedimientos enlazados entre sí en un único programa binario ejecutable extenso, además de dejar la libertad de que un proceso llame a cualquier otro. Normalmente, un núcleo monolítico se implementa como un único proceso con todos los elementos compartiendo el mismo espacio de direcciones.
 
 Este tipo de sistemas operativos presenta una gran cantidad de inconvenientes, entre los que se destacan:
@@ -83,7 +89,9 @@ Existen una amplitud de ventajas a la hora de usar este tipo de estructuras, ent
 - Es adaptable a sistemas operativos distribuidos, puesto que un proceso puede enviar un mensaje sin saber dónde reside el servicio pedido.
 
 La gran desventaja, sin embargo, de esta estructura, es el rendimiento, puesto que lleva más tiempo construir y enviar un mensaje a través del micronúcleo y aceptar y decodificar la respuesta que simplemente hacer una llamada a un servicio.
-####Bibliografía.
+
+#### Bibliografía.
+
 Stallings, W. *Sistemas operativos. Aspectos internos y principios de diseño.* Pearson Prentice Hall.(5ª edición.)
 Silberschatz. *Fundamentos de sistemas operativos.* Mc Graw Hill.(7ª edición)
 </div>
