@@ -2,7 +2,7 @@
 
 > Disclaimer: esto no es un libro. No está diseñado para que se estudie. Su objetivo es proporcionar un listado de términos clave para servir como guía de repaso o estudio
 
-## Tema 1: estructura de Sistemas operativos
+## Tema 1: estructura de sistemas operativos
 
 ### Introducción
 
@@ -93,3 +93,60 @@
   - Inconvenientes:
     - Peor rendimiento. Más ejecuciones para resolver un servicio
 
+## Tema 2: procesos e hilos
+### Generalidades
+
+- **Ejecución de procesos de usuario**
+  - Proceso en modo privilegiado => código del SO
+  - Pila de núcleo para cada proceso
+  - Código del SO en espacio de direcciones compartidas
+  - Llamada al sistema => cambio de modo dentro del mismo proceso
+- **Creación de procesos**
+  - Crear proceso => asignar memoria y estructura de datos
+  - Sucesos que provocan creaciones de procesos en diferentes sistemas:
+    - Sistemas batch: selección de los trabajos por lotes
+    - Sistemas interactivos: al conectar el usuario
+    - El mismo SO para responder a un servicio solicitado
+- **Cambio de contexto**
+  - **PCB**
+  - Cambio de contexto => cambio de PCB en uso
+- **Colas de estado**
+  - Tipos de colas:
+    - **Cola de trabajos**: pendientes de ser admitidas
+    - **Cola de preparados**: cargados en MP. Listos para usarse
+    - **Cola de bloqueados**: en espera de algún evento (Ejemplo: E/S)
+  - Cada PCB está en una de dichas colas
+- **Planificador de procesos**
+  - Parte del SO que controla la utilización de un recurso
+  - Tipos:
+    - A largo plazo: selecciona trabajos a admitir
+    - A corto plazo: selecciona trabajo desde la cola de preparados
+    - A medio plazo: mete y saca procesos a/de memoria RAM
+
+### Terminología 
+- **Ráfaga de CPU**: periodo de tiempo en un proceso en el que está en uso de CPU
+- **Ráfaga de bloqueo**: periodo de tiempo en un proceso en el que se encuentra en estado bloqueado
+- **Proceso limitado** por E/S: largos periodos de espera por la necesidad de usar el bus de datos
+  - Ráfagas de CPU cortas
+- **Proceso limitado por CPU**: largos periodos de tiempo de uso de CPU. Pocas interrupciones
+- PCB : almacena PC, registros, puntero a pila
+  - Ráfagas de CPU largas
+ -**Planificador de procesos**: Parte del SO que controla la utilización de un recurso
+- **Despachador**: parte del SO que realiza las funciones necesarias para cambiar de proceso en CPU
+  - Salva y restaura PCBs
+  - Salto a la posición de memoria del nuevo proceso
+
+---
+##### Notación y variables para algoritmos de planifiación
+- Tiempo de CPU $t$
+- Tiempo de respuesta / Finalización $T$ (finalización - creación)
+- Tiempo de espera $E = T - t$
+- Tiempo de penalización $P = T/t$
+- Quantum: unidades de uso máximas de CPU 
+##### Tipos de algoritmos
+- **FIFO** =  FCFS: First In First Out
+- **SJF**: Shortest Job First
+- **Desplazamiento**: llegadas de procesos que pueden mover a bloqueados al actual
+- **SJF con desplazamiento** = SRTF: Shortest Remaining Time First
+- **RR**: Round Robin
+- **Colas múltiples**: diferentes prioridades por cola
