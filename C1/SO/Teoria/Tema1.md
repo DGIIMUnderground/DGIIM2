@@ -17,7 +17,7 @@ Los primeros computadores no disponían de un sistema operativo, por lo que era 
 
 Esta gestión se denomina procesamiento en serie, y ha sido ampliamente mejorada, aumentando su eficiencia.
 ##### Procesamiento en lotes sencillos.
-Este esquema tiene como idea central el uso del monitor, que transforma la entrada de trabajos en lotes sencillos y devuelve el control cuando ha acabado para cargar el siguiente programa. Este sistema tiene también grandes fallos, como el desperdicio de tiempo, además de que el monitor consume parte de la memoria y la CPU del computador.
+Este esquema tiene como idea central el uso del monitor, que transforma la entrada de trabajos en lotes sencillos y devuelve el control cuando ha acabado para cargar el siguiente programa. Este sistema tiene también grandes fallos, como el despe rdicio de tiempo, además de que el monitor consume parte de la memoria y la CPU del computador.
 
 ##### Sistemas multiprogramados.
 
@@ -54,7 +54,7 @@ Un sistema de tiempo real es un sistema informático que no sólo requiere que l
 
 - **Sistemas de tiempo real estricto (Hard Real Time):** Tienen unos requisitos muy fuertes que garantizan que las tareas de tiempo real críticas se completen dentro del periodo especificado.
 
-- **Sistemas de tiempo real no estricto (Soft Real Time):** Los requisitos en estos sistemas no son tan fuertes, limitándose a garantizar que las tareas críticas de tiempo real tengan prioridad sobre otras tareas y que retengan esa prioridad hasta complementarse. Muchos sistemas operativos comerciales, como Linux, entran dentro de este grupo de sistemas.
+- **Sistemas de tiempo real no estricto (Soft Real Time):** Los requisitos en estos sistemas no son tan fuertes, limitándose a garantizar que las tareas críticas de tiempo real tengan prioridad sobre otras tareas y que retengan esa prioridad hasta complementarse. Muchos sistemas operativos comerciales, como GNU-Linux, entran dentro de este grupo de sistemas.
 
 #### Sistemas operativos en red y sistemas operativos distribuidos.
 
@@ -77,14 +77,16 @@ Este tipo de sistemas operativos presenta una gran cantidad de inconvenientes, e
 - Ya que su falta de estructura provoca que un fallo en un programa de usuario haga que el sistema completo falle, podemos destacar la poca fiabilidad y tolerancia a fallos de estos sistemas operativos.
 
 - Debido a su gran extensión y a su falta de consideración hacia las dependencias e interacciones, estos sistemas presentan una gran dificultad de comprensión y mantenimiento, además de ser poco extensibles. 
-####Sistemas operativos por capas
+
+#### Sistemas operativos por capas
 En estos sistemas operativos, un poco más modernos que los anteriores, las funciones y procesos se agrupan jerárquicamente y sólo se producen interacciones entre capas o niveles adyacentes. Cada nivel dispone de estructuras de datos y rutinas que pueden utilizar los niveles superiores, y éste a su vez puede invocar operaciones de niveles inferiores.  Este sistema proporciona una gran simplicidad de construcción, pero la mayoría de las capas o niveles siguen ejecutándose en modo núcleo.
-####Estructura microkernel o micronúcleo
-Antes de describir este tipo de estructura de un sistema operativo, debemos definir qué es el núcleo. El **núcleo** es una parte del SO que incluye las funciones más frecuentemente utilizadas y otras porciones del sistema operativo que se encuentren en uso. Gestiona  la planificación de hilos, el intercambio de procesos, las excepciones... Esta parte, a diferencia del resto, no es paginable ni expulsable. Esta parte del sistema operativo no puede contener errores.
+
+#### Estructura microkernel o micronúcleo
+Antes de describir este tipo de estructura de un sistema operativo, debemos definir qué es el núcleo. El **núcleo/kernel** es una parte del SO que incluye las funciones más frecuentemente utilizadas y otras porciones del sistema operativo que se encuentren en uso. Gestiona  la planificación de hilos, el intercambio de procesos, las excepciones... Esta parte, a diferencia del resto, no es paginable ni expulsable. Esta parte del sistema operativo no puede contener errores.
 
 La idea central de la estructura de **microkernel o micronúcleo** es eliminar todos los componentes posibles del núclo e implementarlos como módulos a nivel de usuario, resultando en un núcleo más pequeño, que actúa como intercambiador y validador de mensajes entre los distintos componentes. Por ejemplo, si una aplicación quiere abrir un archivo, manda un mensaje al servidor del sistema de archivos, el cual realiza el servicio y devuelve el mensaje a la aplicación, bajo previo consentimiento del núcleo.
 
-Existen una amplitud de ventajas a la hora de usar este tipo de estructuras, entre las que se encuentran:
+Existen una amplitud de ventajas a la hora de usar este tipo de estructuras, entre las que destacaremos dos:
 
 - Debido a la modularización, presenta una mayor fiablidad, puesto que es mucho más difícil afectar negativamente a componentes del sistema ajenos al proceso con un error. Además , la modularización permite una gran extensibilidad, ya que no es necesario contruir un nuevo núcleo cuando se añade una nueva característica, simplemente ha de modificarse el módulo en cuestión.
 
