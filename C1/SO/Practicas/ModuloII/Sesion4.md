@@ -1,8 +1,21 @@
-## Sesión 4. Comunicación entre procesos utilizando cauces
-### Actividad 4.1 Trabajo con cauces con nombre
-**Ejercicio 1.** Consulte en el manual las llamadas al sistema para la creación de archivos especiales en general (mknod) y la específica para archivos FIFO (mkfifo). Pruebe a ejecutar el siguiente código correspondiente a dos programas que modelan el problema del productor/consumidor, los cuales utilizan como mecanismo de comunicación un cauce FIFO.
-Determine en qué orden y manera se han de ejecutar los dos programas para su correcto funcionamiento y cómo queda reflejado en el sistema que estamos utilizando un cauce FIFO. **No estoy muy segura, pero primero ha de ejecutarse el consumidorFIFO, escribiendo desde la terminal `gcc consumidorFIFO.c -o consumidorFIFO`, luego `gcc productorFIFO.c -o productorFIFO`, y ejecutando `./consumidorFIFO` se queda como en bucle infinito. Abrimos entonces otra terminal y ejecutamos `./productorFIFO mensaje` tantas veces como queramos hasta poner `./productorFIFO fin`, y vemos como en la terminal en la que tenemos el consumidor FIFO van apareciendo los mensajes, y con fin se cierra el cauce. En los otros archivos escribe cosas raras.**
-~~~c
+# Sesión 4. Comunicación entre procesos utilizando cauces
+## Ejercicio 1: Trabajo con cauces con nombre
+> Consulte en el manual las llamadas al sistema para la creación de archivos especiales en general (mknod) y la específica para archivos FIFO (mkfifo). Pruebe a ejecutar el siguiente código correspondiente a dos programas que modelan el problema del productor/consumidor, los cuales utilizan como mecanismo de comunicación un cauce FIFO. Determine en qué orden y manera se han de ejecutar los dos programas para su correcto funcionamiento y cómo queda reflejado en el sistema que estamos utilizando un cauce FIFO. 
+
+Primero, necesitamos compilar y ejecutar ambos archivos. Es recomendable abrirlos con dos terminales, una al lado de otra. Primero, ejecutaremos `consumidorFIFO`. Este se quedará esperando al otro programa, `productorFIFO`. Cuando abramos el segundo con un pequeño mensajillo como segundo parámetro, podemos ver que aparece en la otra terminal. 
+```
+|------------------------------------------ | ------------------------------------------|
+|--------------- Terminal 1 --------------- | --------------- Terminal 2 ---------------|
+|------------------------------------------ | ------------------------------------------|
+| $ ./consumidorFIFO                        |  $ ./productorFIFO prueba_de_mensaje      |
+| Mensaje recibido: prueba_de_mensaje       |                                           |
+|                                           |                                           |
+|                                           |  $ ./productorFIFO tralalara-larita       |
+| Mensaje recibido: tralalara-larita        |										    |
+|------------------------------------------ | ------------------------------------------| 
+```
+Códigos de los programas:
+```c
 //consumidorFIFO.c
 //Consumidor que usa mecanismo de comunicacion FIFO
 #include <sys/types.h>
@@ -39,9 +52,8 @@ int main(){
   }
   return 0;
 }
-/* ======================== * ========================= */
-El código de cualquier proceso productor quedaría de la siguiente forma:
-/* ======================== * ========================= */
+```
+```c
 //productorFIFO.c
 //Productor que usa mecanismo de comunicacion FIFO
 #include<sys/types.h>
@@ -79,9 +91,12 @@ int main(int argc, char *argv[]){
   close(fd);
   return 0;
 }
-~~~
-### Actividad 4.2 Trabajo con cauces sin nombre
-**Ejercicio 2.** Consulte en el manual en línea la llamada al sistema pipe para la creación de cauces sin nombre. Pruebe a ejecutar el siguiente programa que utiliza un cauce sin nombre y describa la función que realiza. **El proceso padre está recibiendo datos del hijo, ya que cierra el descriptor usado para escritura fd[1] y el hijo cierra el despriptor usado para lectura, fd[0].**
+```
+
+## Ejercicio 2: Trabajo con cauces sin nombre
+> Consulte en el manual en línea la llamada al sistema pipe para la creación de cauces sin nombre. Pruebe a ejecutar el siguiente programa que utiliza un cauce sin nombre y describa la función que realiza. 
+
+El proceso padre está recibiendo datos del hijo, ya que cierra el descriptor usado para escritura fd[1] y el hijo cierra el despriptor usado para lectura, fd[0].
 ~~~c
 /*
 tarea6.c
@@ -123,8 +138,12 @@ int main(int argc, char *argv[]){
   return(0);
 }
 ~~~
-**Ejercicio 3.** Redirigiendo las entradas y salidas estándares de los procesos a los cauces podemos escribir un programa en lenguaje C que permita comunicar órdenes existentes sin necesidad de reprogramarlas, tal como hace el shell (por ejemplo ls | sort). En particular, ejecute el siguiente programa que ilustra la comunicación entre proceso padre e hijo a través de un cauce sin nombre redirigiendo la entrada estándar y la salida estándar del padre y el hijo respectivamente.**Ejecutamos(`./tarea7`) tras haber compilado y enlazado con `gcc tarea7.c -o tarea7` y vemos como en efecto resulta lo mismo que al poner `ls|sort`**
-~~~c
+
+## Ejercicio 3 
+> Redirigiendo las entradas y salidas estándares de los procesos a los cauces podemos escribir un programa en lenguaje C que permita comunicar órdenes existentes sin necesidad de reprogramarlas, tal como hace el shell (por ejemplo ls | sort). En particular, ejecute el siguiente programa que ilustra la comunicación entre proceso padre e hijo a través de un cauce sin nombre redirigiendo la entrada estándar y la salida estándar del padre y el hijo respectivamente.
+
+Ejecutamos(`./tarea7`) tras haber compilado y enlazado con `gcc tarea7.c -o tarea7` y vemos como en efecto resulta lo mismo que al poner `ls|sort
+```c
 /*
 tarea7.c
 Programa ilustrativo del uso de pipes y la redirección de entrada y
@@ -170,4 +189,4 @@ int main(int argc, char *argv[]){
   }
   return(0);
 }
-
+```
