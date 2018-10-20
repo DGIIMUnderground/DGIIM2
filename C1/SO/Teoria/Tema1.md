@@ -19,7 +19,7 @@ Esta gestión se denomina procesamiento en serie, y ha sido ampliamente mejorada
 ##### Procesamiento en lotes sencillos.
 Este esquema tiene como idea central el uso del monitor, que transforma la entrada de trabajos en lotes sencillos y devuelve el control cuando ha acabado para cargar el siguiente programa. Este sistema tiene también grandes fallos, como el desperdicio de tiempo, además de que el monitor consume parte de la memoria y la CPU del computador.
 
-#### Sistemas multiprogramados.
+##### Sistemas multiprogramados.
 
 La **multiprogramación** es la capacidad de un SO de realizar varios programas que residen en memoria principal al mismo tiempo, aunque necesita interrupciones para las operaciones de E/S.
 
@@ -29,7 +29,7 @@ En este tipo de estructuras, el SO debe:
 - Gestionar la memoria principal, ya que varios procesos deben estar listos para ser ejecutados.
 - Planificar el uso del procesador, puesto que debe decidir que proceso ejecutar.
 
-#### Sistemas de tiempo compartido
+##### Sistemas de tiempo compartido
 Capacidad análoga la de la multiprogramación, salvo que en este caso los programas que se ejecutan a la vez son interactivos, esto es, programas en los que el usuario interacciona con el computador.
 
 #### Características de un SO
