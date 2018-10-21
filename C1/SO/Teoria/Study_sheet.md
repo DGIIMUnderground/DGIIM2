@@ -159,12 +159,13 @@
   - Valor de quantum pequeño => demasiados cambios de contexto
   - Valor de quantum grande => muy similar a FIFO
 - **Colas múltiples**
-  - A menor prioridad, mayor preferencia de asignación
+  - A menor número de prioridad, mayor preferencia de asignación
+  - Cada nivel de prioridad tiene asociado un algoritmo para elegir entre los procesos de dicho nivel
   - Se pueden usar colas múltiples con diferentes algoritmos. Ej: FIFO con colas
-  - Problema de inanición. Soluciones:
-    - Mecanismo de envejecimiento
+  - Problema de inanición: un proceso puede estar esperando indefinidamente sin llegar nunca a ejecutarse. Soluciones:
+    - Mecanismo de envejecimiento: aumentar prioridad a los porcesos que llevan cierto tiempo esperando
     - Cola con porcentaje determinado de tiempo de CPU a asegurar para cada proceso de la cola
-- **Colas múltiples con realimentación**
+- **Colas múltiples con realimentación** (o con traspaso)
   - Sean $cola_{n}, ..., cola_{N}$ distintas colas con $q_{1},...,q_{n}$ quantums respectivos. Por hipótesis, $q_{1} < q_{2} < ... < q_{n}$.
   - Cuando un proceso entra, se le asocia en $cola_{1}$. Cuando cumple cierto requisito, se le baja una cola
   - Cuando llega a $cola_{n}$, permanece ahí hasta que termina.
@@ -201,12 +202,15 @@
 - Tiempo de espera $E = T - t$
 - Tiempo de penalización $P = T/t$
 - Quantum: unidades de uso máximas de CPU
+  - Nota: un algoritmo de planificación que no use el concepto de quantum queda descartado para entornos interactivos.
 - Quanta $m_{i}$: en colas múltiples con realimentación, ¿determinado número de quantums? requeridos para cambiar de cola
-##### Tipos de algoritmos
+##### Glosario de algoritmos
 Explicados en la parte superior. Aquí solo se recoge su nombre y lo que significa
-- **FIFO** =  FCFS: First In First Out
+- **FIFO**: First In First Out /  FCFS: First Come First Served
 - **SJF**: Shortest Job First
 - **Desplazamiento**: llegadas de procesos que pueden mover a bloqueados al actual
 - **SJF con desplazamiento** = SRTF: Shortest Remaining Time First
-- **RR**: Round Robin
+- **RR**: Round Robin / Planificador por turnos / Barrido cíclico
 - **Colas múltiples**: diferentes prioridades por cola
+---
+- Sobre el concepto de quantum: un algoritmo de planificación que no lo use queda descartado para entornos interactivos.
