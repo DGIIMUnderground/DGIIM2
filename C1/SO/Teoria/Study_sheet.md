@@ -183,7 +183,7 @@
 - **Proceso limitado por CPU**: largos periodos de tiempo de uso de CPU. Pocas interrupciones
 - **PCB** : Process Control Block. Almacena PC, registros, puntero a pila
   - Ráfagas de CPU largas
- -**Planificador de procesos**: Parte del SO que controla la utilización de un recurso
+- **Planificador de procesos**: Parte del SO que controla la utilización de un recurso
 - **Despachador**: parte del SO que realiza las funciones necesarias para cambiar de proceso en CPU
   - Salva y restaura PCBs
   - Salto a la posición de memoria del nuevo proceso
