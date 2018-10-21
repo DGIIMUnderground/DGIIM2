@@ -181,8 +181,8 @@
 - **Proceso limitado por E/S**: largos periodos de espera por la necesidad de usar el bus de datos
   - Ráfagas de CPU cortas
 - **Proceso limitado por CPU**: largos periodos de tiempo de uso de CPU. Pocas interrupciones
-- **PCB** : Process Control Block. Almacena PC, registros, puntero a pila
   - Ráfagas de CPU largas
+- **PCB** : Process Control Block. Almacena PC, registros, puntero a pila
 - **Planificador de procesos**: Parte del SO que controla la utilización de un recurso
 - **Despachador**: parte del SO que realiza las funciones necesarias para cambiar de proceso en CPU
   - Salva y restaura PCBs
