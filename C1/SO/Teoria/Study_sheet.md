@@ -178,10 +178,10 @@
 ##### Conceptos básicos
 - **Ráfaga de CPU**: periodo de tiempo en un proceso en el que está en uso de CPU
 - **Ráfaga de bloqueo**: periodo de tiempo en un proceso en el que se encuentra en estado bloqueado
-- **Proceso limitado** por E/S: largos periodos de espera por la necesidad de usar el bus de datos
+- **Proceso limitado por E/S**: largos periodos de espera por la necesidad de usar el bus de datos
   - Ráfagas de CPU cortas
 - **Proceso limitado por CPU**: largos periodos de tiempo de uso de CPU. Pocas interrupciones
-- PCB : almacena PC, registros, puntero a pila
+- **PCB** : Process Control Block. Almacena PC, registros, puntero a pila
   - Ráfagas de CPU largas
  -**Planificador de procesos**: Parte del SO que controla la utilización de un recurso
 - **Despachador**: parte del SO que realiza las funciones necesarias para cambiar de proceso en CPU
