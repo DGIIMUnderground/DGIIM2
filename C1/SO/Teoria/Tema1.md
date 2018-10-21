@@ -1,3 +1,8 @@
+---
+fontsize: 12pt
+documentclass: article
+---
+
 Sistemas operativos. Curso 2018/2019
 
 # Tema 1. Estructuras de sistemas operativos.
@@ -76,7 +81,7 @@ Este tipo de sistemas operativos presenta una gran cantidad de inconvenientes, e
 
 - Ya que su falta de estructura provoca que un fallo en un programa de usuario haga que el sistema completo falle, podemos destacar la poca fiabilidad y tolerancia a fallos de estos sistemas operativos.
 
-- Debido a su gran extensión y a su falta de consideración hacia las dependencias e interacciones, estos sistemas presentan una gran dificultad de comprensión y mantenimiento, además de ser poco extensibles. 
+- Debido a su gran extensión y a su falta de consideración hacia las dependencias e interacciones, estos sistemas presentan una gran dificultad de comprensión y mantenimiento, además de ser poco extensibles.
 
 #### Sistemas operativos por capas
 En estos sistemas operativos, un poco más modernos que los anteriores, las funciones y procesos se agrupan jerárquicamente y sólo se producen interacciones entre capas o niveles adyacentes. Cada nivel dispone de estructuras de datos y rutinas que pueden utilizar los niveles superiores, y éste a su vez puede invocar operaciones de niveles inferiores.  Este sistema proporciona una gran simplicidad de construcción, pero la mayoría de las capas o niveles siguen ejecutándose en modo núcleo.
