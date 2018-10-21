@@ -17,7 +17,7 @@ Los primeros computadores no disponían de un sistema operativo, por lo que era 
 
 Esta gestión se denomina procesamiento en serie, y ha sido ampliamente mejorada, aumentando su eficiencia.
 ##### Procesamiento en lotes sencillos.
-Este esquema tiene como idea central el uso del monitor, que transforma la entrada de trabajos en lotes sencillos y devuelve el control cuando ha acabado para cargar el siguiente programa. Este sistema tiene también grandes fallos, como el despe rdicio de tiempo, además de que el monitor consume parte de la memoria y la CPU del computador.
+Este esquema tiene como idea central el uso del monitor, que transforma la entrada de trabajos en lotes sencillos y devuelve el control cuando ha acabado para cargar el siguiente programa. Este sistema tiene también grandes fallos, como el desperdicio de tiempo, además de que el monitor consume parte de la memoria y la CPU del computador.
 
 ##### Sistemas multiprogramados.
 
