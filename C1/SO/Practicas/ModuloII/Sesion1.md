@@ -1,6 +1,6 @@
 ## Ejercicio 1
 1. Abre un archivo, y comprueba que ha sido correctamente abierto. Si no se ha conseguido abrir, se cierra
-2. Escribe el contenido del array buff `(abcdefghij)`. Si no se ha conseguido escrbrir, se cierra
+2. Escribe el contenido del array buff `(abcdefghij)`. Si no se ha conseguido escribir, se cierra
 3. Posiciona el cursor en la parte inicial del archivo
 4. Escribe ahora el contenido del segundo array en el archivo. Si no lo ha conseguido, cierra el programa
 5. Finaliza la ejecución
