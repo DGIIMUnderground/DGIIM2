@@ -263,3 +263,130 @@ int main(int argc, char *argv[]) {
 La única diferencia es el uso de `dup()` vs `dup2()`. Difieren en que dup asigna el descriptor más pequeño disponible; mientras que dup2 te deja elegir el que quieras. Se puede incluso reemplazar uno existente. En este caso, hacemos lo segundo.
 
 ## Ejercicio 5
+Código de maestro.c: 
+```c
+#include<sys/types.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<errno.h>
+#include <math.h>
+
+int main(int argc, char *argv[]){
+    if (argc != 3){
+        perror("./maestro minimo maximo");
+        exit(-1);
+    }
+    
+    // Apertura de cauces
+    int fd1[2], fd2[2];
+    pipe(fd1); 
+    pipe(fd2);
+
+    // Necesarios para imprimir
+    int bytes_leidos1, bytes_leidos2
+    ,   valor1, valor2;
+
+    // Creación de programas
+    pid_t esclavo1, esclavo2;
+
+    // Preparemos los intervalos para pasárselos a los programas
+    char * minimo1 = argv[1]                                 // [a,b] -> [a, c], [c+1, b]
+    ,    * maximo2 = argv[2];                                // Podemos conseguir directamente [a,b]
+
+    char   minimo2[20]                                       // Necesitamos dar una vuelta para c
+    ,      maximo1[20];
+
+    int    maximo1_int = (atoi(argv[1]) + atoi(argv[2]))/2    // Haremos las operaciones con enteros, y después, lo pasaremos a char *
+    ,      minimo2_int = (atoi(argv[1]) + atoi(argv[2]))/2 + 1;
+
+    // Finalmente, copiamos los enteros resultantes a las cadenas, como queríamos
+    sprintf(minimo2, "%d", minimo2_int);
+    sprintf(maximo1, "%d", maximo1_int);
+
+    printf("Números primos en el intervalo [%s, %s]:\n", minimo1, maximo2);
+    
+    ////////////////////////////////////
+    //---------Primer Esclavo---------//
+    ////////////////////////////////////
+    esclavo1 = fork();
+
+    if (esclavo1 == 0) {
+        close(fd1[0]);
+        dup2(fd1[1], STDOUT_FILENO);
+
+        // Ejecutamos el programa y le pasamos el intervalo. Al haber reemplazado 
+        // la entrada estándar, recibiremos automáticamente los números
+        // en el padre, los leeremos
+        if (execl("./esclavo", "esclavo", minimo1, maximo1, NULL) < 0){
+            perror("No se ha podido abrir el programa");
+            exit(-1);
+        }
+    } 
+    else { // Padre recibe información
+        close(fd1[1]);
+
+        // Recibimos los primos
+        while (bytes_leidos1 = read(fd1[0], &valor1, sizeof(int)))
+            printf("%d ", valor1);
+    }
+
+    /////////////////////////////////////
+    //---------Segundo Esclavo---------//
+    /////////////////////////////////////
+    esclavo2 = fork();
+    
+    if (esclavo2 == 0) {
+        close(fd2[0]);
+        dup2(fd2[1], STDOUT_FILENO);
+
+        if (execl("./esclavo", "esclavo", minimo2, maximo2, NULL) < 0){
+            perror("No se ha podido abrir el programa");
+            exit(-1);
+        }
+    } 
+    else { 
+        close(fd2[1]);
+
+        while (bytes_leidos2 = read(fd2[0], &valor2, sizeof(int)))
+            printf("%d ", valor2);
+    }
+
+    exit(1);
+}
+```
+
+Código de esclavo.c:
+```c
+#include<sys/types.h>
+#include<fcntl.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<errno.h>
+#include <math.h>
+#include <stdbool.h>
+
+bool esPrimo(int natural){
+    int limite = sqrt(natural);
+    bool is_prime = true;
+
+    for (int i=2; i <= limite && is_prime; i++)
+        if (natural % i == 0)
+            is_prime = false;
+    
+    return is_prime;
+}
+
+int main(int argc, char *argv[]){
+    int minimo = atoi(argv[1])
+    ,   maximo = atoi(argv[2]);
+
+    for (int i=minimo; i < maximo; i++)
+        if (esPrimo(i))
+            write(STDOUT_FILENO, &i, sizeof(int));
+
+    exit(1);
+}
+```
