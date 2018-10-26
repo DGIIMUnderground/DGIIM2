@@ -39,14 +39,14 @@ Sea $\{x_n\} \in E$ una sucesión de Cauchy, entonces, por definición:
 $$
 \forall \varepsilon > 0 \quad \exists M: p, q > M \Rightarrow d(x_p, x_q) < \varepsilon
 $$
-Como $E$ es un espacio completo y $\{x_n\} \in A \subseteq E \quad \Rightarrow \quad \{x_n\} \rightarrow x \in E$
+Como $E$ es un espacio completo y $\\{x_n\\} \in A \subseteq E \quad \Rightarrow \quad \\{x_n\\} \rightarrow x \in E$
 Si demostramos que $x \in A$ habremos acabado, ya que en tal caso toda sucesión de Cauchy de A sería convergente en A.
 
 Usamos la siguiente proposición, de la página 23 de los apuntes de R. Payá (Tema 2):
-> Sea $E$ un espacio métrico, $x \in E$ y $A \subset E$, entonces $x \in \bar{A} \Leftrightarrow \exists \{x_n\} \subset A: \{x_n\} \rightarrow x$
+> Sea $E$ un espacio métrico, $x \in E$ y $A \subset E$, entonces $x \in \bar{A} \Leftrightarrow \exists \\{x_n\\} \subset A: \\{x_n\\} \rightarrow x$
 
-Entonces, como teníamos $\{x_n\} \subset A$ y $\{x_n\} \rightarrow x \in E$, aplicando la proposión resulta que $x \in \bar{A}$
-Ahora bien, como A es cerrado, $A = \bar{A}$ y por tanto $\{x_n\} \rightarrow x \in A$, como se quería.
+Entonces, como teníamos $\\{x_n\\} \subset A$ y $\\{x_n\\} \rightarrow x \in E$, aplicando la proposión resulta que $x \in \bar{A}$
+Ahora bien, como A es cerrado, $A = \bar{A}$ y por tanto $\\{x_n\\} \rightarrow x \in A$, como se quería.
 
 ### Todo espacio métrico completo NO es un conjunto compacto
 #### Contraejemplo:
