@@ -23,7 +23,7 @@ $$
 Como $\{x_n\}$ es de Cauchy, entonces $d(x_n, x_{\sigma(n)}) < \varepsilon / 2$; y como $\{x_{\sigma(n)}\}$ converge a x, se tiene que $d(x_{\sigma(n)}, x) < \epsilon / 2$
 Por tanto,
 $$
-d(x_n, x) \leq \varepsilon / 2 + \varepsilon / 2 = \varepsilon
+d(x_n, x) < \varepsilon / 2 + \varepsilon / 2 = \varepsilon
 $$
 y con ello concluimos que $\{x_n\} \rightarrow x$ (es convergente), como se quería.
 
