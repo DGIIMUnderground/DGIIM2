@@ -10,7 +10,7 @@ Toda sucesión tiene una parcial convergente $\Rightarrow$ Toda sucesión de Cau
 #### Demostración
 Sea $\{x_n\} \in E$ una sucesión de Cauchy, entonces, por definición:
 $$
-\forall \varepsilon > 0 \quad \exists M: p, q > M \Rightarrow d(x_p, x_q) > \varepsilon / 2
+\forall \varepsilon > 0 \quad \exists M: p, q > M \Rightarrow d(x_p, x_q) < \varepsilon / 2
 $$
 Por hipótesis, sabemos que $\{x_n\}$ tiene una sucesión paracial convergente, esto es:
 $$
