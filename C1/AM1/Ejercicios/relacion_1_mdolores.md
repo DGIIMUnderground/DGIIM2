@@ -20,7 +20,7 @@ Sea $n \in \mathbb{N}: n > máx\{M, m\}$, entonces aplicando la desigualdad tria
 $$
 d(x_n, x) \leq d(x_n, x_{\sigma(n)}) + d(x_{\sigma(n)}, x)
 $$
-Como $\{x_n\}$ es de Cauchy, entonces $d(x_n, x_{\sigma(n)}) < \varepsilon / 2$; y como $\{x_{\sigma(n)}\}$ converge a x, se tiene que d(x_{\sigma(n)}, x) < \epsilon / 2
+Como $\{x_n\}$ es de Cauchy, entonces $d(x_n, x_{\sigma(n)}) < \varepsilon / 2$; y como $\{x_{\sigma(n)}\}$ converge a x, se tiene que $d(x_{\sigma(n)}, x) < \epsilon / 2$
 Por tanto,
 $$
 d(x_n, x) \leq \varepsilon / 2 + \varepsilon / 2 = \varepsilon
