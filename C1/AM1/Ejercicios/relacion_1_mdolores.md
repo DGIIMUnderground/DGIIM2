@@ -37,7 +37,7 @@ $$
 #### Demostración
 Sea $\{x_n\} \in E$ una sucesión de Cauchy, entonces, por definición:
 $$
-\forall \varepsilon > 0 \quad \exists M: p, q > M \Rightarrow d(x_p, x_q) > \varepsilon
+\forall \varepsilon > 0 \quad \exists M: p, q > M \Rightarrow d(x_p, x_q) < \varepsilon
 $$
 Como $E$ es un espacio completo y $\{x_n\} \in A \subseteq E \quad \Rightarrow \quad \{x_n\} \rightarrow x \in E$
 Si demostramos que $x \in A$ habremos acabado, ya que en tal caso toda sucesión de Cauchy de A sería convergente en A.
