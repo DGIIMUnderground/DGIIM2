@@ -1,8 +1,8 @@
 # Sesión 4. Comunicación entre procesos utilizando cauces
 ## Ejercicio 1: Trabajo con cauces con nombre
-> Consulte en el manual las llamadas al sistema para la creación de archivos especiales en general (mknod) y la específica para archivos FIFO (mkfifo). Pruebe a ejecutar el siguiente código correspondiente a dos programas que modelan el problema del productor/consumidor, los cuales utilizan como mecanismo de comunicación un cauce FIFO. Determine en qué orden y manera se han de ejecutar los dos programas para su correcto funcionamiento y cómo queda reflejado en el sistema que estamos utilizando un cauce FIFO. 
+> Consulte en el manual las llamadas al sistema para la creación de archivos especiales en general (mknod) y la específica para archivos FIFO (mkfifo). Pruebe a ejecutar el siguiente código correspondiente a dos programas que modelan el problema del productor/consumidor, los cuales utilizan como mecanismo de comunicación un cauce FIFO. Determine en qué orden y manera se han de ejecutar los dos programas para su correcto funcionamiento y cómo queda reflejado en el sistema que estamos utilizando un cauce FIFO.
 
-Primero, necesitamos compilar y ejecutar ambos archivos. Es recomendable abrirlos con dos terminales, una al lado de otra. Primero, ejecutaremos `consumidorFIFO`. Este se quedará esperando al otro programa, `productorFIFO`. Cuando abramos el segundo con un pequeño mensajillo como segundo parámetro, podemos ver que aparece en la otra terminal. 
+Primero, necesitamos compilar y ejecutar ambos archivos. Es recomendable abrirlos con dos terminales, una al lado de otra. Primero, ejecutaremos `consumidorFIFO`. Este se quedará esperando al otro programa, `productorFIFO`. Cuando abramos el segundo con un pequeño mensajillo como segundo parámetro, podemos ver que aparece en la otra terminal.
 ```
 |------------------------------------------ | ------------------------------------------|
 |--------------- Terminal 1 --------------- | --------------- Terminal 2 ---------------|
@@ -12,7 +12,7 @@ Primero, necesitamos compilar y ejecutar ambos archivos. Es recomendable abrirlo
 |                                           |                                           |
 |                                           |  $ ./productorFIFO tralalara-larita       |
 | Mensaje recibido: tralalara-larita        |                                           |
-|------------------------------------------ | ------------------------------------------| 
+|------------------------------------------ | ------------------------------------------|
 ```
 Códigos de los programas:
 ```c
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]){
 ```
 
 ## Ejercicio 2: Trabajo con cauces sin nombre
-> Consulte en el manual en línea la llamada al sistema pipe para la creación de cauces sin nombre. Pruebe a ejecutar el siguiente programa que utiliza un cauce sin nombre y describa la función que realiza. 
+> Consulte en el manual en línea la llamada al sistema pipe para la creación de cauces sin nombre. Pruebe a ejecutar el siguiente programa que utiliza un cauce sin nombre y describa la función que realiza.
 
 Un `pipe` es un mecanismo de transmisión de datos entre procesos. Como su nombre indica, es una tubería. Puedes mandar y recibir información:
 ```
@@ -103,8 +103,8 @@ Proceso 1 -> - - - - - - - - -> Proceso 2
              /```````````````\
 ```
 En el grafico de arriba, mostramos cómo proceso 1 manda información al segundo. Sin embargo, tenemos que tener cuidado de que ambos no intenten mandar información a la vez, o se formaría un caos.
-Hablando ya en `C`, abrimos un pipe con la orden `pipe(int [])`. Le pasaremos un array de enteros de tamaño 2. Simbolizaremos la recepción de datos con la posición 0. La escritura/envío será en la posición 1. 
-En el código de tarea6.c, crearemos dos procesos: un hijo y un padre. El hijo cierra el denominado **descriptor** de lectura y escribe en el cauce; y el padre, cierra el de escritura y lee desde la pipe. Por tanto, recibe lo que pasa el hijo. 
+Hablando ya en `C`, abrimos un pipe con la orden `pipe(int [])`. Le pasaremos un array de enteros de tamaño 2. Simbolizaremos la recepción de datos con la posición 0. La escritura/envío será en la posición 1.
+En el código de tarea6.c, crearemos dos procesos: un hijo y un padre. El hijo cierra el denominado **descriptor** de lectura y escribe en el cauce; y el padre, cierra el de escritura y lee desde la pipe. Por tanto, recibe lo que pasa el hijo.
 ~~~c
 /*
 tarea6.c
@@ -147,7 +147,7 @@ int main(int argc, char *argv[]){
 }
 ~~~
 
-## Ejercicio 3 
+## Ejercicio 3
 > Redirigiendo las entradas y salidas estándares de los procesos a los cauces podemos escribir un programa en lenguaje C que permita comunicar órdenes existentes sin necesidad de reprogramarlas, tal como hace el shell (por ejemplo ls | sort). En particular, ejecute el siguiente programa que ilustra la comunicación entre proceso padre e hijo a través de un cauce sin nombre redirigiendo la entrada estándar y la salida estándar del padre y el hijo respectivamente.
 
 El matiz más técnico de este ejercicio es la redefinición de las salidas y entradas. In a nutshell, se modifican las salida y entrada estándar para que se use el cauce
@@ -171,7 +171,7 @@ int main(int argc, char *argv[]){
   pid_t PID;
 
   pipe(fd); // Llamada al sistema para crear un pipe
-  
+
   if ( (PID= fork())<0) {
     perror("fork");
     exit(-1);
@@ -183,34 +183,34 @@ int main(int argc, char *argv[]){
 
     //Cerramos la salida estándar del proceso hijo
     close(STDOUT_FILENO);
-  
+
     //Duplicamos el descriptor de escritura en cauce en el descriptor
     //correspondiente a la salida estándar (stdout)
     dup(fd[1]);
-  
+
     execlp("ls","ls",NULL);
   }
   else { // sort. Estamos en el proceso padre porque PID != 0
-  
+
     //Se establece la dirección del flujo de datos en el cauce cerrando
     // el descriptor de escritura en el cauce del proceso padre.
     close(fd[1]);
-  
+
     //Redirigimos la entrada estándar para tomar los datos del cauce.
     //Cerramos la entrada estándar del proceso padre
     close(STDIN_FILENO);
-  
+
     //Duplicamos el descriptor de lectura de cauce en el descriptor
     //correspondiente a la entrada estándar (stdin)
     dup(fd[0]);
-  
+
     execlp("sort","sort",NULL);
   }
   return(0);
 }
 ```
 
-## Ejercicio 4 
+## Ejercicio 4
 Código del programa:
 ```c
 /*
@@ -263,7 +263,7 @@ int main(int argc, char *argv[]) {
 La única diferencia es el uso de `dup()` vs `dup2()`. Difieren en que dup asigna el descriptor más pequeño disponible; mientras que dup2 te deja elegir el que quieras. Se puede incluso reemplazar uno existente. En este caso, hacemos lo segundo.
 
 ## Ejercicio 5
-Código de maestro.c: 
+Código de maestro.c:
 ```c
 #include<sys/types.h>
 #include<fcntl.h>
@@ -278,10 +278,10 @@ int main(int argc, char *argv[]){
         perror("./maestro minimo maximo");
         exit(-1);
     }
-    
+
     // Apertura de cauces
     int fd1[2], fd2[2];
-    pipe(fd1); 
+    pipe(fd1);
     pipe(fd2);
 
     // Necesarios para imprimir
@@ -306,7 +306,7 @@ int main(int argc, char *argv[]){
     sprintf(maximo1, "%d", maximo1_int);
 
     printf("Números primos en el intervalo [%s, %s]:\n", minimo1, maximo2);
-    
+
     ////////////////////////////////////
     //---------Primer Esclavo---------//
     ////////////////////////////////////
@@ -316,14 +316,14 @@ int main(int argc, char *argv[]){
         close(fd1[0]);
         dup2(fd1[1], STDOUT_FILENO);
 
-        // Ejecutamos el programa y le pasamos el intervalo. Al haber reemplazado 
+        // Ejecutamos el programa y le pasamos el intervalo. Al haber reemplazado
         // la entrada estándar, recibiremos automáticamente los números
         // en el padre, los leeremos
         if (execl("./esclavo", "esclavo", minimo1, maximo1, NULL) < 0){
             perror("No se ha podido abrir el programa");
             exit(-1);
         }
-    } 
+    }
     else { // Padre recibe información
         close(fd1[1]);
 
@@ -336,7 +336,7 @@ int main(int argc, char *argv[]){
     //---------Segundo Esclavo---------//
     /////////////////////////////////////
     esclavo2 = fork();
-    
+
     if (esclavo2 == 0) {
         close(fd2[0]);
         dup2(fd2[1], STDOUT_FILENO);
@@ -345,8 +345,8 @@ int main(int argc, char *argv[]){
             perror("No se ha podido abrir el programa");
             exit(-1);
         }
-    } 
-    else { 
+    }
+    else {
         close(fd2[1]);
 
         while (bytes_leidos2 = read(fd2[0], &valor2, sizeof(int)))
@@ -375,7 +375,7 @@ bool esPrimo(int natural){
     for (int i=2; i <= limite && is_prime; i++)
         if (natural % i == 0)
             is_prime = false;
-    
+
     return is_prime;
 }
 
@@ -383,7 +383,7 @@ int main(int argc, char *argv[]){
     int minimo = atoi(argv[1])
     ,   maximo = atoi(argv[2]);
 
-    for (int i=minimo; i < maximo; i++)
+    for (int i=minimo; i <=maximo; i++)
         if (esPrimo(i))
             write(STDOUT_FILENO, &i, sizeof(int));
 
