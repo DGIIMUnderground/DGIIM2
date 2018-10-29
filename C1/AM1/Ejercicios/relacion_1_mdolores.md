@@ -1,5 +1,33 @@
 # Relación de ejercicios I: Espacios normados. Espacios métricos. Topología de $\mathbb{R}^n$
 
+## Ejercicio 35
+**Prueba que toda sucesión de Cauchy en un espacio métrico que admita una sucesión parcial convergente es convergente**
+
+Sea E un espacio métrico. Hay que demostrar la siguiente implicación:
+$$
+\forall \{x_n\} \subset E \ de \ Cauchy: \exists \{x_{\sigma(n)}\} \ convergente \Rightarrow \{x_n\} \ converge
+$$
+
+#### Demostración:
+Sea $\{x_n\} \subset E$ una sucesión de Cauchy, entonces:
+$$
+\forall \varepsilon > 0 \quad \exists M \in \mathbb{N}: \sigma(n), p > M \Rightarrow d(x_{\sigma(n)}, x_p) < \varepsilon / 2
+$$
+Sea $\{x_{\sigma(n)}\}$ una sucesión parcial convergente de $\{x_n\}$, entonces:
+$$
+\forall \varepsilon > 0 \quad \exists m \in \mathbb{N}: n > m \Rightarrow d(x_{\sigma(n)}, x) < \varepsilon / 2
+$$
+Por la desigualdad triangular:
+$$
+d(x_p, x) \leq d(x_{\sigma(n)}, x_p) + d(x_{\sigma(n)}, x) = \varepsilon / 2 + \varepsilon / 2 = \varepsilon
+$$
+Adecuando la notación, obtenemos:
+$$
+\forall \varepsilon > 0 \exists M \in \mathbb{N}: d(x_p, x) < \varepsilon
+$$
+Por lo cual, $\{x_n\}$ converge. QED
+
+
 ## Ejercicio 36
 **Prueba que todo espacio métrico compacto es completo. Prueba también que en un espacio métrico completo, todo subconjunto cerrado también es completo. ¿Es todo espacio métrico completo un conjunto compacto? Justifica la respuesta.**
 
