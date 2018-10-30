@@ -23,6 +23,25 @@ $$
 $$
 QED.
 
+## Ejercicio 20 
+> Estudiar el límite en (0,0) y su valor, si es que existen
+
+b) $f(x,y) = \frac{x^{3} - x^{2} }{x^{2} + y^{2}}$
+Probemos con límites iterativos primero:
+$$  
+    \lim_{x \to 0}(\lim_{y \to 0}\frac{x^{3} - x^{2} }{x^{2} + y^{2}}) = \\
+    \lim_{x \to 0}(\frac{x^{3} - x^{2} }{x^{2}}) = \\
+    \lim_{x \to 0}(\frac{3x^{2} - 2x }{2x}) = \\
+    \lim_{x \to 0}(\frac{6x - 2 }{2}) = \\
+    -2/2 = -1
+$$
+$$  
+    \lim_{y \to 0}(\lim_{x \to 0}\frac{x^{3} - x^{2} }{x^{2} + y^{2}}) = \\
+    \lim_{y \to 0}(\frac{0}{y^{2}}) = \\ 
+    \lim_{y \to 0}(\frac{0}{2y}) = \\
+    \lim_{y \to 0}(\frac{0}{2})  = 0
+$$
+Por tanto, no tiene límite
 
 ## Ejercico 23
 **Prueba que todo compacto no vacío de $\mathbb{R}$ tiene máximo y mínimo**
