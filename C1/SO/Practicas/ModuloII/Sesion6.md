@@ -76,7 +76,13 @@ int main(int argc, char ** argv){
 > Reescribir el programa que implemente un encauzamiento de dos órdenes pero utilizando fcntl. Este programa admitirá tres argumentos. El primer argumento y el tercero serán dos órdenes de Linux. El segundo argumento será el carácter “|”. El programa deberá ahora hacer la redirección de la salida de la orden indicada por el primer argumento hacia el cauce, y redireccionar la entrada estándar de la segunda orden desde el cauce. Por ejemplo, para simular el encauzamiento ls|sort, ejecutaríamos nuestro programa como:
 $> ./mi_programa2 ls “|” sort
 
-Ejecutaremos el programa de la forma `./Programa orden "|" archivo`.
+Ejecutaremos el programa de la forma `./Programa orden1 "|" orden2`.
+
+Un ejemplo de uso sería:
+```
+./Ej2 ls "|" sort
+```
+
 
 ```c
 #include <stdio.h>
