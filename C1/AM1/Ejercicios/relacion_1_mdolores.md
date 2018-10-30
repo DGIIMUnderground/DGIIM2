@@ -127,8 +127,12 @@ Por lo cual, $\{x_n\}$ converge. QED
 **Prueba que todo espacio métrico compacto es completo. Prueba también que en un espacio métrico completo, todo subconjunto cerrado también es completo. ¿Es todo espacio métrico completo un conjunto compacto? Justifica la respuesta.**
 
 ### E espacio métrico compacto $\Rightarrow$ E espacio completo
+
 Esta implicación es equivalente, por definición, a esta otra:
 Toda sucesión tiene una parcial convergente $\Rightarrow$ Toda sucesión de Cauchy es convergente
+
+> Observación: podemos demostrar esto gracias al resultado anterior.
+Si todas las sucesiones admiten parciales convergentes, en particular las admitirán las sucesiones de Cauchy y, usando el ejercicio 35, obtenemos que estas últimas serán convergentes.
 
 #### Demostración
 Sea $\{x_n\} \in E$ una sucesión de Cauchy, entonces, por definición:
