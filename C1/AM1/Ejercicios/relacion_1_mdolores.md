@@ -33,7 +33,8 @@ Utilizo la proposición de la página 43 de R. Payá:
 
 Sea $A \in \mathbb{R}$ un conjunto compacto, luego $A$ es cerrado y acotado.
 Por ser $A$ acotado: $\exists sup(A)$ y $\exists ínf(A)$
-Por ser $A$ cerrado:
+Por ser $A$ cerrado, contiene a los límite de todas las sucesiones de puntos de $A$ que sean convergentes. Como ínfimo y supremo son límites de al menos dos de ellas, se tendrá:
+
 $$
 sup(A) \in A \Rightarrow \exists máx(A) = sup(A) \\
 ínf(A) \in A \Rightarrow \exists mín(A) = ínf(A)
