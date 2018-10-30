@@ -11,20 +11,21 @@ set <int> uniones (set <int> aa, set <int> bb){
 	set <int> ::iterator itb;
 	set <int> c;
 	c = aa;
+	
 	for (ita = aa.begin(); ita != aa.end(); ++ita)
 		for (itb = bb.begin(); itb != bb.end(); ++itb)
 			if (*itb != *ita)
 				c.insert(*itb);
 	return c;
-
 }
 
 set <int> intersecciones (set <int> aa, set <int> bb){
-	set <int> ::iterator ita;
-	set <int> ::iterator itb;
 	set <int> c;
-	for (ita = aa.begin(); ita != aa.end(); ++ita)
-		for (itb = bb.begin(); itb != bb.end(); ++itb)
+	
+	// Ejemplo de uso de la palabra auto. Equivale, en este caso, a set<ing>::iterator
+	//   vvvv
+	for (auto ita = aa.begin(); ita != aa.end(); ++ita)
+		for (auto itb = bb.begin(); itb != bb.end(); ++itb)
 			if (*ita == *itb)
 				c.insert(*itb);
 	return c;
@@ -68,11 +69,10 @@ int main(){
 	c.insert(3);
 
 	cout << "Mi conjunto con less: " << endl;
-	set <int, less <int> > ::iterator ittt;
+	set <int, less <int> >::iterator ittt;
 	for (ittt = c.begin(); ittt != c.end(); ittt++){
 		cout << " " << *ittt;
 	}
 	cout << endl;
-
 }
 

@@ -1,12 +1,11 @@
 // Ejemplo de funciones de unión e intersección usando el tipo set.
 // By Mapachana
-
 #include <iostream>
 #include <set>
 
 using namespace std;
 
-// ¡Ojo: Las palabras union e interseccion estan reservadas y no se pueden usar.
+// ¡Ojo: la palabra union está reservada!
 
 set <int> uniones (set <int> aa, set <int> bb){
 	set <int> ::iterator ita;
