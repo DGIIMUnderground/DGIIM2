@@ -1,4 +1,37 @@
 # Sesión 6
+##### Función fcntl
+```c
+fcntl(int descriptor, int orden, parámetros_orden )
+//                                ^^^^^^^^^^^^^
+// Si los requiriera, se pueden especificar en el tercer argumento. Es opcional
+```
+
+fcntl == file control
+`orden` puede adquirir los valores...
+- F_GETFL == get flags
+- F_SETFL == set flags
+- F_SETFD => el próximo hijo cerrará el descriptor
+- F_GETFD => Recibe el estado de la bandera "close on exec"
+- F_DUPFD => duplicate file descriptor
+Bloqueos
+- F_SETLK  => set lock
+- F_SETLKW => set lock and wait
+- F_GETLK  => get lock
+
+##### Estructura flock
+Parámetro más importante: `l_type`. Adquiere los valores {F_RDLCK, F_WRLCK, F_UNLCK} (lectura, escritura y desbloquear)
+
+Ejemplo de uso con fcntl:
+```c
+struct flock mi_bloqueo.l_type = F_WRLCK
+
+fcntl(fd, orden, &mi_bloqueo);
+//       ^^^^^^^
+// orden ∊ {F_SETLK, F_SETLKW, F_GETLK} 
+```
+
+---
+
 ## Ejercicio 1
 > Implementa un programa que admita t argumentos. El primer argumento será unaorden de Linux; el segundo, uno de los siguientes caracteres “<” o “>”, y el tercero el nombre de un archivo (que puede existir o no). El programa ejecutará la orden que se especifica como argumento primero e implementará la redirección especificada por el segundo argumento hacia el archivo indicado en el tercer argumento
 
@@ -68,13 +101,13 @@ int main(int argc, char ** argv){
     exit(EXIT_FAILURE);
 	}
 }
-
 ```
-
 
 ## Ejercicio 2
 > Reescribir el programa que implemente un encauzamiento de dos órdenes pero utilizando fcntl. Este programa admitirá tres argumentos. El primer argumento y el tercero serán dos órdenes de Linux. El segundo argumento será el carácter “|”. El programa deberá ahora hacer la redirección de la salida de la orden indicada por el primer argumento hacia el cauce, y redireccionar la entrada estándar de la segunda orden desde el cauce. Por ejemplo, para simular el encauzamiento ls|sort, ejecutaríamos nuestro programa como:
 $> ./mi_programa2 ls “|” sort
+
+*Nota: La profesora no ha especificado si debemos usar dup o fcntl en el examen. Lo dejo aquí como registro. Luego lo borramos -Andrés*
 
 Ejecutaremos el programa de la forma `./Programa orden1 "|" orden2`.
 
@@ -164,3 +197,8 @@ int main (int argc, char * argv[]){
 }
 
 ```
+## Ejercicio 3
+
+## Ejercicio 4
+
+## Ejercicio 5
