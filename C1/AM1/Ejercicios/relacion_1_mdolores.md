@@ -1,5 +1,28 @@
 # Relación de ejercicios I: Espacios normados. Espacios métricos. Topología de $\mathbb{R}^n$
 
+## Ejercicio 14
+**Prueba que en todo espacio métrico $(E, d)$ la distancia es una función continua, esto es:**
+$$
+x_n, y_n \in E, \forall n \in \mathbb{N}, x, y \in E, \{x_n\} \rightarrow x, \{y_n\} \rightarrow y \Rightarrow \{d(x_n, y_n)\} \rightarrow d(x, y)
+$$
+
+### Demostración:
+Sean $\{x_n\}$ e $\{y_n\}$ sucesiones que cumplen la hipótesis. Entonces:
+$$
+\forall \varepsilon > 0 \quad \exists m_1 \in \N: n > m \Rightarrow d(x_n, x) < \varepsilon / 2 \\
+\forall \varepsilon > 0 \quad \exists m_2 \in \N: n > m \Rightarrow d(x_n, x) < \varepsilon / 2
+$$
+
+Tomando $n > máx\{m_1, m_2\}$ y aplicando la desigualdad triangular resulta:
+$$
+\forall \varepsilon > 0 \quad d(x_n, y_n) \leq d(x_n, x) + d(x, y) + d(y, y_n) < \varepsilon / 2 + d(x, y) + \varepsilon / 2 = \varepsilon + d(x, y) \\
+$$
+Equivalentemente:
+$$
+(\forall \varepsilon > 0 \exists m \in \N: n > m \Rightarrow d(x_n, y_n) - d(x, y) < \varepsilon) \Leftrightarrow \{d(x_n, y_n)\} \rightarrow d(x, y)
+$$
+QED.
+
 ## Ejercicio 24
 **Prueba que todo espacio métrico finito es compacto. En caso de que se considere la distancia discreta en un conjunto no vacío E, prueba que todo subconjunto compacto de E es finito.**
 
