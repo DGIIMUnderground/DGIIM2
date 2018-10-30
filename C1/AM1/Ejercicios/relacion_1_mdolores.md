@@ -25,7 +25,7 @@ QED.
 
 
 ## Ejercico 23
-**Prueba que todo compacto no vacío de \mathbb{R} tiene máximo y mínimo**
+**Prueba que todo compacto no vacío de $\mathbb{R}$ tiene máximo y mínimo**
 
 ### Demostración
 Utilizo la proposición de la página 43 de R. Payá:
