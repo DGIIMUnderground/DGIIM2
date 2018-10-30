@@ -23,6 +23,22 @@ $$
 $$
 QED.
 
+
+## Ejercico 23
+**Prueba que todo compacto no vacío de \mathbb{R} tiene máximo y mínimo**
+
+### Demostración
+Utilizo la proposición de la página 43 de R. Payá:
+> Un subconjunto de $\mathbb{R}^n$ es compacto si, y sólo si, es cerrado y acotado.
+
+Sea $A \in \mathbb{R}$ un conjunto compacto, luego $A$ es cerrado y acotado.
+Por ser $A$ acotado: $\exists sup(A)$ y $\exists ínf(A)$
+Por ser $A$ cerrado:
+$$
+sup(A) \in A \Rightarrow \exists máx(A) = sup(A) \\
+ínf(A) \in A \Rightarrow \exists mín(A) = ínf(A)
+$$
+
 ## Ejercicio 24
 **Prueba que todo espacio métrico finito es compacto. En caso de que se considere la distancia discreta en un conjunto no vacío E, prueba que todo subconjunto compacto de E es finito.**
 
