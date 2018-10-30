@@ -9,8 +9,8 @@ $$
 ### Demostración:
 Sean $\{x_n\}$ e $\{y_n\}$ sucesiones que cumplen la hipótesis. Entonces:
 $$
-\forall \varepsilon > 0 \quad \exists m_1 \in \N: n > m \Rightarrow d(x_n, x) < \varepsilon / 2 \\
-\forall \varepsilon > 0 \quad \exists m_2 \in \N: n > m \Rightarrow d(x_n, x) < \varepsilon / 2
+\forall \varepsilon > 0 \quad \exists m_1 \in \mathbb{N}: n > m \Rightarrow d(x_n, x) < \varepsilon / 2 \\
+\forall \varepsilon > 0 \quad \exists m_2 \in \mathbb{N}: n > m \Rightarrow d(x_n, x) < \varepsilon / 2
 $$
 
 Tomando $n > máx\{m_1, m_2\}$ y aplicando la desigualdad triangular resulta:
@@ -19,7 +19,7 @@ $$
 $$
 Equivalentemente:
 $$
-(\forall \varepsilon > 0 \exists m \in \N: n > m \Rightarrow d(x_n, y_n) - d(x, y) < \varepsilon) \Leftrightarrow \{d(x_n, y_n)\} \rightarrow d(x, y)
+(\forall \varepsilon > 0 \exists m \in \mathbb{N}: n > m \Rightarrow d(x_n, y_n) - d(x, y) < \varepsilon) \Leftrightarrow \{d(x_n, y_n)\} \rightarrow d(x, y)
 $$
 QED.
 
