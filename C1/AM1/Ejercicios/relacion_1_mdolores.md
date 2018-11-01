@@ -65,7 +65,7 @@ $$
 ### E finito $\Rightarrow$ E compacto. Demostración:
 Sea $E = \{t_1, ..., t_n\}$ un espacio finito y $\{x_n\}$ una sucesión de elementos de $E$.
 
-Sea $A = \{A_1, ..., A_n\}$, siendo cada $A_i$ un conjunto de ínidces definido como: $A_i = \{n \in \mathbb{N}: x_n = t_i\}$.
+Sea $A = \{A_1, ..., A_n\}$, siendo cada $A_i$ un conjunto de índices definido como: $A_i = \{n \in \mathbb{N}: x_n = t_i\}$.
 
 Veamos que $\mathbb{N} = \cup_{i = 1}^{n} A_i$
 - $\subseteq$: Sea $m \in \mathbb{N}$. Es claro que existe $x_m$ y como $\{x_n\} \subset E$ necesariamente $x_m = t_k$ para algún $k \in \{1, ..., n\}$, luego $m \in A_k \subseteq \cup_{i = 1}^{n} A_i$
