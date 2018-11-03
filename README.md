@@ -1,6 +1,6 @@
 # DGIIM2
 
-Repositorio de apuntes para el segundo curso del Doble Grado de Ingeniería Informática y Matemáticas.
+Repositorio de apuntes para el segundo curso del Doble Grado en Ingeniería Informática y Matemáticas de la Universidad de Granada.
 
 ## LICENSE
 
