@@ -6,7 +6,7 @@ A continuación se muestran algunas funciones para el tipo `set`, junto con la e
 
 ## Unión de dos conjuntos `set`
 
-~~~c++
+```c++
 #include<set>
 using namespace std;
 
@@ -16,7 +16,7 @@ set<int> union_set(const set<int> & a, const set<int> & b) {
 		result.insert(*it);
 	return result;
 }
-~~~
+```
 
 ##### Explicación
 
@@ -26,7 +26,7 @@ Basta apreciar que la función `insert` evita repeticiones. Así, partimos de un
 
 ## Intersección de dos conjuntos `set`
 
-~~~c++
+```c++
 #include<set>
 using namespace std;
 
@@ -37,7 +37,7 @@ set<int> inter_set(const set<int> & a, const set<int> & b) {
 			result.insert(*it);
 	return result;
 }
-~~~
+```
 
 ##### Explicación
 
@@ -47,7 +47,7 @@ La función `find` devuelve un iterador apuntando al elemento en caso de encontr
 
 ## Complemento de dos conjuntos `set`
 
-~~~c++
+```c++
 #include<set>
 using namespace std;
 
@@ -59,7 +59,7 @@ set<int> compl_set(const set<int> & a, const set<int> & b) {
 			result.insert(*it);
 	return result;
 }
-~~~
+```
 
 ##### Explicación
 
