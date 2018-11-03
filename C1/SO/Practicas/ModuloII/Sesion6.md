@@ -138,7 +138,7 @@ int main (int argc, char * argv[]){
   }
 
   if (strcmp ("|", argv[2]) != 0){
-    printf("Error en el argumento\n");
+    printf("Error en los argumentos\n");
     exit(EXIT_FAILURE);
   }
 
@@ -198,7 +198,186 @@ int main (int argc, char * argv[]){
 
 ```
 ## Ejercicio 3
+> Construir un programa que verifique que, efectivamente, el kernel comprueba quepuede darse una situación de interbloqueo en el bloqueo de archivos
+
+Código del programa: 
+```c
+#include <stdio.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
+int main (int argc, char * argv[])
+{
+    struct flock cerrojo;   //estructura del cerrojo
+    int i,fd;               //descriptor de archivo
+    char basura[5];
+    
+    for( i=1; i<argc; i++) {
+        if ((fd=open(argv[i], O_RDWR)) == -1 ) {//abrimos el archivo para escritura
+            perror("open fallo");
+            continue;
+        }
+		//creamos la estructura del cerrojo
+        cerrojo.l_type=F_WRLCK;    //cerrojo para escritura
+        cerrojo.l_whence=SEEK_SET;
+        cerrojo.l_start=0;	       //archivo completo
+        cerrojo.l_len=0;	  
+
+        /* intentamos un bloqueo de escritura del archivo completo */
+        if((fcntl (fd, F_SETLKW, &cerrojo) )== -1) {
+            if(errno==EDEADLK)
+                printf("ha detectado interbloqeo EDEADLK\n");
+
+        }
+        printf ("cerrojo puesto sobre el archivo %s\n",argv[i]);
+        printf ("pulse cualquier tecla\n");
+        
+        scanf("%s",basura);
+
+        sleep(1); //hacemos sleep para ver apreciar con mas detalle.
+
+        /*  no desbloqueamos
+         cerrojo.l_type=F_UNLCK;
+         cerrojo.l_whence=SEEK_SET;
+         cerrojo.l_start=0;
+         cerrojo.l_len=0;
+         if (fcntl (fd, F_SETLKW, &cerrojo) == -1) perror ("Desbloqueo");
+        */
+    }
+    return 0;
+}
+```
 
 ## Ejercicio 4
+> Construir un programa que se asegure que solo hay una instancia de él enejecución en un momento dado. El programa, una vez que ha establecido el mecanismo paraasegurar que solo una instancia se ejecuta, entrará en un bucle infinito que nos permitirácomprobar que no podemos lanzar más ejecuciones del mismo. En la construcción del mismo,deberemos asegurarnos de que el archivo a bloquear no contiene inicialmente nada escrito enuna ejecución anterior que pudo quedar por una caída del sistema.
 
+De la forma en la que yo lo he hecho, no hace falta comprobar que se ha escrito algo. En cada ejecución, se abre y se bloquea sin escribir nada. Cuando termina, se desbloquea y sale
+
+Código del programa:
+```c
+#include <stdio.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
+int main (int argc, char * argv[])
+{
+    struct flock cerrojo;
+    int fd; 
+    
+    // Este archivo será el que usemos para comprobar bloqueos
+    //           vvvvvvvvvvvvvvvvvvvvv
+    if ((fd=open("./peaso_demonio.pid", O_RDWR | O_CREAT)) == -1 ) {//abrimos el archivo para escritura
+        perror("Error al crear el archivo temporal");
+        return 1;
+    }
+    //creamos la estructura del cerrojo
+    cerrojo.l_type=F_WRLCK;    //cerrojo para escritura
+    cerrojo.l_whence=SEEK_SET;
+    cerrojo.l_start=0;	       //archivo completo
+    cerrojo.l_len=0;	  
+
+    // Comprobamos que no está activo el archivo
+    if((fcntl (fd, F_SETLK, &cerrojo) )== -1) {
+        printf("Se ha detectado otra instancia en ejecución. Cerrando...\n");
+        sleep(1);
+        return 1;
+    }
+    
+    // printf as fast as possible
+    setvbuf(stdout,NULL,_IONBF,0);
+    
+    printf("El programa se estará ejecutando durante 15 segundos. Intenta abrir otra instancia");
+    sleep(15);
+
+    // Tras los 15 segundos, procedemos a desbloquear
+    cerrojo.l_type=F_UNLCK;
+    cerrojo.l_whence=SEEK_SET;
+    cerrojo.l_start=0;
+    cerrojo.l_len=0;
+
+    if (fcntl (fd, F_SETLKW, &cerrojo) == -1) 
+        perror ("Error al desbloquear");
+    
+    return 0;
+}
+```
 ## Ejercicio 5
+> Escribir un programa, similar a la ordencp, que utilice para su implementación la llamada al sistema mmap() y una función de C que nos permite  copiar memoria, como, por ejemplo memcpy(). Para conocer el tamaño del archivo origen podemos utilizar stat()y para establecer el tamaño del archivo destino se puede usar ftruncate()
+Código del programa:
+```c
+#include<sys/types.h>  
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+#include<errno.h>
+#include <unistd.h>
+#include <sys/mman.h>
+
+int main(int argc, char *argv[]) {
+    struct stat atributos;      //estructura de los atributos de archivos
+    int fd1;                    //descriptor de archivo del primer archivo
+    int fd2;                    //descriptor de archivo del segundo archivo
+    int tamano;                   //ambos archivos tiene el mismo tamaño
+    
+    char *memoria1,*memoria2;
+    umask(0);
+    
+    if (argc<3) {
+        printf("Falta de argumentos\n");
+        return 1;
+    }
+
+    if ((fd1=open(argv[1],O_RDONLY, S_IRWXU))<0) {//abierto solo para lectura
+        printf("\nError %d en open",errno);
+        exit(-1);
+    }
+
+    umask(0);
+
+    if ((fd2=open(argv[2],O_CREAT|O_RDWR,S_IRWXU))<0) {//abierto para escritura.
+        printf("\nError %d en open",errno);
+        exit(-1);
+    }
+    if (stat(argv[1],&atributos) < 0) // Adquirimos los atributos del archivo
+        printf("\nError al intentar acceder a los atributos de %s",argv[1]);
+    
+    tamano = atributos.st_size;    //igualamos tamano al tamaño del archivo abierto para lectura
+
+	//gestionamos la memoria para el segundo archivo abierto para escritura
+    printf ("Ajustando el tamano archivo %s a %d \n",argv[2],tamano);
+    ftruncate(fd2, tamano);      //trunca el tamaño de fd a i. i>tamano => rellena con NULL
+
+	//abrimos la proyeccion del primer archivo para lectura, de forma compartida
+    memoria1 = (char *)mmap(0, tamano, PROT_READ, MAP_SHARED, fd1, 0);
+    if (memoria1 == MAP_FAILED) {       //retorna en memoria la direccion principal de la proyeccion
+        perror("Fallo la proyeccion1"); //si fallo devuelve MAP_FAILED
+        exit(-1);
+    }
+
+	//abrimos la proyeccion del segundo archivo para escritura, de forma compartida
+    memoria2 = (char *)mmap(0, tamano,PROT_WRITE, MAP_SHARED, fd2, 0);
+    if (memoria2 == MAP_FAILED) {//retorna en memoria la direccion principal de la proyeccion
+        perror("Fallo la proyeccion2");//si fallo devuelve MAP_FAILED
+        exit(-1);
+    }
+
+	//copiamos los archivos a traves de memoria
+    printf ("Copiando del archivo %s al archivo %s\n",argv[1],argv[2]);
+    memcpy(memoria2,memoria1,tamano);
+
+    if (munmap (memoria1, tamano) == -1) {    //cerrar la proyeccion.
+        printf("Error al cerrar la proyeccion \n");
+        exit(-1);
+    }
+    if (munmap (memoria2, tamano) == -1) {    //cerrar la proyeccion.
+        printf("Error al cerrar la proyeccion \n");
+        exit(-1);
+    }
+     return 0;
+
+}
+```
