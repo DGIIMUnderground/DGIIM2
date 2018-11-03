@@ -1,81 +1,74 @@
-// Ejemplo de funciones de unión e intersección usando el tipo set.
-// By Mapachana
+//By Mapachana
+
 #include <iostream>
 #include <set>
 
 using namespace std;
 
-// ¡Ojo: la palabra union está reservada!
+//Unión de dos conjuntos
+set<int> miunion(set<int> a, set<int> b){
+    set<int> resultado = a;
+    set<int>::iterator itb;
+    for (itb = b.begin(); itb != b.end(); ++itb)
+        if (a.find(*itb) == a.end())
+            resultado.insert(*itb);
 
-set <int> uniones (set <int> aa, set <int> bb){
-	set <int> ::iterator ita;
-	set <int> ::iterator itb;
-	set <int> c;
-	c = aa;
-	for (ita = aa.begin(); ita != aa.end(); ++ita)
-		for (itb = bb.begin(); itb != bb.end(); ++itb)
-			if (*itb != *ita)
-				c.insert(*itb);
-	return c;
-
+    return resultado;
 }
 
-set <int> intersecciones (set <int> aa, set <int> bb){
-	set <int> ::iterator ita;
-	set <int> ::iterator itb;
-	set <int> c;
-	for (ita = aa.begin(); ita != aa.end(); ++ita)
-		for (itb = bb.begin(); itb != bb.end(); ++itb)
-			if (*ita == *itb)
-				c.insert(*itb);
-	return c;
+//Intersección de dos conjuntos
+set<int> miinterseccion(set<int> a, set<int> b){
+    set<int> resultado;
+    set<int>::iterator ita;
+    for (ita = a.begin(); ita != a.end(); ++ita)
+        if (b.find(*ita) != b.end())
+            resultado.insert(*ita);
+
+    return resultado;
 }
 
+//Complementario, a-b: devuelve los elementos de a que no estan en b
+set<int> micomplementario(set<int> a, set<int> b){
+    set<int> resultado;
+    set<int>::iterator ita;
+    for (ita = a.begin(); ita != a.end(); ++ita)
+        if (b.find(*ita) == b.end())
+            resultado.insert(*ita);
+
+    return resultado;
+}
+
+//Sobrecarga del operador de salida para conjuntos
+ostream& operator<<(ostream& os, set<int> a){
+    set<int>::iterator ita;
+    for (ita = a.begin(); ita != a.end(); ++ita)
+        os << *ita << " ";
+    os << endl;
+    return os;
+}
 
 int main(){
-	set <int> a;
-	a.insert(2);
-	a.insert(4);
-	a.insert(5);
-	a.insert(1);
-	a.insert(3);
-	a.insert(9);
+    set<int> a;
+    a.insert(1);
+    a.insert(4);
+    a.insert(2);
+    a.insert(17);
 
-	cout << "Mi conjunto a es:" << endl;
-	set <int> ::iterator it;
-	for (it = a.begin(); it != a.end(); ++it){
-		cout << " " << *it;
-	}
-	cout << endl;
+    set<int> b;
+    b.insert(2);
+    b.insert(1);
+    b.insert(5);
+    b.insert(23);
 
-	set <int> b;
-	b.insert(2);
-	b.insert(4);
-	b.insert(5);
-	b.insert(1);
-	b.insert(3);
-	b.insert(10);
-
-	cout << "Mi conjunto b es:" << endl;
-	set <int> ::iterator itt;
-	for (itt = b.begin(); itt != b.end(); ++itt){
-		cout << " " << *itt;
-	}
-	cout << endl;
-
-	cout << "Union de a y b:" << endl;
-	set <int > c = uniones(a,b);
-	set <int> ::iterator ittt;
-	for (ittt = c.begin(); ittt != c.end(); ++ittt){
-		cout << " " << *ittt;
-	}
-	cout << endl;
-
-	cout << "Interseccion de a y b:" << endl;
-	set <int> d = intersecciones(a,b);
-	set <int> ::iterator itttt;
-	for (itttt = d.begin(); itttt != d.end(); ++itttt)
-		cout << " " << *itttt;
-	cout << endl;
+    cout << "Conjunto a:" << endl;
+    cout << a << endl;
+    cout << "Conjunto b:" << endl;
+    cout << b << endl;
+    cout << "Union de a y b:" << endl;
+    cout << miunion(a,b) << endl;
+    cout << "Interseccion de a y b:" << endl;
+    cout << miinterseccion(a,b) << endl;
+    cout << "Elementos que estan en a y no en b:" << endl;
+    cout << micomplementario(a,b) << endl;
 
 }
