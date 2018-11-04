@@ -30,7 +30,7 @@ int main(int argc, char * argv[]){
 	// Creo dos set de nombres
 	name1.insert(str1.begin(), str1.end());
 	name2.insert(str2.begin(), str2.end());
-	
+
 	// Creo la union e interseccion
 	set<char> setunion = makeunion(name1, name2);
 	set<char> setintersection = makeintersection(name1, name2);
