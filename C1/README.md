@@ -4,7 +4,7 @@
 
 Siglas  | Nombre
   ---   |   ---
-ALG1    |  Álgebra I
+ALG1    | Álgebra I
 AM1     | Análisis Matemático I
 EC      | Estructura de Computadores
 ED      | Estructura de Datos
