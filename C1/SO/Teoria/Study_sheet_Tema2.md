@@ -271,14 +271,14 @@ struct task_struct {
 
 ### 2.3.5. Sobre la expropiación en modo usuario
 
-### 2.3.7. Actuación de schedule
+### 2.3.7. Resumen sobre la invocación al planificador principal
+
+### 2.3.8. Actuación de schedule
 - Actualiza estadísticas y limpia el flag TIF_NEED_RESCHED.
 - Si el proceso actual estaba en un estado TASK_UNINTERRUPTIBLE y ha recibido la señal que esperaba, se establece su estado a TASK_RUNNING.
 - Recorre las clases de planificación de mayor a menor prioridad, seleccionando la clase de planificación de más alta prioridad que no esté vacía.
 - Llama al procedimiento particular de dicha clase de planificación encargado de seleccionar el siguiente proceso a ejecutar.
 - Si hay cambio en la asignación de la CPU, se realiza el cambio de contexto llamando a context_swich
-
-### 2.3.8. Resumen sobre la invocación al planificador principal
 
 ### 2.3.9. Cambio de contexto
 
