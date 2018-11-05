@@ -1,5 +1,5 @@
 # Tema 2
-## Generalidades
+## 2.1 Generalidades
 - **Ejecución de procesos de usuario**
   - Proceso en modo privilegiado => se ejecuta código del SO
   - Pila de núcleo para cada proceso: manejar llamadas/retornos al/del modo núcleo
@@ -123,7 +123,7 @@ Explicados en la parte superior. Aquí solo se recoge su nombre y lo que signifi
 ## Tema 2.2: Diseño en implementación de procesos en Linux
 
 ### 2.2.1. Representación de los procesos
-
+Estructura `task_struct`
 ### 2.2.2. Estado de un proceso
 
 ### 2.2.3. Estructura interna de un proceso Linux
@@ -279,7 +279,7 @@ struct task_struct {
 
 ### 2.3.10. La clase de planificación CFS (Completly Fair Scheduler)
 
-##2.3.11. Implementación de CFS en Linux 2.6.24
+### 2.3.11. Implementación de CFS en Linux 2.6.24
 
 ### 2.3.12. La clase de planificación de tiempo real
 

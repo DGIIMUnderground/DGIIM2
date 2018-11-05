@@ -3,5 +3,5 @@ Dentro de esta carpeta puedes encontrar los siguientes archivos:
 
 | Nombre del archivo | Detalles |
 | --- | --- |
-| *parcial_1* | Apuntes para el primer parcial |
-| *parcial_2* | Apuntes el segundo parcial |
+| *Study sheet i* | Guías de estudio para el tema i |
+| *Tema i* | Apuntes redactados para el tema i |
