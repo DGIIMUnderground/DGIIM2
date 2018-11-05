@@ -11,8 +11,37 @@
 ## 2.2.5. El árbol de procesos
 
 ## 2.2.6. Hebras kernel
+- Las crea el kernel mediante una llamada a clone
+- Para realizar operaciones en segundo plano
+- No tienen espacio de direcciones
 
 ## 2.2.7. Ejecutando llamadas al sistema para gestión de procesos
+### Funciones para la creación de procesos
+|Llamada al sistema|Función de entrada|
+|---|---|
+|fork|sys_fork|
+|vfork|sys_vfork|
+|clone|sys_clone|
+
+<u> Características de estas funciones: </u>
+  - Implementación dependiente de la arquitectura
+  - Extraen información suministrada en el espacio de usuario (parámetros de la llamada) e invocan a la función do_fork (independiente de la arquitectura)
+
+### Pasos para la creación de procesos
+- Se transfiere el control a la función `do_fork` del kernel
+- Dicha fución llama a la función `copy_process`, que realiza en sí la creación del nuevo proceso__
+- `do_fork` hace posible que el nuevo hijo se ejecute
+
+#### Actuación de `copy_process`
+1. Se crea una nueva pila kernel, la estructura thread_info y la task_struct del nuevo proceso con los valores de la tarea actual.
+2. Para los elementos de task_struct del hijo que daban tener valores distintos a los del padre, se les dan los valores iniciales correctos.
+3. Se establece el estado del hijo a TASK_UNINTERRUPTIBLE mientrad se realizan las siguientes acciones.
+4. Se establecen valores adecuados para los flags de la task_struct del hijo:
+    - Pone a 0 el flag PF_SUPERPRIV: indica si la tarea usa privilegio de superusuario.
+    - Pone a 1 el flag PF_FORKNOEXEC: indica si el proceso ha hecho fork pero no exec
+5. Se llama a lloc_pid para asignar un PID a la nueva tarea
+6. Según los flags pasados a `clone`, duplica o comparte recursos (archivos, información de sistemas de archivos, espacio de direccionamiento del porceso...)
+7. Devuelve un puntero a la `task_struct` del hijo.
 
 ## 2.2.8. Creación de hebras con clone
 
@@ -49,4 +78,5 @@
 
 ## 2.3.13. Particularidades de SMP
 
+---
 # Tema 2.4: APÉNDICE. Reflexiones
