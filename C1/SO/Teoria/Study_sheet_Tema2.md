@@ -119,6 +119,7 @@ Explicados en la parte superior. Aquí solo se recoge su nombre y lo que signifi
 ---
 - Sobre el concepto de quantum: un algoritmo de planificación que no lo use queda descartado para entornos interactivos.
 
+---
 ## Tema 2.2: Diseño en implementación de procesos en Linux
 
 ### 2.2.1. Representación de los procesos
@@ -150,7 +151,7 @@ Explicados en la parte superior. Aquí solo se recoge su nombre y lo que signifi
 
 #### Pasos para la creación de procesos
 - Se transfiere el control a la función `do_fork` del kernel
-- Dicha fución llama a la función `copy_process`, que realiza en sí la creación del nuevo proceso__
+- Dicha fución llama a la función `copy_process`, que realiza en sí la creación del nuevo proceso.
 - `do_fork` hace posible que el nuevo hijo se ejecute
 
 #### Actuación de `copy_process`
@@ -165,8 +166,19 @@ Explicados en la parte superior. Aquí solo se recoge su nombre y lo que signifi
 7. Devuelve un puntero a la `task_struct` del hijo.
 
 ### 2.2.8. Creación de hebras con clone
+- Función clone:
+`int clone(int (*func) (void *), void *child_stack, int flags, void *func_arg, ...)`
+- Crea un proceso hijo que comienza ejecutando la función `func`, que finaliza cuando retorne la función o realice una llamada `exit`.
+- El tercer argumento son los indicadores de clonación. Se crea una hebra usando: `CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_THREAD | CLONE_SIGHAND`
+  - `CLONE_VM`: padre e hijo comparten el mismo espacio de memoria virtual, es decir, la task_struct de ambos apunta a la mima mn_struct.
+  - `CLONE_FS`: padre e hijo comparten la información relativa al sistema de archivos, es decir, la task_struct de ambos apunta a la misma fs_struct.
+  - `CLONE_FILES`: padre e hijo comparten la misma tabla de descriptores abiertos, es decir, la task_struct de ambos apunta a la misma files_struct.
+  - `CLONE_THREAD`: el hijo es incluido en el mismo grupo de procesos que el padre
+  - `CLONE_SIGHAND`: padre e hijo comparten manejadores de señales, señales pendientes y señales bloqueadas.
 
 ### 2.2.9. Copy-on-Write
+- Con esta técnica, en la creación de un nuevo proceso, inicialmente al hijo no se le asigna un nuevo espacio de memoria, sino que las páginas del padre resultan de entrada compartidas por ambos.
+- Cuando uno de los dos procesos intenta acceder a una página se genera una excepción y se hace una copia de esa página para dicho proceso.
 
 ### 2.2.10. Terminación de procesos
 - Terminación del proceso $\Rightarrow$ el kernel libera sus recursos y notifica al padre su terminación
@@ -199,14 +211,63 @@ Explicados en la parte superior. Aquí solo se recoge su nombre y lo que signifi
 
 ### 2.3.2. Datos en la task_struct para la planificación
 ```c
-int prio, static_prio, normal_prio;
+struct task_struct {
+  ...
+  int prio, static_prio, normal_prio;
+  ...
+}
 ```
+- `static_prio`: prioridad estática o nominal de un proceso. Se le asigna cuando es creado, es modificado por la llamada nice.
+  - Rango de valores:
+    - [0, 99]: procesos de tiempo real
+    - [100, 139]: procesos normales o regulares
+- `normal_prio` y `prio`: prioridades dinámicas del proceso, calculadas a partir de static_prio.
+
+Más cosillas:
+```c
+struct task_struct {
+  ...
+  const struct sched_class * sched_class; // clase de planificación a la que pertenece el proceso
+
+  unsigned int policy; // política de planificación que se aplica al proceso
+  ...
+}
+```
+- `policy` tine los siguientes valores posibles:
+  - Políticas manejadas por el planificador de tiempo real:
+    - SECHD_RR: Round-Robin
+    - SECHD_FIFO: FIFO
+  - Políticas manejadas por le planificador CFS:
+    - SCHED_NORMAL: para procesos normales (frente a los de tiempo real)
+    - SCHED_BACH: tareas menos importantes, gran proporción de   - Rango de valores:
+    - [0, 99]: procesos de tiempo real
+    - [100, 139]: procesos normales o regularesCPU para cálculos. estos procesos nunca pueden desplazar a otros.
+    - SCHED_IDLE: tareas que tienen un peso mínimo para ser elegidas para la asignación de CPU.
 
 ### 2.3.3. El planificador periódico
+- Actualiza las estadísticas del kernel y activa el método de planificación periódico de la clase de planificación a la que corresponde el proceso actual.
+- En caso de tener que replanificar:
+  - Activa el flag TIF_NEED_RESCHED asociado al proceso en su thread_info
+  - El kernel toma una nueva decisión de replanificación cuando sea oportuno
 
-### 2.3.4. Planificador principal: intraducción
+### 2.3.4. Planificador principal: introducción
+- Implementado en la función schedule, invocada en diversos puntos del kernel.
 
-### 2.3.5. Sobre la expropiación en modo privilegiado
+#### Expropiación
+- Se da cuando el SO retira la asignación de la CPU al proceso actual aunque pudiera seguir ejecutándose, cuando decide que hay otro preferente.
+- Si el proceso actual está en un punto intermedio de una llamada al sistema o excepción y el nuevo proceso provoca una llamada al sistema o interrupción tendríamos dos caminos de ejecución dentro del kernel simultáneamente. Esto puede producir comportamiento incorrecto y tiene que ser cuidadosamente gestionado.
+<br>
+- **Kernel expropiativo** o reentrante: se le puede retirar la CPU a un proceso que está ejecutando código kernel. Implementa la protección necesaria para evitar errores.
+- **Kernel no expropiativo** o no reentrante: no se puede quitar la CPU a un proceso que está ejecutando código kernel.
+<br>
+- **Expropiación en modo privilegiado**: acción de retirar la CPU a una tarea que está ejecutando código kernel.
+- **Expropiación en modo usuario**: acción de retirar la CPU a una tarea que está ejecutando código usuario.
+<br>
+- Siempre que se ejecuta una parte del kernel se aprovecha para chequear sobre la asignación de CPU.
+<br>
+- La expropiación se realiza siempre partiendo de modo kernel y según qué esté ejecutando la tarea actual, pasando a modo usuario o kernel
+
+### 2.3.5. Sobre la expropiación en modo privilegiado (kernel)
 
 ### 2.3.5. Sobre la expropiación en modo usuario
 
