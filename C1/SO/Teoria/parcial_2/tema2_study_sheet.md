@@ -48,6 +48,22 @@
 ## 2.2.9. Copy-on-Write
 
 ## 2.2.10. Terminación de procesos
+- Terminación del proceso $\Rightarrow$ el kernel libera sus recursos y notifica al padre su terminación
+- Motivos para la terminación:
+  - Llamada al sistema `exit`
+  - Recibe una señal ante la que tiene la acción preestablecida de terminar
+- Esto lo hace la función `do_exit`
+
+### Funcinamiento de `do_exit`:
+1. Establece el flag PF_EXITING de `task_struct`.
+2. Decrementar el contador de cada recurso que indicar el número de procesos que lo están usando. Si vale 0 se destruye el recurso.
+3. Almacenar el valor que se pasa como argumento a `exit` en el campo `exit_code` de la `task_struct`.
+4. Enviar al padre la señal SIGCHLD indicando la finalización del hijo.
+5. Si el proceso tiene hijso, se pone como padre de éstos al proceso init.
+6. Se estable el campo `exit_state` de la `task_struct` a EXIT_ZOMBIE
+7. Se llama a `schedule` para que el planificador elija un nuevo proceso a ejecutar.
+
+- `do_exit` nunca retorna
 
 ---
 # Tema 2.3: Planificación en Linux
