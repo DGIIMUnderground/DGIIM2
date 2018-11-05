@@ -67,10 +67,19 @@
 
 ---
 # Tema 2.3: Planificación en Linux
+- Algoritmo de planificación: **Prioridades con desplazamiento**
 
 ## 2.3.1. Una visión global de la planificación
+- Planificación modular: diferentes algortimos según tipo de procesos
+- Clases de planificación:
+  - Planificación de tiempo real
+  - Planificación neutra o limpia (CFS: Completly Fair Scheduling)
+  - Planificación de la tarea "idle"
 
 ## 2.3.2. Datos en la task_struct para la planificación
+```c
+int prio, static_prio, normal_prio;
+```
 
 ## 2.3.3. El planificador periódico
 
