@@ -280,9 +280,27 @@ struct task_struct {
 - Llama al procedimiento particular de dicha clase de planificación encargado de seleccionar el siguiente proceso a ejecutar.
 - Si hay cambio en la asignación de la CPU, se realiza el cambio de contexto llamando a context_swich
 
+#### Cuándo se activa el flag TIF_NEED_RESCHED
+- En el planificador periódico
+- En la creación o desbloqueo de un proceso de más alta prioridad que el actual
+
 ### 2.3.9. Cambio de contexto
+- Función `context_swich`: interfaz con los mecanismos de bajo nivel dependientes de la arquitectura para realizar un cambio de contexto.
+- Acciones de `context_swich`:
+  - Llama a `switch_mm`: realiza el cambio del mapa de memoria.
+  - Llama a `switch_to`: realiza el cambio del estado del procesador.
 
 ### 2.3.10. La clase de planificación CFS (Completly Fair Scheduler)
+- Objetivo: asignar CPU a los procesos de una manera equitativa o justa
+
+#### Caso de todos los procesos con la misma prioridad
+- Si el número de procesos es n, cada proceso recibe 1/n del tiempo de CPU
+- **Latencia**: menor tiempo en el que se asegura que todos los procesos han sido elegidos para ejcutarse.
+- Posibilidad: implementar política Round-Robin en que el valor del quantum no es fijo sino que se calcula en función del número total de procesos ejecutables para conseguir un valor de latencia determinado.
+- Menor latencia $\Rightarrow$ mejor reparto del tiempo de CPU pero mayor coste en tiempo de CPU para los cambios de contexto.
+(CONTINÚA)
+
+#### Caso de procesos con distintas prioridades
 
 ### 2.3.11. Implementación de CFS en Linux 2.6.24
 
