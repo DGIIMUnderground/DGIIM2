@@ -17,6 +17,10 @@ Usaremos la función open que devuelve un numero, en este caso fd tiene como arg
   - S_IRUSR
   - S_IWUSR
 
+`fd = open("nombrearchivo", <modoabrir>, <permisossisecrea>)`
+
+`close(int fd)`
+
 Open devuelve un número entero que si es menor que 0 indica que se ha producido un error, por eso las comproobaciones con if.
 
 errno es un entero que viene de la biblioteca errno.h que da el código del error ocurrido.
@@ -29,7 +33,9 @@ Read hace una llamada al sistema para leer de un archivo, y tengo varios argumen
 - arrray con los datos y caracteres a leer.
 - numero de bytes desde el comienzo del array que se desean leer.
 
-Read devuelve el numero de bytes que se han leídoo, por eso podemos comprobar si se haleído correctamente mediante un if, comparando el número que devuelve read con 0.
+`read(int fd, char buf[], int num caracteres)`
+
+Read devuelve el numero de bytes que se han leído, por eso podemos comprobar si se haleído correctamente mediante un if, comparando el número que devuelve read con 0.
 
 ### Escritura de archivos
 
@@ -41,11 +47,15 @@ Write hace una llamada al sistema para escribir en un archivo, y tengo varios ar
 
 - numero de bytes desde el comienzo del array que se desean escribir.
 
+`write(int fd, char buf[], int num caracteres)`
+
 Write devuelve el numero de bytes que se han escrito, por eso podemos comprobar si se ha escrito correctamente mediante un if, comparando el número que devuelve write con el que debería haber escrito.
 
 ### lseek
 
 La posición actual (current_offset) de un archivo abierto puede cambiarse explícitamente utilizando la llamada al sistema _lseek_.
+
+`lseek(fd, int numcaracteres, SEEK_SET)`
 
 ### stat
 
@@ -57,21 +67,66 @@ Además tenemos flags predefinidas como *S_IFREG* que pasandole un _struct stat_
 
 Todas estas flags están en el guión de la práctica páginas 80 y 81.
 
+Además en atributos, una vez cargados los datos (hecho stat) podemos acceder a distintos campos, como:
+
+- ino_t st_ino : Número de inodo de archivo.
+
+- mode_t st_mode : Tipo e archivo donde están también los permisos.
+
+- off_ t st_size : Tamaño total en bytes de archivos regulares.
+
+- uid_t st_uid : UID del usuario propietario.
+
+Hay más, están todas disponibles en la página 82 del guión de prácticas.
+
 ### Macros
 
 Podemos definir macros usando las flags anteriores.
 
 ## Sesión 2: Llamadas al sistema para SA (Parte II)
 
+### umask
+
+La llamada al sistema umask fija la máscara de creación de permisos para el proceso y devuelve el valor previamente establecido. El argumento de la llamada a umask se forma con una combinación or de las 9 constantes de permisos (rwx para ugo).
+
+`mode_t umask(mode_t mask)`
+
+La máscara de permisos se pasa por open al crear un nuevo archivo y su valor por defecto es 022.
+
+Supongamos que creamos un archivo con permisos 666, esto es: 110 110 110. La máscara vale por 022, es decir 000 010 010. Ahora, procedemos a aplicar  la máscara: Se niega bit a bit la máscara, quedando así: 111 101 101 y hacemos un & (and lógico bit a bit) con los permisos con los que se creó el archivo, esto es: 110 110 110 & 111 101 101 = 110 100 100, que es 644, lo que se traduce en rw-r---r--.
+
 ### Gestión de permisos
 
-La llamada al sistema **umask** fija la máscara de permisos para el proceso y devuelve el valor previamente establecido.
-
-En umask se usa como argumento unos números que son combinación de los permisos _rwx_ para _ugo_. Por ejemplo:
-
-Creamos un archivo con mode 0666 y tenemos el valor por defecto de umask a 022, entonces el archivo se crea con permisos 0666 & ~022 = 0644 = rwxr--r--.
-
 La llamada **chmod** trabaja sobre un archivo especificado por su pathname, mientras que la función **fchmod** opera sobre un archivo que ha sido previamente abierto con *open*.
+
+`int chmod(const char *path, mode_t mode)`
+
+`int fchmod(int fd, mode_t mode)`
+
+*NOTA: Se ponen los permisos que se especifiquen tal cuál, para añadir o quitar permisos deberemos añadirlos o quitarlos mediante operaciones lógicas una vez obtenidos estos en una variable (de tipo struct stat y accedemos a ellos con .st_mode), ejemplos:*
+
+```c
+// Cambiamos los permisos, tuviera los que estuviera ahora tiene los que vienen ahí
+if (chmod ("archivo1", S_IRWXU | S_IRGRP | S_IRWGRP | S_IROTH)){
+  perror("Error cambiando los permisos");
+  exit(EXIT_FAILURE);
+}
+// Obtenemos los atributos del archivo
+if (stat("archivo1", &atributos) < 0){ //obtengo atributos y compruebo
+  perror("Error en stat");
+  exit(EXIT_FAILURE);
+}
+// Le quitamos permiso de ejecucion para grupos, ~ niega y hacemos &
+if (chmod("archivo1", (atributos.stmode & ~S_IXGRP)) < 0){
+  perror("Error cambiando los permisos");
+  exit(EXIT_FAILURE);
+}
+// Le añadimos permiso de lectura para usuario
+if (chmod("archivo1", (atributos.st_mode | S_RUSR)) < 0){
+  perror("Error cambiando los permisos");
+  exit(EXIT_FAILURE);
+}
+```
 
 Podemos cambiar los permisos usando instrucciones predefinidas como *S_IRWXU* (usuario con permisos de rwx). Todas estas instrucciones están en el guión en las páginas 85 y 86.
 
@@ -87,11 +142,31 @@ Para manejar los directorios vamos a usar una serie de funciones y tipos de dato
 
 - closedir: Cierra el directrio, si tiene éxito devuelve 0.
 
+`DIR* opendir(char* dirname)`
+
+`struct dirent* readdir(DIR* dirp)`
+
+`int closedir(DIR *dirp)`
+
+Además el struct dirent tiene varios campos importantes, pero los que más son:
+
+- long d_ino : Número inodo.
+
+- char d_name[ 256 \] : Nombre de archivo.
+
+Hacemos referencia a ellos como : midirent -> d_name.
+
 ### nftw()
 
 Esta llamada permite recorrer recursivamente un sub-árbol y realizar algunas operaciones sobre ellos, si necesidad de hacerlo a mano.
 
 `nftw(<directorio>, <funcion>, <nummaximodirectoriosabiertosalavez>, <valorexitositodovabien>`
+
+`int nftw (const char* dir_path, int (*func), int nopenfd, int flags`
+
+Donde la función func tiene estos argumentos:
+
+`int (*func) (const char *pathname, const struct stat *statbuf, int typeflag, struct FTW *ftwbuf)`
 
 ## Sesión 3: Llamadas al sistema para el control de procesos
 
@@ -132,7 +207,7 @@ PID = wait(&estado);
 
 En este caso hemos creado un hijo y hemos esperado a que termine, entonces hemos esperado a que acabe y almacenado el PID del hijo en la variable PID.
 
-waitpid se usa para esperar la finalización de un hijo concreto, especificado en su primer argumento `waitpid(<pidhijo>, &estado, 0)` 
+waitpid se usa para esperar la finalización de un hijo concreto, especificado en su primer argumento `waitpid(pid_t <pidhijo>, &estado, 0)` 
 
 ### exec()
 
@@ -143,6 +218,10 @@ Las llamadas de la familia exec permiten ejecutar un programa distinto al actual
 - execv : Se le pasan los argumentos del programa en un vector.
 
 En ambos casos el último argumento o último componente debe ser NULL.
+
+`int execl (const char *path, const char *arg, ...)`
+
+`int execv (const char *path, char *const argv[])`
 
 ### clone
 
@@ -162,33 +241,13 @@ Por defecto, las señales existentes en POSIX tienen una acción asociada, aunqu
 
 Las señales podemos nombrarlas según su nombre o según un valor entero asociado a cada una de ellas.
 
-> La lista de señales completa está en el guión de práticas en las páginas 122 y 123
-
-Las llamadas al sistema que podemos utilizar para trabajar con señales son:
-
-- kill : Se usa para mandar una señal a un proceso o conjunto de ellos.
-
-  `int kill(pid_t pid, int sig)`
-
-- sigaction : Permite cambiar la acción por defecto ante una señal salvo SIGKILL y SIGSTOP.
-
-  `int sigaction(int signum, const struct sigaction *act, struct sigaction *old_act)`
-
-- sigprocmask : Cambia la lista de señales bloqueadas. 
-
-  `int sigprocmask(int how, const sigset_t *set, sigset_t *oldset)`
-
-- sigpending :  Permite el examen de señales pendientes.
-
-  `int sigpending(sigset_t *set)`
-
-- sigsuspend : Reemplaza la máscara de señal para el proeso con la dada por el argumento mask y suspende el proceso hasta que recibe dicha señal.
-
-  `int sigsuspend(const sigset_t *mask)`
+La lista de señales completa está en el guión de práticas en las páginas 122 y 123
 
 ### kill
 
 La llamada kill se puede utilizar para enviar cualquier señal a un proceso o conjunto de ellos.
+
+`int kill(pid_t pid, int sig)`
 
 - pid : 
 
@@ -205,6 +264,8 @@ La llamada kill se puede utilizar para enviar cualquier señal a un proceso o co
 ### sigaction
 
 La llamada sigaction se emplea para cambiar la acción de un proceso cuando se recibe una determinada señal.
+
+`int sigaction(int signum, const struct sigaction *act, struct sigaction *old_act)`
 
 - signum : Especifica la señal, que puede ser cualquiera salvo SIGKILL y SIGSTOP.
 
@@ -234,13 +295,21 @@ La estructura de datos sigaction cuenta con:
 
   - sigddelset : Elimina una señal del conjunto de señales.
 
+    `int sigemptyset(sigset_t *set)`
+
+    `int sigaddset (sigset_t *set, int signal)`
+
 - sa_flags : 
+
+  - SA_RESTART : Hace que ciertas llamadas al sistema reinicien su ejecución al ser interrumpidas por la recepción de una señal.
 
 > No sé si merece la pena seguir añadiendo a partir de este punto no me suena haber usado nada.
 
 ### sigprocmask
 
 La llamada sigprocmask se emplea para examinar y cambiar la máscara de señales.
+
+`int sigprocmask(int how, const sigset_t *set, sigset_t *oldset)`
 
 - how : Indica el tipo de cambio:
 
@@ -258,15 +327,19 @@ La llamada sigprocmask se emplea para examinar y cambiar la máscara de señales
 
 La llamada sigpending permite examinar el conjunto de señales bloqueadas y/o pendientes de entrega.
 
+`int sigpending(sigset_t *set)`
+
 - set : Puntero al conjunto de señales pendientes.
 
 ### sigsuspend
 
-La llamada sigsuspend reemplaza temporalmente la máscara de señales para el proceso por la dada por el argumento y luego suspende el proceso hasta que se recibe una señal.
+La llamada sigsuspend reemplaza temporalmente la máscara de señales para el proceso por la dada por el argumento y luego suspende el proceso hasta que se recibe una señal que no está en la máscara. Esto es, si en la máscara están todas las señales salvo la señal x el proceso seguirá en suspensión hasta que se le mande la señal x.
+
+`int sigsuspend(const sigset_t *mask)`
 
 - mask : Puntero al nuevo conjunto de señales enmascaradas.
 
-> No olvides que hay que darle un repasillo a este resumen y ordenarlo y poner cada comando en su sitio y no al princnipio como esta ahora. tambien faltan algunas abreviaturas que no em acuerdo donde eran pero faltaban, creo que era en sigaction lo del handler y eso.
+> No olvides que hay que darle un repasillo a este resumen. Faltan algunas abreviaturas que no me acuerdo donde eran pero faltaban, creo que era en sigaction lo del handler y eso, pero ya no estoy segura de si faltaban o al final las puse ya. 
 
 ## Sesión 4: Comunicación entre procesos usando cauces
 
@@ -317,10 +390,10 @@ Donde el argumento orden admite un rango de operaciones a realizar sobre el desc
 - hlfkak
 
 > Mirar y completar en pagina 140
-
+> 
 > DESISTO BUENA SUERTE  ME HE HINCHADO DE HACER APUNTES POR HOY
 
-
+## Cosas extras
 
 ### Concatenar
 
