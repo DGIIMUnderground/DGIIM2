@@ -176,5 +176,3 @@ El subanillo no es vacía y debe contener al uno, pero como es cerrado para la s
 Por tanto veamos que si n pertece al subanillo n+1 también ya que es cerrado para la suma y el 1 pertenece al subanillo.
 
 Por otra parte tenemos que si un pertenece al subanillo su opuesto también pertenecerá, por tanto ya contamos con todos los enteros salvo el cero, lo obtenemos sumando dos opuestos.
-
-Y con esto hemos llegado a que el subanillo debe ser el propio $\mathbb{Z}$ y por tanto no es propio. 
