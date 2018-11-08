@@ -126,6 +126,7 @@ Un ejemplo de uso sería:
 #include <errno.h>
 #include <stdbool.h>
 #include <string.h>
+#include <sys/wait.h>
 
 int main (int argc, char * argv[]){
   char orden1[100], orden2[100];
@@ -174,7 +175,7 @@ int main (int argc, char * argv[]){
   }
   else{
     // Esperamos a que el hijo haya terminado
-    sleep(1);
+	 while( wait(NULL) == -1);
 
     // Establecer la dirección del flujo de datos en el cauce cerrando
     // el descriptor de escritura en el cauce del proceso padre.
