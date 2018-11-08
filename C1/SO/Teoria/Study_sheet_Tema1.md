@@ -2,13 +2,13 @@
 
 > Disclaimer: esto no es un libro. No está diseñado para que se estudie. Su objetivo es proporcionar un listado de términos clave para servir como guía de repaso o estudio
 
-## Tema 1: estructura de Sistemas operativos
+## Tema 1: estructura de sistemas operativos
 
 ### Introducción
 
-- Definición de sistema operativo 
+- Definición de sistema operativo
   - Conveniencia: interfaz máquina - usuario. Servicios
-  - Eficiencia: gestión procesador, memoria, 
+  - Eficiencia: gestión procesador, memoria,
   - Capacidad de evolucionar: actualizaciones
 - Evolución de los SO
   - Procesamiento serial
@@ -79,16 +79,18 @@
     - Poca tolerancia a fallos
 - **Estructura de capas**
   - SO organizado como jerarquía de capas
+  - Una capa i-ésima se apoya en la i-1
 - **Microkernel**
-  - Definición de kernel
+  - Kernel: funciones fundamentales del sistema
     - Cargado en memoria principal
     - Ejecución en modo privilegiado/kernel
     - Alto nivel de inhibición de interrupciones
   - Lo más importante del SO está en el kernel. El resto, implementado en procesos
-  - Solicitudes y respuestas de servicios
+  - Microkernel crea y comunica procesos (cliente-servidor)
   - Ventajas:
     - Mayor tolerancia a fallos y extensibilidad
     - Adaptable a sistemas distribuidos
   - Inconvenientes:
     - Peor rendimiento. Más ejecuciones para resolver un servicio
 
+## Tema 2: procesos e hilos

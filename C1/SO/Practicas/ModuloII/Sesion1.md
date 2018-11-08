@@ -1,6 +1,6 @@
 ## Ejercicio 1
 1. Abre un archivo, y comprueba que ha sido correctamente abierto. Si no se ha conseguido abrir, se cierra
-2. Escribe el contenido del array buff `(abcdefghij)`. Si no se ha conseguido escrbrir, se cierra
+2. Escribe el contenido del array buff `(abcdefghij)`. Si no se ha conseguido escribir, se cierra
 3. Posiciona el cursor en la parte inicial del archivo
 4. Escribe ahora el contenido del segundo array en el archivo. Si no lo ha conseguido, cierra el programa
 5. Finaliza la ejecución
@@ -22,51 +22,45 @@ Implementa un programa que realice la siguiente funcionalidad. El programa acept
 Si no se pasa un argumento al programa se debe utilizar la entrada estándar como archivo de entrada
 
 ```c
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>  	
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <errno.h>
+#include<unistd.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<sys/types.h>  	
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<errno.h>
 #include <string.h>
 
-int main(int argc, char *argv[]){
+int main(int argc, char * argv[]){
     if (argc != 2){
-        printf("Incorrecto número de argumentos");
+        perror("Parámetros equivocados");
+        exit(-1);
     }
 
-    FILE * file_read_pointer  = fopen(argv[1], "r");
-    FILE * file_write_pointer = fopen("salida.txt", "w");
-
-    if ( file_read_pointer == NULL){
+    int fd_in;
+    if ((fd_in=open(argv[1], O_RDONLY,S_IRUSR|S_IWUSR)) < 0){
         perror("Error al abrir el archivo de entrada");
-        exit(EXIT_FAILURE);
+        exit(-1);
     }
 
-    if ( file_write_pointer == NULL){
+    int fd_out;
+    if ((fd_out=open("salida.txt", O_CREAT|O_TRUNC|O_WRONLY,S_IRUSR|S_IWUSR)) < 0){
         perror("Error al abrir el archivo de salida");
-        exit(EXIT_FAILURE);
+        exit(-1);
     }
 
-    int iterador=0;
+    setvbuf(stdout,NULL,_IONBF,0);
+    
     char buffer[80];
-    char ch;
-
-    while ( (ch = fgetc(file_read_pointer)) != EOF){
-        if ( iterador < (80/sizeof(char)) ){
-            fputc(ch, file_write_pointer);
-            iterador++;
-        }
-
-        else if (ch != EOF){
-            fputc('\n', file_write_pointer);
-            iterador = 0;
-        }
+    char mensaje[10];
+    
+    for (int i=1; read(fd_in, buffer, 80) == 80; i++){
+        sprintf(mensaje, "\nBloque %d\n", i);
+        write(fd_out, mensaje, 10);
+        write(fd_out, buffer, 80);
     }
 
-    fclose(file_read_pointer);
-    fclose(file_write_pointer);
+    exit(0);
 }
 ```
 

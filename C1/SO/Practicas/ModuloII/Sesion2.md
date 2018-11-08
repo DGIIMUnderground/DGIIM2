@@ -47,15 +47,14 @@ x
 	return EXIT_SUCCESS;
 }
 ```
-Como en la sesión anterior, se usará `struct stat` para jugar con los permisos de los archivos.
-En primer lugar, se crean dos archivos en el lugar donde se ejecuta el programa. El primero se llama `archivo1`, y el segundo, `archivo2`. Los parámetros de ambos archivos son idénticos. Las 3 primeras flags indican que son de creación (`O_CREAT|O_TRUNC|O_WRONLY`). Las últimas (`S_IRGRP|S_IWGRP|S_IXGRP`) cambian los permisos para el grupo: lectura, escritura y ejecución en caso de que haya creación. 
-Si algo falla, el programa termina.
+Como en la sesión anterior, se usará `struct stat` para jugar con los permisos de los archivos. En primer lugar, se crean dos archivos en el lugar donde se ejecuta el programa. El primero se llama `archivo1`, y el segundo, `archivo2`. Los parámetros de ambos archivos son idénticos, pero entre ambos hay una llamada a `umask` que modifica la máscara y la pone a `000`. Las 3 primeras flags indican que el archivo si no existe se crea y si existe se crea de nuevo y se abre para escritura (`O_CREAT|O_TRUNC|O_WRONLY`). Las últimas (argumento mode de `open`) (`S_IRGRP|S_IWGRP|S_IXGRP`) indican los permisos que intentarán asignar al archivo en caso de creación, depende del valor de la máscara. La interpretación de estas es de lectura, escritura y ejecución para el grupo. 
 
-La segunda parte del programa empieza activando la máscara que permite modificar permisos de archivos. Dependiendo del parámetro pasado a umask, se crea con diferentes permisos. Tras esto, comprueba que se puede acceder a los atributos de `archivo1`
-Después, cambia los permisos de `archivo1` y `archivo2`
-- En `archivo1`, de primeras se añade lectura escritura y ejecución para el grupo, que al pasarle la máscara `~022`, se hace la operación `000 111 000 & 111 101 101 = 000 101 000`. Antes de la llamada a `chmod` esos son los permisos que tiene `archivo1`. `chmod` toma los permisos actuales y les quita el permiso de ejecución al grupo `(atributos.st_mode & ~S_IXGRP)`, para después activar la asignación del GID propietario al GID efectivo. Esta acción, al hacer `ls -l` se ve codificada con una S en el bit correspondiente a la ejecución del grupo. Por este motivo, tras ejecutar el programa, en `archivo1` el comando `ls -l` nos devuelve la siguiente secuencia: `---r-S---`
-- Para `archivo2`, activa la lectura, escritura y ejecución para el usuario. Le da lectura y escritura al grupo y lectura para otros.
-Si no se ha podido cambiar alguno, se elimina sale del programa. Si ha ido bien, termina la ejecución 
+Sin embargo, la principal diferencia reside en que antes de llamar a archivo hay una llamada a `umask`. En la primera llamada a `open` la máscara está establecida a `022` (valor por defecto), y para la segunda, después de la llamada a `umask`, a `000`.
+
+Ahora se comprueba que  puede acceder a los atributos de `archivo1` y estos se extraen en una `struct stac`. Después, se cambian los permisos de `archivo1` y `archivo2`
+
+- En `archivo1`, de primeras se añade lectura escritura y ejecución para el grupo, que al pasarle la máscara `~022`, se hace la operación `000 111 000 & 111 101 101 = 000 101 000`(Se puede decir que se le quitan los permisos de la máscara). Antes de la llamada a `chmod` esos son los permisos que tiene `archivo1`. `chmod` toma los permisos actuales y les quita el permiso de ejecución al grupo `(atributos.st_mode & ~S_IXGRP)`, para después activar la asignación del GID propietario al GID efectivo. Esta acción, al hacer `ls -l` se ve codificada con una S en el bit correspondiente a la ejecución del grupo. Por este motivo, tras ejecutar el programa, en `archivo1` el comando `ls -l` nos devuelve la siguiente secuencia: `---r-S---`.
+- Para `archivo2`, de primeras `open` le había asignado unos permisos que, como la máscara estaba establecida a `000` se mantuvieron iguales. Sin embargo al hacer `chmod` no se tienen en cuenta los permisos que tenía anteriormente, simplemente se le asignan unos nuevos.  Se activa la lectura, escritura y ejecución para el usuario y permite lectura y escritura al grupo y lectura para otros. Si no se ha podido cambiar alguno, se sale del programa. Si ha ido bien, termina la ejecución.
 
 ## Ejercicio 2
 ```c

@@ -122,10 +122,37 @@ pid= 3346, global= 7, var= 89
 pid= 3345, global= 6, var= 88
 ```
 ## Ejercicio 3
-Indica qué tipo de jerarquías de procesos se generan mediante la ejecución de cada
-uno de los siguientes fragmentos de código. Comprueba tu solución implementando un código
-para generar 20 procesos en cada caso, en donde cada proceso imprima su PID y el del padre,
-PPID.
+> Indica qué tipo de jerarquías de procesos se generan mediante la ejecución de cada uno de los siguientes fragmentos de código. Comprueba tu solución implementando un código para generar 20 procesos en cada caso, en donde cada proceso imprima su PID y el del padre, PPID.
+Lo que haremos será crear 20 procesos hijos distintos, todos anidados:
+```
+           Padre              Padre              Padre
+Proceso 1 -------> Proceso 2 -------> Proceso 3 -------> Proceso 4 ...
+```
+Podemos comprobarlo con el output:
+```
+Identificador del proceso 7707, identificador del proceso padre: 7706,
+Identificador del proceso 7706, identificador del proceso padre: 7705,
+Identificador del proceso 7705, identificador del proceso padre: 7704,
+Identificador del proceso 7704, identificador del proceso padre: 7703,
+Identificador del proceso 7703, identificador del proceso padre: 7702,
+Identificador del proceso 7702, identificador del proceso padre: 7701,
+Identificador del proceso 7701, identificador del proceso padre: 7700,
+Identificador del proceso 7700, identificador del proceso padre: 7699,
+Identificador del proceso 7699, identificador del proceso padre: 7698,
+Identificador del proceso 7698, identificador del proceso padre: 7697,
+Identificador del proceso 7697, identificador del proceso padre: 7696,
+Identificador del proceso 7696, identificador del proceso padre: 7695,
+Identificador del proceso 7695, identificador del proceso padre: 7694,
+Identificador del proceso 7694, identificador del proceso padre: 7693,
+Identificador del proceso 7693, identificador del proceso padre: 7692,
+Identificador del proceso 7692, identificador del proceso padre: 7691,
+Identificador del proceso 7691, identificador del proceso padre: 7690,
+Identificador del proceso 7690, identificador del proceso padre: 7689,
+Identificador del proceso 7689, identificador del proceso padre: 7688,
+Identificador del proceso 7688, identificador del proceso padre: 4436,
+```
+Código de nuestro programa:
+
 ```c
 #include <stdio.h>
 #include <stdlib.h> //poder utilizar exit
@@ -140,7 +167,7 @@ int main( int arg , char * argv[])
   pid_t id_padre;
   pid_t pid = 0;
   int i = 0;
-  while( ++i < 20 && pid == 0) 
+  while( i++ < 20 && pid == 0) 
     {
       //creamos el hijillo
 	  if( (pid=fork())  < 0)
@@ -158,6 +185,10 @@ int main( int arg , char * argv[])
 }
 
 ```
+Usamos `while(wait(NULL) != -1)` para esperar a que todos los procesos acaben debidamente. Hemos de destacar que wait solo se preocupa de los hijos más próximos. Le da igual los nietos
+
+
+Por tanto, estamos ante la jerarquía tipo 1 del programa dado: 
 
 ```c
 #include<sys/types.h>

@@ -121,8 +121,49 @@ $$
 d) Falso.
 Contraejemplo: $(0, 0) \in \mathbb{Q} \times \mathbb{Q}$ no es unidad porque no tiene inverso.
 
+## Pregunta 4
+
+### a) $\mathcal{M}_2(\mathbb{R})$ es anillo conmutativo.
+
+Falso. Contraejemplo:
+
+$$\begin{pmatrix} 1 & 1 \\\ 1 & 0 \end{pmatrix} \begin{pmatrix} 0 & 0 \\\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 0 & 0 \\\ 0 & 1 \end{pmatrix}$$
+
+Lo cual es distinto de
+
+$$\begin{pmatrix} 0 & 0 \\\ 0 & 1 \end{pmatrix} \begin{pmatrix} 1 & 1 \\\ 1 & 0 \end{pmatrix}  = \begin{pmatrix} 0 & 0 \\\ 1 & 0 \end{pmatrix}]$$
+
+### b) $\mathcal{M}_2(\mathbb{Z})$ tiene divisores de cero no nulos
+
+Verdadera
+
+$\begin{pmatrix} 0 & 1 \\\ 0 & 0 \end{pmatrix}$ es divisor no nulo de $0$ ya que:
+
+$$
+\begin{pmatrix} 0 & 1 \\\ 0 & 0 \end{pmatrix} \begin{pmatrix} 1 & 0 \\\ 0 & 0 \end{pmatrix} = \begin{pmatrix} 0 & 0 \\\ 0 & 0 \end{pmatrix}
+$$
+
+### c) $\mathcal{M}_2(\mathbb{C})$ tiene infinitas unidades
+
+Verdadera. Las unidades son las matrices regulares, las cuales tienen determinante no nulo. Éstas son infinitas ya que hay infinitas matrices $\begin{pmatrix} a & 0 \\\ 0 & 1 \end{pmatrix}$ con
+
+$$
+\begin{vmatrix} a & 0 \\\ 0 & 1 \end{vmatrix} = a \neq 0
+$$
+
+Por haber infinitos reales distintos de 0.
+
+**d) $\begin{pmatrix} 2 & 3 \\\ 0 & 1\end{pmatrix}$ es unidad en $\mathcal{M}_2(\mathbb{Z})$**
+
+Falso. La inversa de la matriz pertenece a $\mathcal{M}(\mathbb{R})$, no a $\mathcal{M}(\mathbb{Z})$:
+
+$$
+\begin{pmatrix} 2 & 3 \\\ 0 & 1\end{pmatrix}^{-1} = \begin{pmatrix} 1/2 & -3/2 \\\ 0 & 1\end{pmatrix} \notin \mathcal{M}(\mathbb{Z})
+$$
+
+
 # Pregunta 5
-Sea D un dominio de integridad. ¿ Qué afirmación es correcta?
+Sea D un dominio de integridad. ¿Qué afirmación es correcta?
 Selecciones una:  
 - Nunca D puede ser un cuerpo.
 - En cualquier caso D es un cuerpo.
@@ -134,14 +175,14 @@ La respuesta correcta  **Es un cuerpo si tiene cardinal finito.**
 
 Para **desmentir la primera** veremos que un cuerpo es siempre un dominio de integridad, ya que por tener elemento inverso si se tiene que ab = ac  entonces $a^{-1}ab = a^{-1}ac$ de donde se deduce que b = c, cumpliendo la definición de dominio de integridad.
 
-**La segunda es falsa**, ya que no todo dominio de integridad tiene que ser un cuerpo, véase por ejemplo: el anillo conmutativo  de integridad **$ 2\mathbb{Z}$**
+**La segunda es falsa**, ya que no todo dominio de integridad tiene que ser un cuerpo, véase por ejemplo: el anillo conmutativo  de integridad $2\mathbb{Z}$
 
 Veamos ahora que todo dominio de integridad es un cuerpo si tiene cardinal finito.
 
 Recordemos que un dominio de integridad es un anillo conmutativo, por tanto para ver que es un cuerpo bastaría con comprobar que todo elemento distinto del neutro de la suma cuenta con inverso.
-Sea A un dominio de integridad finito, por ser finito sabremos que debe existir un i > 1 y un j>0 tal que para todo $ a \in A-\{0\}$ se tiene que $ a^i = a^{i+j}$
-Si ahora planteamos la ecuación $ a^i x = a^{i+j}$ resultan dos soluciones para x; $x= a^j$ y $x = 1$ así que con esto llegamos a la conclusión de que $a^j = 1$ y aplicando que nos encontramos en un dominio de integridad:
-$ a^i = a^{i+1} \Leftrightarrow a^i a^{-1}= a^{i+j}a^{-1} \Leftrightarrow a^i a^{-1}= a^{j-1}a^i{-1}  $
+Sea A un dominio de integridad finito, por ser finito sabremos que debe existir un i > 1 y un j>0 tal que para todo $a \in A-\{0\}$ se tiene que $a^i = a^{i+j}$
+Si ahora planteamos la ecuación $a^i x = a^{i+j}$ resultan dos soluciones para x; $x= a^j$ y $x = 1$ así que con esto llegamos a la conclusión de que $a^j = 1$ y aplicando que nos encontramos en un dominio de integridad:
+$a^i = a^{i+1} \Leftrightarrow a^i a^{-1}= a^{i+j}a^{-1} \Leftrightarrow a^i a^{-1}= a^{j-1}a^i{-1}$
 Aplicando otra que nos encontramos en un dominio de integridad llegamos a que  $a^{-1}= a^{j-1}$ y por tanto hemos encontrado al inverso de todo elemento de A distinto de 0 probando con ello que nos hallamos ante  un cuerpo.  
 
 Respecto a la tercera afirmación...
@@ -176,3 +217,30 @@ El subanillo no es vacía y debe contener al uno, pero como es cerrado para la s
 Por tanto veamos que si n pertece al subanillo n+1 también ya que es cerrado para la suma y el 1 pertenece al subanillo.
 
 Por otra parte tenemos que si un pertenece al subanillo su opuesto también pertenecerá, por tanto ya contamos con todos los enteros salvo el cero, lo obtenemos sumando dos opuestos.
+
+Y con esto hemos llegado a que el subanillo debe ser el propio $\mathbb{Z}$ y por tanto no es propio.
+
+## Pregunta 8
+
+Sea $K$ un cuerpo. Escoge la respuesta apropiada:
+
+a) $K\times K$ es un dominio de integridad.
+
+b) Todo elemento de $K​$ tiene inverso.
+
+c) $K\times K$ también lo es.
+
+d) $K$ sólo tiene dos ideales, $\{0\}$ y el propio $K$. *(Respuesta correcta)*
+
+### Solución
+
+**a)** Esta afirmación es falsa. Contraejemplo:
+
+Sean $(1,0)$,$(0,1)\in K$, entonces $(1,0)·(0,1)=(0,0)$, por lo que hemos encontrado divisores de cero no nulos, haciendo imposible que $K\times K$  sea un dominio de integridad.
+
+**b)** Esta afirmación es falsa, puesto que al decir que todo elemento de $K$ tiene inverso, se está incluyendo al elemento neutro respecto de la suma (el 0), el cual no tiene inverso.
+
+**c)** Esta afrimación es también falsa, puesto que si suponemos que $K\times K$  es un cuerpo, eso implicaría que $K\times K$ es a su vez un dominio de integridad, pero hemos comprobado que esa afirmación es falsa en el apartado a. Por tanto,  $K\times K$ no es un cuerpo.
+
+**d)** Esta es la afirmación verdadera. Sea $I$ un ideal de $K$, entonces si $a\in I$, por ser $K$ un cuerpo, existe $a^{-1}\in K$, y por ser $I$ un ideal, $a·a^{-1}=1\in I$, por lo que $I=K$. En conclusión, cualquier ideal de $K$ va a ser o $K$ o el vacío.
+
