@@ -27,10 +27,10 @@
 
 #include <stdio.h>
 #include <signal.h>
-#include <sys/types.h>	
-#include <unistd.h>		
+#include <sys/types.h>
+#include <unistd.h>
 #include <sys/stat.h>
-#include <fcntl.h>		
+#include <fcntl.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <dirent.h>
@@ -103,13 +103,14 @@ int main(){
 			if(S_ISREG(atributos.st_mode)){ //Si es regular
 
 				printf("<%d> %d\n", (int)atributos.st_ino, (int)atributos.st_uid);
-				
+
 				if(write(fd, lectura->d_name, strlen(lectura->d_name)+1)<strlen(lectura->d_name)+1){
 					perror("Error en write");
 				}
 			}
 		}
-		close(fd);  
+		close(fd);
+		close(midir);
 
 		//Esperamos la finalización del hijo
 		wait(NULL);
@@ -150,7 +151,7 @@ int main(){
 				perror("Error al proyectar");
 				exit(EXIT_FAILURE);
 			}
-		
+
 			close(fdarch);
 
 			printf("%s:\n\n%s\n\n", archivo, memoria);
