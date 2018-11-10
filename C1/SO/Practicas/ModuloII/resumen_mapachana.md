@@ -223,6 +223,8 @@ En ambos casos el último argumento o último componente debe ser NULL.
 
 `int execv (const char *path, char *const argv[])`
 
+Para hacer llamadas al sistema de suele usar execlp: `execlp("ls","ls",NULL)`
+
 ### clone
 
 > Falta añadirlooooo
@@ -367,6 +369,8 @@ Los archivos FIFO se eliminan con la llamada al sistema unlink.
 
 _NOTA: La llamada read es bloqueante para los procesos consumidores cuando no hay datos que leer y se desbloquea devolviendo 0 cuando todos los procesos que tenían cauce de escritura abierto se cierran o terminan._
 
+`pipe(fd)`
+
 ### Cauces sin nombre
 
 Al ejecutar la llamada al sistema pipe se crean dos descriptores, uno de write y otro de read.
@@ -375,7 +379,15 @@ para crear un cauce usaremos la llamada pipe, que necesita como argumento un vec
 
 La llamada al sistema dup se encarga de duplicar el descriptor indicado como parámetro de entrada en la primera entrada libre de la tabla de descriptores de archivo usada por el proceso.
 
-La llamada al sistema dup2 permite una atomicidad en las operaciones sobre duplicación de descriptores de archivos que no proporciona dup.
+La llamada al sistema dup2 permite una atomicidad en las operaciones sobre duplicación de descriptores de archivos que no proporciona dup (sobreescribe en su segundo argumento).
+
+`dup(fd[0])`
+
+`dup2(fd[1],STDOUT_FILENO)`
+
+*Nota: Debe hacerse pipe antes de realizar un dup.*
+
+*Nota: 0 es la entrada estándar, 1 la escritura estándar y 2 la salida de error estándar.*
 
 ## Sesión 6: Control de archivos y archivos
 
@@ -387,11 +399,187 @@ La llamada al sistema fcntl (file control) es una función multipropósito que p
 
 Donde el argumento orden admite un rango de operaciones a realizar sobre el descriptor de archivos. El tercer argumento es opcional y depende de orden. Algunos ejemplos de órdenes:
 
-- hlfkak
+- F_GETFL : Retorna las banderas de control de acceso asociadas al descriptor de archivo.
+- F_SETFL : Ajusta o limpia las banderas de acceso que se especifican como tercer argumento.
+- F_GETFD : Devuelve la bandera _close-on-exec_ del archivo (0 si está desactviada y otro número en caso contrario). Este flag suele estar desactivado por defecto. Si esta bandera está activa en un descriptor al usar la llamada a exec el proceso hijo no heredará el descriptor.
+- F_SETFD : Activa o desactiva la bandera _close-on-exec_ del archivo. El tercer argumento val e0 para limpiar la bandera y 1 para activarla.
+- F_DUPFD : Duplica el descriptor de archivo de fd en otro descriptor. El tercer argumento es un entero que especifica que el descriptor duplicado debe ser mayor o igual que dicho valor entero. Devuelve el descriptor de archivo duplicado.
 
-> Mirar y completar en pagina 140
-> 
-> DESISTO BUENA SUERTE  ME HE HINCHADO DE HACER APUNTES POR HOY
+La lista completa está en la página 140 del guión.
+
+#### Banderas de estado de un archivo abierto
+
+Tras obtener las banderas podemos comprobar como fue abierto el archivo. Ejemplo:
+
+```c
+int banderas, ModoAcceso;
+banderas = fcntl(fs,F_GETFL);
+if (banderas == -1)
+  perror("fcnl error");
+if (banderas & O_SYNC) //Hacemos and bit a bit y vemos si es distinto de 0
+  printf("Las escrituras son sincronizadas.");
+```
+
+Para comprobar el modo de acceso usaremos la máscara O_ACCMODE.
+
+```c
+int banderas, ModoAcceso;
+banderas = fcntl(fs,F_GETFL);
+if (banderas == -1)
+  perror("fcnl error");
+ModoAcceso = banderas & O_ACCMODE;
+if (ModoAcceso == O_WRONLY || ModoAcceso == O_RDWR)
+  printf("El archivo permite la escritura\n");
+```
+
+También podemos usar la orden F_SETFL para modificar las banderas de estado de un archivo, como O_APPEND, O_NONBLOCK, O_NOATIME, O_ASYNC y O_DIRECT.
+
+Podríamos querer modificar las banderas de estado si: El archivo no fue abierto por el programa llamador, de forma que no tiene control sobre las banderas usadas en open o si se obtuvo el descriptor de archvo con pipe o algo que no es open.
+
+Ejemplo de modificación de banderas:
+
+```c
+int bandera;
+banera = fcntl(fd, F_GETFL);
+if (bandera == -1)
+  perror("Error en fcntl");
+bandera |= O_APPEND;
+if (fcntl(fd, F_SETFL, banderas) == -1)
+  perror("Error en fcntl");
+```
+
+#### Duplicar descriptores de archivos
+
+F_DUPFD permite duplicar un descriptor, es decir, que si tiene éxito tendremos en nuestro proceso dos descriptores de archivo apuntado al mismo archivo abierto, con mismo modo de acceso y mismo puntero (como con dup y dup2).
+
+```c
+int fd = open("temporal", O_WRONLY); //Abrimos archivo solo escritura
+close(1); //Cerramos la salida estandar para asegurarnos que esta libre
+if (fcntl(fd, F_DUPFD, 1) == -1) //Duplicamos temporal en salida estandar
+  perror("Fallo en fcntl");
+char buffer[256];
+int cont = write(1,buffer,256); //Escribimos asi en archivo temporal.
+```
+
+#### Bloqueo de archivos
+
+Para sincronizar la lectura y escritura usaremos cerrojos, para ello tenemos dos APIs:
+
+- flock() : Utiliza un cerrojo para bloquear el archivo completo.
+
+- fcntl() : Utiliza cerrojos para bloquear regiones de un archivo.
+
+Al usar cerrojos primero los posicionamos sobre el archivo, luego realizamos la entrada/salida sobre el mismo y finalmente lo desbloqueamos para que otro proceso pueda bloquearlo.
+
+Para evitar fallos es conveniente realizar E/S utilizando read() y write() en vez de métodos de stdio, limpiar el flujo stfio inmediatamente después de situar un cerrojo sobre un archivo y limpiarlo al liberar el cerrojo. También se puede deshabilitar el bufering de stdio con setbuf().
+
+>  Pero vamos a lo realmente útil, desde aquí y por (principalmente) falta de tiempo, sólo voy a tratar lo estrictamente útil y necesario, sin andarme con muchos rodeos, si se busca más información a partir de aquí estamos en la página 143 del guión.
+
+Para situar cerrojos con fcntl usaremos la estructura flock (struct flock) que define los cerrojos para bloquear o liberar. Sus elementos más importantes son:
+
+- l_type : Indica el tipo de bloqueo, es F_RDLCK o F_WRLCK_ (para bloquear lectura o escritura) y F_UNLCK para desbloquear.
+
+- l_whence : Interpretar l_start : SEEK_SET, SEEK_CURR, SEEK_END.
+
+- l_start : Desplazamiento donde se inicia el bloqueo (0 para el archivo completo).
+
+- l_en : Número de bytes bloqueados (0 para que sea hasta el final).
+
+- l_pid : Proceso que previene nuestro bloqueo.  
+
+Ejemplo de como se pone y se quita un bloqueo:
+
+```c
+int fd;
+struct flock micerrojo;
+fd = open("miarchivo", O_RDWR|O_CREAT,S_IRWXU);
+if (fd < 0){
+  perror("Error en open");
+  exit(-1);
+}
+//Creamos la estructura del cerrojo.
+micerrojo.l_type = F_WRLCK; //Bloqueamos para escritura porque vamos a leer.
+micerrojo.l_whence = SEEK_SET;
+micerrojo.l_start = 0; //BLoqueamos el archivo completo.
+micerrojo.l_len = 0;
+
+if(fcntl(fd, F_SETLK, &micerrojo) == -1){ //Ponemos el cerrojo y comprobamos errores
+  printf("Error al poner el cerrojo, quiza otro programa lo tiene abierto");
+  exit(-1);
+}
+//Desbloqueamos el cerrojo
+micerrojo.l_type = F_UNLCK; //Desbloqueamos
+micerrojo.l_whence = SEEK_SET;
+micerrojo.l_start = 0; //DesLoqueamos el archivo completo.
+micerrojo.l_len = 0;
+
+if(fcntl(fd, F_SETLK, &micerrojo) == -1){ //Quitamos el cerrojo y comprobamos errores
+  printf("Error al quitar el cerrojo");
+  exit(-1);
+}
+```
+
+A veces se ponen bloqueos de archivos innecesarios para que solo haya una instancia del programa abierto, así falla al abrir el archivo porque está bloqueado y así no hay más instancias (ejercicio 4).
+
+### Archivos proyectados en memoria
+
+Un archivo proyectado en memmoria es una técnica para acceder a archivos en lugar de una lectura. Se crea una región de memoria nueva en el espacio de direcciones del proceso del tamaño de la zona a acceder del archivo y se carga en ella el contenido de esa parte del archivo (se puede cargar todo un archivo completo).
+
+**mmap()** proyecta un archivo o un objeto memoria compartida en el espacio de direcciones del proceso. Se usa para tres cosas: Con un archivo regulat para E/S, con archivos especiales para suministrar proyecciones anónimas (o para otra cosa que nosotros no damos).
+
+`void *mmap(void *addres, size_t length, int prot, int flags, int fd, off_t offset)`
+
+- addres : Dirección de iniciio dentro del proceso donde debe proyectarse el descriptor. Si es NULL (como pasará en la práctica) elegirá la dirección del inicio.
+
+- length : Número de bytes a proyectar, con un desplazamiento desde el inicio dado por offset.
+
+- offset : Desplazamiento desde el inicio. En la práctica será 0.
+
+- fd : Indica el descriptor de archivo a proyectar y que una vez proyectado podemos cerrar.
+
+- prot : Indica el tipo de proyección en memoria, puede valer: (paǵina 152)
+
+  - PROT_READ : Los datos se pueden leer.
+
+  - PROT_WRITE : Los datos se pueden escribir.
+
+  - PROT_EXEC : Podemos ejecutar los datos.
+
+  - PROT_NONE : No podemos acceder a los datos.
+
+-   flags : Vale (página 152):
+
+  - MAP_PRIVATE : Los cambios son privados (solo los ve el proceso que los hizo).
+
+  - MAP_SHARED : Los cambios son compartidos (los ven todos los procesos).
+
+  - MAP_FIXED : Interpreta exactamente el argumento addres.
+
+  - MAP_ANONYMOUS : Crea un mapeo anónimo.
+
+Para eliminar una proyeción del espacio de un proceso usaremos **munmap**.
+
+`int munmap(void *addres, size_t length)`
+
+- addres : Dirección que retornó la llamada mmap.
+
+- length : Tamaño de la región mapeada.
+
+#### Compartición de memoria
+
+Una forma de compartir memoria entre padre e hijo es invocar mmap() con MAP_SHARED antes de hacer fork(). Así la proyección creada por el padre se mantiene en el hijo y los cambios hechos por alguno de ellos son visibles para ambos.
+
+#### Proyecciones anónimas
+
+Una proyección anónima es similar a una proyección de archivo salvo que no existe el correspondiente archivo de respaldo. En su lugar, las páginas de la proyección son inicializadas a cero.
+
+- Privado : Asignación de memoria (no inicializa con el contenido del archivo).
+
+- Compartido : Compartición de memoria (IPC) (no hay E/S proyectadas en memoria).
+
+> Falta el último apartado que está en las páginas 159, 160
+
+*Nota: ftruncate(int fd, int i) trunca el archivo indicado por fd al tamaño indicado i, si el tamaño indicado es mayor que el tamaño del archivo su contenido se rellena como nulos.*
 
 ## Cosas extras
 
@@ -401,3 +589,7 @@ Quiza hay que meter el stdlib, string.h en alguna tarea que falta incluso de fab
 printf("Bloque num %d", i)
 sprintf(buf1, "blque num %d", i)
 write(fd, buf1, strlen(buf1))
+
+### Leer de entrada estándar
+
+scanf()
