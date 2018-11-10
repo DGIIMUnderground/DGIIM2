@@ -17,21 +17,25 @@ Código del programa:
 #include <stdlib.h>
 
 int main(int argc, char const *argv[]){
-    if (argc != 2){
+    if (argc != 2)
+    {
+    	printf("Número incorrecto de parámetros");
         printf("Parámetros: ./ejecutable número\n");
         exit(-1);
     }
 
-    pid_t pid = fork();
-    int numero = atoi(argv[1]);
 
-    if (pid < 0){
+    pid_t pid = fork();			//pid_t es el tipo de dato para los pid de los procesos
+    int numero = atoi(argv[1]);		//atoi es una función que tranforma una cadena de caracteres en un entero
+
+    if (pid < 0)
+    {
         printf("No se ha podido crear un fork\n");
         exit(-1);
     }   
-    // Proceso hijo
-    if (pid == 0){
-        printf("Proceso con pid %d, y parent %d. Se comprobará si el número es par o impar\n", getpid(), getppid());
+    else if (pid == 0)			// Proceso hijo
+    {
+        printf("Soy el proceso hijo con pid %d, y mi padre tiene pid: %d\n Se comprobará si el número es par o impar\n", getpid(), getppid());
 
 
         if (numero % 2 == 0)
@@ -39,9 +43,9 @@ int main(int argc, char const *argv[]){
         else
             printf("%d es impar\n", numero);
     }
-    // Proceso padre
-    if (pid){
-        printf("Ahora soy el padre (%d), y el de mi hijo era %d. Vamos a ver si el número es divisible por 4\n", getpid(), pid);
+    else
+    {
+        printf("Soy el proceso padre %d, y mi proceso hijo tiene pid; %d.\n Vamos a ver si el número es divisible por 4\n", getppid(), getpid());
 
         if (numero % 4 == 0)
             printf("%d es divisible por 4\n", numero);
