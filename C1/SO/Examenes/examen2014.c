@@ -1,5 +1,5 @@
 /*
-    1. Implementa un programa llamado catdir con la siguiente sintaxis: 
+    1. Implementa un programa llamado catdir con la siguiente sintaxis:
         catdir <directorio> <fichero_salida>
     donde
     a) El primer parámetro es obligatorio. El segundo opcional
@@ -12,38 +12,29 @@
 
     2. Implementa un programa en c llamado principal que tiene como argumentos
     nombres de directorios (d1 d2 ... dn) y que realiza las siguientes acciones:
-    a) Por cada argumento recibido, crea un proceso hijo que se encargará de 
+    a) Por cada argumento recibido, crea un proceso hijo que se encargará de
     ejecutar el programa catdir.
-    b) Cada hijo usará como argumento del programa que va a ejecutar el nombre 
+    b) Cada hijo usará como argumento del programa que va a ejecutar el nombre
     del directorio por el cual se creó y el nombre de un archivo que se llamará
     fsalida.<pid del hijo>.
-    c) El proceso padre crea un archivo de tipo cauce (con o sin nombre) que le 
-    comunicará con sus procesos hijos. De este cauce leerá números (que 
-    escribirán sus hijos) que irá sumando. 
-    d) Cuando todos los procesos hijos finalicen, el proceso padre imprimirá en 
+    c) El proceso padre crea un archivo de tipo cauce (con o sin nombre) que le
+    comunicará con sus procesos hijos. De este cauce leerá números (que
+    escribirán sus hijos) que irá sumando.
+    d) Cuando todos los procesos hijos finalicen, el proceso padre imprimirá en
     pantalla un mensaje indicando que "la suma de los bloques de todos los
     archivos es <numero>" y finalizará.
 */
 
-#include<sys/types.h>	
+#include<sys/types.h>
 #include<dirent.h>
-#include<unistd.h>		
+#include<unistd.h>
 #include<sys/stat.h>
-#include<fcntl.h>		
+#include<fcntl.h>
 #include<stdio.h>
 #include<errno.h>
 #include<stdlib.h>
 #include<string.h>
 
-void escribir_fichero(char mensaje[], char archivo[]){
-    int fd;
-    if ((fd = open(archivo, O_RDWR|O_CREAT, S_IRUSR)) < 0 ){
-        perror("No se ha podido abrir el archivo a escribir");
-        exit(-1);
-    }
-
-    write(fd, mensaje, strlen(mensaje));
-}
 
 // Si este valor es NULL, escribiremos lo que encontramos en la salida estándar
 //                                                                     vvvvvvvvvvvvvvv
@@ -52,6 +43,13 @@ void buscar_dir(DIR * directorio, char pathname[], int * tamano_total, char arch
     struct dirent * elemento_dir;
     DIR * directorio_actual;
     char cadena[500];
+    int fd;
+
+    if(strcmp(archivo, "NULL") != 0)
+      if ((fd = open(archivo, O_CREAT|O_TRUNC|O_WRONLY, S_IWUSR|S_IRUSR)) < 0 ){
+        perror("No se ha podido abrir el archivo a escribir");
+        exit(-1);
+      }
 
     while ( (elemento_dir = readdir(directorio))!= NULL){
         // Ignoraremos el directorio actual y el superior:
@@ -61,7 +59,7 @@ void buscar_dir(DIR * directorio, char pathname[], int * tamano_total, char arch
             strcpy(cadena, pathname);
             strcat(cadena, "/");
             strcat(cadena,elemento_dir->d_name);
-            
+
             // El nombre del archivo está contenido en cadena => comprobamos sus permisos
             if ( stat(cadena, &atributos) < 0){
                 printf("No se ha podido comprobar los permisos");
@@ -69,7 +67,7 @@ void buscar_dir(DIR * directorio, char pathname[], int * tamano_total, char arch
             }
 
             // Es directorio => volvemos a acceder
-            if (S_ISDIR(atributos.st_mode)) {    
+            if (S_ISDIR(atributos.st_mode)) {
                 if ( (directorio_actual = opendir(cadena)) == NULL)
                     printf("Error al abrir el directorio: [%s]", cadena);
                 else
@@ -83,9 +81,17 @@ void buscar_dir(DIR * directorio, char pathname[], int * tamano_total, char arch
                         printf("%s\n", elemento_dir->d_name);
                         execl("/bin/cat", "cat", cadena, NULL);
                     }
-                    else
-                        escribir_fichero(elemento_dir->d_name, archivo);
-                    
+                    else{
+                      close(1); //Cerramos la salida estandar
+
+                      fcntl(fd, F_DUPFD, 1);
+
+                      if (execlp("/bin/cat", "cat", cadena, NULL) < 0){
+                        perror("Error en execlp");
+                        exit(EXIT_FAILURE);
+                      }
+                    }
+
                     (*tamano_total) += (int) atributos.st_size;
                 }
             }
@@ -102,7 +108,7 @@ int main(int argc, char const *argv[]) {
     }
 
     int tamano_total = 0;
-    
+
     // Preparación de fichero de salida
     char fichero_salida[256];
     if (argc == 3){
@@ -117,12 +123,12 @@ int main(int argc, char const *argv[]) {
         printf("Error al abrir el directorio");
         exit(-1);
     }
-    
+
     // Localización
     char pathname[500];
     strcpy(pathname, argv[1]);
-    
-    
+
+
     buscar_dir(directorio, pathname, &tamano_total, fichero_salida);
 
     printf("Los archivos encontrados ocupan %d bytes en total", tamano_total);
