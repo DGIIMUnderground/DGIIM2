@@ -22,7 +22,7 @@
 #include<fcntl.h>
 #include<errno.h>
 #include<string.h>
-#include <stdbool.h>
+#include<stdbool.h>
 
 int main(int argc, char const *argv[]) {
     if (argc != 1){

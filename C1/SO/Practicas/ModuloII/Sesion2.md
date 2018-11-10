@@ -144,7 +144,7 @@ La explicación se encuentra dentro del ejercicio
 #include<stdio.h>
 #include<errno.h>
 #include<stdlib.h>
-#include <string.h>
+#include<string.h>
 
 /**
  * Debemos visualizar la estructura tal que así:
