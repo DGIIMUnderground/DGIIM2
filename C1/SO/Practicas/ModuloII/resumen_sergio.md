@@ -71,6 +71,30 @@ int main(){
 	* S_ISUID  0004000 set-user-ID bit
 	* S_ISGID  0002000 set-group-ID bit (see inode(7)).
 	* S_ISVTX  0001000 sticky bit (see inode(7)).
+* Algunos modos importantes para `open` en octal. Útiles para hacer comparaciones:
+	* usuario | grupo | otros
+	* Permiso r________	0400
+	* Permiso r__r_____	0440
+	* Permiso r__r__r__	0444
+	* Permiso rw_______	0600
+	* Permiso rw_r_____	0640
+	* Permiso rw_r__r__	0644
+	* Permiso rw_rw_r__	0664
+	* Permiso rw_rw_rw_	0666
+	* Permiso _w_______	0200
+	* Permiso _w__w____	0220
+	* Permiso _w__w__w_	0222
+	* Permiso r_x______	0500
+	* Permiso r_xr_x___	0550
+	* Permiso r_xr_xr_x	0555
+	* Permiso rwx______	0700
+	* Permiso rwxr_x___	0750
+	* Permiso rwxr_xr_x	0755
+	* Permiso rwxrwxr_x	0775
+	* Permiso rwxrwxrwx	0777
+	* Permiso _wx______	0300
+	* Permiso _wx_wx___	0330
+	* Permiso _wx_wx_wx	0333
 * `close(file_descriptor)`
 * `int bytes_wrote = write(file_descriptor, string, len_string)`
 * `int bytes_read = read(file_descriptor, string_buff, bytes_to_read)`
