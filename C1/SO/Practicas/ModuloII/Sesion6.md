@@ -54,9 +54,9 @@ int main(int argc, char ** argv){
 		exit(1);
 	}
 
-	char * programa = argv[1];
+	char * programa    = argv[1];
 	char * redireccion = argv[2];
-	char * archivo = argv[3];
+	char * archivo     = argv[3];
 
 	// Descriptor
 	int fd;
@@ -83,8 +83,8 @@ int main(int argc, char ** argv){
 
 	} else if (strcmp(redireccion,">") == 0){
 		if ((fd = open (archivo, O_WRONLY)) == -1){ // Abrimos archivo. O_WRONLY => escritura únicamente
-			perror("Error en open\n");
-		exit(EXIT_FAILURE);
+            perror("Error en open\n");
+		    exit(EXIT_FAILURE);
 		}
 
 		close(1); // Cerramos la salida estándar
@@ -199,7 +199,7 @@ int main (int argc, char * argv[]){
 
 ```
 ## Ejercicio 3
-> Construir un programa que verifique que, efectivamente, el kernel comprueba quepuede darse una situación de interbloqueo en el bloqueo de archivos
+> Construir un programa que verifi que que, efectivamente, el kernel comprueba que puede darse una situación de interbloqueo en el bloqueo de archivos
 
 Código del programa: 
 ```c
@@ -208,6 +208,7 @@ Código del programa:
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
+
 int main (int argc, char * argv[])
 {
     struct flock cerrojo;   //estructura del cerrojo
@@ -220,10 +221,10 @@ int main (int argc, char * argv[])
             continue;
         }
 		//creamos la estructura del cerrojo
-        cerrojo.l_type=F_WRLCK;    //cerrojo para escritura
-        cerrojo.l_whence=SEEK_SET;
-        cerrojo.l_start=0;	       //archivo completo
-        cerrojo.l_len=0;	  
+        cerrojo.l_type   = F_WRLCK;   //cerrojo para escritura
+        cerrojo.l_whence = SEEK_SET;
+        cerrojo.l_start  = 0;         //archivo completo
+        cerrojo.l_len    = 0;
 
         /* intentamos un bloqueo de escritura del archivo completo */
         if((fcntl (fd, F_SETLKW, &cerrojo) )== -1) {
@@ -262,6 +263,7 @@ Código del programa:
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
+
 int main (int argc, char * argv[])
 {
     struct flock cerrojo;
@@ -274,10 +276,10 @@ int main (int argc, char * argv[])
         return 1;
     }
     //creamos la estructura del cerrojo
-    cerrojo.l_type=F_WRLCK;    //cerrojo para escritura
-    cerrojo.l_whence=SEEK_SET;
-    cerrojo.l_start=0;	       //archivo completo
-    cerrojo.l_len=0;	  
+    cerrojo.l_type   = F_WRLCK;   //cerrojo para escritura
+    cerrojo.l_whence = SEEK_SET;
+    cerrojo.l_start  = 0;         //archivo completo
+    cerrojo.l_len    = 0;
 
     // Comprobamos que no está activo el archivo
     if((fcntl (fd, F_SETLK, &cerrojo) )== -1) {
@@ -293,10 +295,10 @@ int main (int argc, char * argv[])
     sleep(15);
 
     // Tras los 15 segundos, procedemos a desbloquear
-    cerrojo.l_type=F_UNLCK;
-    cerrojo.l_whence=SEEK_SET;
-    cerrojo.l_start=0;
-    cerrojo.l_len=0;
+    cerrojo.l_type   = F_UNLCK;
+    cerrojo.l_whence = SEEK_SET;
+    cerrojo.l_start  = 0;
+    cerrojo.l_len    = 0;
 
     if (fcntl (fd, F_SETLKW, &cerrojo) == -1) 
         perror ("Error al desbloquear");
@@ -305,7 +307,8 @@ int main (int argc, char * argv[])
 }
 ```
 ## Ejercicio 5
-> Escribir un programa, similar a la ordencp, que utilice para su implementación la llamada al sistema mmap() y una función de C que nos permite  copiar memoria, como, por ejemplo memcpy(). Para conocer el tamaño del archivo origen podemos utilizar stat()y para establecer el tamaño del archivo destino se puede usar ftruncate()
+> Escribir un programa, similar a la orden cp, que utilice para su implementación la llamada al sistema mmap() y una función de C que nos permite  copiar memoria, como, por ejemplo memcpy(). Para conocer el tamaño del archivo origen podemos utilizar stat()y para establecer el tamaño del archivo destino se puede usar ftruncate()
+
 Código del programa:
 ```c
 #include<sys/types.h>  
@@ -322,7 +325,7 @@ int main(int argc, char *argv[]) {
     struct stat atributos;      //estructura de los atributos de archivos
     int fd1;                    //descriptor de archivo del primer archivo
     int fd2;                    //descriptor de archivo del segundo archivo
-    int tamano;                   //ambos archivos tiene el mismo tamaño
+    int tamano;                 //ambos archivos tiene el mismo tamaño
     
     char *memoria1,*memoria2;
     umask(0);

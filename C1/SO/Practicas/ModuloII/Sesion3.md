@@ -325,7 +325,7 @@ int main(){
 
     // Creación de hijos
     for(i=0; i<5; i++){
-         if ((PIDs[i] = fork()) <0){
+        if ((PIDs[i] = fork()) <0){
             perror("Error en fork \n");
             exit(-1);
         }

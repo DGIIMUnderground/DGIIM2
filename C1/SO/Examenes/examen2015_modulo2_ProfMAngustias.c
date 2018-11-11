@@ -22,7 +22,6 @@ void manejadorsignal(int signum){
     printf("El valor de la suma es: %d\n", contador);
     kill(0, SIGKILL); //Envía la señal a todos los procesos de su grupo
 	exit(EXIT_FAILURE);
-
 }
 
 int main(int argc, char * argv[]){

@@ -14,7 +14,7 @@ Primero, necesitamos compilar y ejecutar ambos archivos. Es recomendable abrirlo
 | Mensaje recibido: tralalara-larita        |                                           |
 |------------------------------------------ | ------------------------------------------|
 ```
-Códigos de los programas:
+Código de los programas:
 ```c
 //consumidorFIFO.c
 //Consumidor que usa mecanismo de comunicacion FIFO
@@ -365,8 +365,8 @@ Código de esclavo.c:
 #include<stdio.h>
 #include<stdlib.h>
 #include<errno.h>
-#include <math.h>
-#include <stdbool.h>
+#include<math.h>
+#include<stdbool.h>
 
 bool esPrimo(int natural){
     int limite = sqrt(natural);

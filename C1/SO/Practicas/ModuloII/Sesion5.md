@@ -4,7 +4,7 @@ Código del programa EnvioSignal.c:
 /*
  envioSignal.c
  Trabajo con llamadas al sistema del Subsistema de Procesos conforme a POSIX 2.10
- Utilizaci�n de la llamada kill para enviar una se�al:
+ Utilización de la llamada kill para enviar una señal:
  0: SIGTERM
  1: SIGUSR1
  2: SIGUSR2
@@ -66,8 +66,7 @@ Código del programa ReciboSignal.c:
 /*
  reciboSignal.c
  Trabajo con llamadas al sistema del Subsistema de Procesos conforme a POSIX 2.10
- Utilizaci�n de la llamada sigaction para cambiar el comportamiento del proceso       
- frente a la recepci�n de una se�al.
+ Utilización de la llamada sigaction para cambiar el comportamiento del proceso frente a la recepción de una señal.
 */
 
 #include <sys/types.h>
@@ -98,12 +97,12 @@ int main(int argc, char *argv[])
     sig_USR_nact.sa_handler= sig_USR_hdlr; //El handler se encara de interceptar las señales mandadas desde fuer
 
 
-    //'sigemptyset' inicia el conjunto de se�ales dado al conjunto vacio.
+    //'sigemptyset' inicia el conjunto de señales dado al conjunto vacio.
 
     sigemptyset (&sig_USR_nact.sa_mask);
     sig_USR_nact.sa_flags = 0;
 
-    //Establecer mi manejador particular de se�al para SIGUSR1
+    //Establecer mi manejador particular de señal para SIGUSR1
     if( sigaction(SIGUSR1,&sig_USR_nact,NULL) <0)
     //                       ^^^^^^    tratamiento para la señal
     {
@@ -111,7 +110,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    //Establecer mi manejador particular de se�al para SIGUSR2
+    //Establecer mi manejador particular de señal para SIGUSR2
     if( sigaction(SIGUSR2,&sig_USR_nact,NULL) <0)
     {
         perror("\nError al intentar establecer el manejador de senal para SIGUSR2");
@@ -267,7 +266,7 @@ int main (int argc, char *argv[]) {
 
     act.sa_handler = manejador;
 
-    if (sigaction(SIGTERM, &act, 0)) {
+    if (sigaction(SIGTERM, &act, 0) == -1) {
         perror ("sigaction");
         exit(EXIT_FAILURE);
     }
@@ -286,7 +285,7 @@ int main (int argc, char *argv[]) {
 
     sleep (10);
 
-    //Restauramos la señal � desbloqueamos SIGTERM
+    //Restauramos la señal y desbloqueamos SIGTERM
     if (sigprocmask(SIG_SETMASK, &conj_mascaras_original, NULL) < 0) {
        perror ("segundo sigprocmask");
        exit(EXIT_FAILURE);

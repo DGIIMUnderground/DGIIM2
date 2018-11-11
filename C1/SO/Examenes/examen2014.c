@@ -43,13 +43,9 @@ void buscar_dir(DIR * directorio, char pathname[], int * tamano_total, char arch
     struct dirent * elemento_dir;
     DIR * directorio_actual;
     char cadena[500];
+    
+    // Salida a archivo
     int fd;
-
-    if(strcmp(archivo, "NULL") != 0)
-      if ((fd = open(archivo, O_CREAT|O_TRUNC|O_WRONLY, S_IWUSR|S_IRUSR)) < 0 ){
-        perror("No se ha podido abrir el archivo a escribir");
-        exit(-1);
-      }
 
     while ( (elemento_dir = readdir(directorio))!= NULL){
         // Ignoraremos el directorio actual y el superior:
@@ -77,21 +73,26 @@ void buscar_dir(DIR * directorio, char pathname[], int * tamano_total, char arch
                 // Comprobamos que es regular y miramos si tienes los permisos deseados
                 // El mayor problema es la expresión para comprobar qué permisos son los indicados
                 if (S_ISREG(atributos.st_mode) && (atributos.st_mode & 0220 ) == 0220 ) {
+                    // Imprimir en pantalla
                     if (strcmp("NULL", archivo) == 0){
                         printf("%s\n", elemento_dir->d_name);
                         execl("/bin/cat", "cat", cadena, NULL);
                     }
-                    else{
-                      close(1); //Cerramos la salida estandar
+                    // Salida a fichero
+                    else{  
+                        if ((fd = open(archivo, O_CREAT|O_TRUNC|O_WRONLY, S_IWUSR|S_IRUSR)) < 0 ){
+                            perror("No se ha podido abrir el archivo a escribir");
+                            exit(-1);
+                        }
+                        close(1); //Cerramos la salida estandar
 
-                      fcntl(fd, F_DUPFD, 1);
+                        fcntl(fd, F_DUPFD, 1);
 
-                      if (execlp("/bin/cat", "cat", cadena, NULL) < 0){
-                        perror("Error en execlp");
-                        exit(EXIT_FAILURE);
-                      }
+                        if (execlp("/bin/cat", "cat", cadena, NULL) < 0){
+                            perror("Error en execlp");
+                            exit(EXIT_FAILURE);
+                        }
                     }
-
                     (*tamano_total) += (int) atributos.st_size;
                 }
             }
@@ -127,7 +128,6 @@ int main(int argc, char const *argv[]) {
     // Localización
     char pathname[500];
     strcpy(pathname, argv[1]);
-
 
     buscar_dir(directorio, pathname, &tamano_total, fichero_salida);
 
