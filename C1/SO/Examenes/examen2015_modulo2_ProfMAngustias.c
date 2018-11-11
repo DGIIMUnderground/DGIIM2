@@ -19,7 +19,7 @@ int contador = 0;
 
 //Función que se invoca para manejar las señales
 void manejadorsignal(int signum){
-    printf("El valor de la suma es: %d\n", signum);
+    printf("El valor de la suma es: %d\n", contador);
     kill(0, SIGKILL); //Envía la señal a todos los procesos de su grupo
 	exit(EXIT_FAILURE);
 
