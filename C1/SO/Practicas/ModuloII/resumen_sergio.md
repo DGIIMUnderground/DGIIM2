@@ -515,3 +515,150 @@ struct flock mi_bloqueo;
 . . . /* ajustar campos de mi_bloqueo para describir el cerrojo a usar */
 fcntl(fd, orden, &mi_bloqueo);
 ~~~
+
+
+---
+### Otros snippets de código útiles
+#### Includes y estructura básica del main
+```c
+#include <stdio.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <dirent.h>
+#include <fcntl.h>
+#include <string.h>
+#include <sys/mman.h>
+#include <stdbool.h>
+#include <sys/wait.h>
+
+int main(int argc, char * argv[]){
+	if (argc != x){
+		perror("Parámetros incorrectos");
+		exit(-1);
+	}
+}
+```
+
+
+#### Manejo de señales con signal
+```c
+
+// Manejador de señales con signal
+void handler(int signum){
+    // operaciones
+}
+
+signal(numero_de_senal, handler)
+```
+
+
+#### Flock
+```c
+// Bloquear
+struct flock cerrojo;
+cerrojo.l_type   = F_RDLCK;
+cerrojo.l_whence = SEEK_SET;
+cerrojo.l_start  = 0;
+cerrojo.l_len    = 0;
+
+fcntl(descriptor, F_SETLKW, &cerrojo);
+
+// Desbloquear
+cerrojo.l_type = F_UNLCK;
+fcntl(descriptor, F_SETLKW, &cerrojo);
+```
+
+#### Recorrer directorios
+```c
+// Recorremos archivos del directorio, sacamos permisos y hacemos comparaciones de permisos
+char pathname[256];
+strcpy(pathname, "./");
+//               ^^^^
+// Directorio principal
+
+DIR * directorio = opendir(pathname);
+struct dirent * elemento_dir;
+
+while ( (elemento_dir = readdir(directorio)) != NULL){
+	if (strcmp(elemento_dir->d_name, "..") != 0 && strcmp (elemento_dir->d_name, ".") != 0){
+		char archivo[256];
+		
+		sprintf(archivo, "./%s", elemento_dir->d_name);
+		struct stat atributos;
+		
+		if ( stat(archivo, &atributos) < 0){
+			perror("No se han podido obtener los atributos");
+			exit(-1);
+		}
+
+		if (S_ISREG(atributos.st_mode)){
+			// Permiso para comprobar de cualquier archivo presente en el directorio
+			//                       vvvv    vvvv
+			if ((atributos.st_mode & 0444) != 0444)
+				chmod(archivo, atributos.st_mode | 0444);
+
+			printf("Nombre: %s. \tUID propietario: %d. \tiNodo: %d\n", elemento_dir->d_name, (int)atributos.st_uid, (int)atributos.st_ino);
+		}
+	}
+}
+```
+#### Proyecciones de memoria
+En este caso, sacamos los archivos desde un descriptor. Por hipótesis, se proyectará la de varios archivos
+```c
+char * memoria;
+while( read(fd[0], archivo, 256) > 0){
+	if ( (fd_archivo = open(archivo, O_RDONLY)) < 0){
+		perror("No se ha podido abrir el archivo (hijo)");
+		printf("Archivo: %s", archivo);
+		exit(-1);
+	}
+	
+	if ( stat(archivo, &atributos) < 0){
+			perror("No se han podido obtener los atributos");
+			exit(-1);
+	}
+
+	memoria = (char *)mmap(0, atributos.st_size, PROT_READ, MAP_SHARED, fd_archivo, 0);
+	if(memoria == MAP_FAILED){
+		perror("Error al proyectar");
+		exit(EXIT_FAILURE);
+	}
+
+	close(fd_archivo);
+
+	printf("%s:\n\n%s\n\n", archivo, memoria);
+	if(munmap(memoria, atributos.st_size)<0){
+		perror("Error al liberar proyección.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	strcpy(archivo, "");
+}
+```
+
+#### Creación de cauces FIFOs
+```c
+int fd;
+
+char archivo_fifo[256];
+strcpy(archivo_fifo, "nombre_del_archivo");
+
+umask(0);
+mkfifo(archivo_fifo, 0666);
+
+// Lectura, escritura, o ambas. Lo que te interese. Normalmente, esto se hará en padres/hijos 	
+//                      vvvvvv
+if ( (fd = open(archivo_fifo, O_RDWR, 0666))<0){
+	perror("No se ha podido abrir el archivo FIFO");
+	exit(-1);
+}
+
+// Operaciones
+
+close(fd);
+```
