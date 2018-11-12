@@ -356,7 +356,7 @@ int main(){
 }
 ~~~
 
-* Ejemplo que he encontrado en [stackoverflow] bastante(https://unix.stackexchange.com/questions/80044/how-signals-work-internally) útil
+* Ejemplo que he encontrado en [stackoverflow](https://unix.stackexchange.com/questions/80044/how-signals-work-internally) bastante útil
 
 ~~~c
 #include<signal.h>
@@ -518,8 +518,11 @@ fcntl(fd, orden, &mi_bloqueo);
 
 
 ---
+
 ### Otros snippets de código útiles
+
 #### Includes y estructura básica del main
+
 ```c
 #include <stdio.h>
 #include <signal.h>
@@ -546,6 +549,7 @@ int main(int argc, char * argv[]){
 
 
 #### Manejo de señales con signal
+
 ```c
 
 // Manejador de señales con signal
@@ -558,6 +562,7 @@ signal(numero_de_senal, handler)
 
 
 #### Flock
+
 ```c
 // Bloquear
 struct flock cerrojo;
@@ -574,6 +579,7 @@ fcntl(descriptor, F_SETLKW, &cerrojo);
 ```
 
 #### Recorrer directorios
+
 ```c
 // Recorremos archivos del directorio, sacamos permisos y hacemos comparaciones de permisos
 char pathname[256];
@@ -607,8 +613,11 @@ while ( (elemento_dir = readdir(directorio)) != NULL){
 	}
 }
 ```
+
 #### Proyecciones de memoria
+
 En este caso, sacamos los archivos desde un descriptor. Por hipótesis, se proyectará la de varios archivos
+
 ```c
 char * memoria;
 while( read(fd[0], archivo, 256) > 0){
@@ -642,6 +651,7 @@ while( read(fd[0], archivo, 256) > 0){
 ```
 
 #### Creación de cauces FIFOs
+
 ```c
 int fd;
 
