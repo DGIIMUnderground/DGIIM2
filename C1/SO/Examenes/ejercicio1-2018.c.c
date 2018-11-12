@@ -42,7 +42,7 @@ int main(int argc, char * argv[]){
 	char *home = getenv("HOME");
 
 	//Abrimos directorio pasado como argumento
-	if((midir = opendir(argv[1]))!=NULL){
+	if((midir = opendir(argv[1]))==NULL){
 		perror("opendir");
 		exit(EXIT_FAILURE);
 	}
