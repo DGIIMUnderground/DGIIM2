@@ -63,11 +63,13 @@ int main(int argc, char const *argv[]) {
         // No nos interesa escribir para nada
         close(fd_exchange[1]);
 
-        char buffer[1];
+        char buffer[2];
+        buffer[1]= '\0';
+        
         bool is_written = false;
         
         // Leemos caracter a caracter
-        while (read(fd_exchange[0], buffer, 1) == 1){
+        while (read(fd_exchange[0], buffer, 1) > 0){
             if (strcmp(buffer, "/") == 0)
                 is_written = true;
             else if (strcmp(buffer, "\n") == 0) {
