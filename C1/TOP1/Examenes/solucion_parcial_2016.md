@@ -62,3 +62,6 @@ $$
 donde en la igualdad 1 se ha aplicado una propiedad general de conjuntos vista en clase y en 2 que $(X_1, \tau_1)$ y $(X_2, \tau_2)$ son Hausdorff.
 
 Así, al verificarse b) de la proposión 1.3.2 también lo hace a) y concluimos que $(X_1 \times X_2, \tau_1 \times \tau_2)$ es Hausdorff.
+
+
+**(4) Probar que un espacio topológico $(X, \tau)$ es Hausdorff si y sólo si la diagonal $\Delta = \{(x, x) \in X \times X \vert \ x \in X\}$ es un subconjunto cerrado de $(X \times X, \tau \times \tau)$**
