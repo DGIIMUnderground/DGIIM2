@@ -70,4 +70,23 @@ Así, al verificarse b) de la proposión 1.3.2 también lo hace a) y concluimos 
 
 <u> Condición suficiente: </u>
 
+
 ---
+## Ejercicio 2: 3 puntos
+**Sea $X$ un conjunto y $A$ y $B$ subconjuntos no vacíos de $X$ cumpliendo $A \subset B$. Se define:**
+$$
+\tau = \{O \subset X \vert \ O \subset X - A\} \cup \{O \subset X \vert \ B \subset O\}
+$$
+
+**(1) Probar que $\tau$ es una topología en $X$**
+NO ACABADO
+1.  - $\emptyset \in \tau$:
+      $\emptyset \in X - A \Rightarrow \emptyset \in \tau$
+    - $X \in \tau$:
+      $X$ verifica: $X \subset X$ y $B \subset X \Rightarrow X \in \tau$
+
+2. $\{O_\lambda \vert \ \lambda \in \Lambda \} \subset \tau \Rightarrow \cup_{\lambda \in \Lambda} O_\lambda \in \tau$
+
+
+
+3.  $\{O_i \vert \ i = 1, ..., n\} \subset \tau \Rightarrow \cap_{i = 1}^{n} O_\lambda \in \tau$
