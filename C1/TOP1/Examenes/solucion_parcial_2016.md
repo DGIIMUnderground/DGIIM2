@@ -65,3 +65,9 @@ Así, al verificarse b) de la proposión 1.3.2 también lo hace a) y concluimos 
 
 
 **(4) Probar que un espacio topológico $(X, \tau)$ es Hausdorff si y sólo si la diagonal $\Delta = \{(x, x) \in X \times X \vert \ x \in X\}$ es un subconjunto cerrado de $(X \times X, \tau \times \tau)$**
+
+<u> Condición necesaria: </u>
+
+<u> Condición suficiente: </u>
+
+---
