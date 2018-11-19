@@ -85,8 +85,10 @@ NO ACABADO
     - $X \in \tau$:
       $X$ verifica: $X \subset X$ y $B \subset X \Rightarrow X \in \tau$
 
-2. $\{O_\lambda \vert \ \lambda \in \Lambda \} \subset \tau \Rightarrow \cup_{\lambda \in \Lambda} O_\lambda \in \tau$
+2. $\{O_\lambda \vert \ \lambda \in \Lambda \} \subset \tau \Rightarrow \cup_{\lambda \in \Lambda}{O_\lambda} \in \tau$:
+    - $\forall O_\lambda \in \{O \subset X \vert \ O \subset X - A\} \Rightarrow \cup_{\lambda \in \Lambda}{O_\lambda} \subset X - A \Rightarrow \cup_{\lambda \in \Lambda}{O_\lambda} \in \tau$
+    - $\exists \lambda_0 \in \Lambda: B \subset O_{\lambda_0} \Rightarrow B \subset \cup_{\lambda \in \Lambda}{O_\lambda} \Rightarrow \cup_{\lambda \in \Lambda}{O_\lambda} \in \tau$
 
-
-
-3.  $\{O_i \vert \ i = 1, ..., n\} \subset \tau \Rightarrow \cap_{i = 1}^{n} O_\lambda \in \tau$
+3.  $\{O_i \vert \ i = 1, ..., n\} \subset \tau \Rightarrow \cap_{i = 1}^{n}{O_i} \in \tau$
+    - $\forall O_i \in \{O \subset X \vert \ B \subset O\} \Rightarrow B \subset \cap_{i = 1}^{n}{O_i} \in \tau$
+    - $\exist i \in \{1, ..., n\}: O_i \in \{O \subset X \vert \ O \subset X - A\} \Rightarrow \cap_{i = 1}^{n}{O_i} \subset X - A \Rightarrow \cap_{i = 1}^{n}{O_i} \in \tau$
