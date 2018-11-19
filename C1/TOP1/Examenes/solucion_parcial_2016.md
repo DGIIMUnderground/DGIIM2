@@ -90,7 +90,7 @@ $$
 
 3.  $\{O_i \vert \ i = 1, ..., n\} \subset \tau \Rightarrow \cap_{i = 1}^{n}{O_i} \in \tau$
     - $\forall O_i \in \{O \subset X \vert \ B \subset O\} \Rightarrow B \subset \cap_{i = 1}^{n}{O_i} \in \tau$
-    - $\exist i \in \{1, ..., n\}: O_i \in \{O \subset X \vert \ O \subset X - A\} \Rightarrow \cap_{i = 1}^{n}{O_i} \subset X - A \Rightarrow \cap_{i = 1}^{n}{O_i} \in \tau$
+    - $\exists i \in \{1, ..., n\}: O_i \in \{O \subset X \vert \ O \subset X - A\} \Rightarrow \cap_{i = 1}^{n}{O_i} \subset X - A \Rightarrow \cap_{i = 1}^{n}{O_i} \in \tau$
 
 **(2) Calcular el interior, la adherencia y la frontera de los subconjuntos A y B**
 SIN HACER
