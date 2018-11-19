@@ -79,7 +79,6 @@ $$
 $$
 
 **(1) Probar que $\tau$ es una topología en $X$**
-NO ACABADO
 1.  - $\emptyset \in \tau$:
       $\emptyset \in X - A \Rightarrow \emptyset \in \tau$
     - $X \in \tau$:
@@ -92,3 +91,39 @@ NO ACABADO
 3.  $\{O_i \vert \ i = 1, ..., n\} \subset \tau \Rightarrow \cap_{i = 1}^{n}{O_i} \in \tau$
     - $\forall O_i \in \{O \subset X \vert \ B \subset O\} \Rightarrow B \subset \cap_{i = 1}^{n}{O_i} \in \tau$
     - $\exist i \in \{1, ..., n\}: O_i \in \{O \subset X \vert \ O \subset X - A\} \Rightarrow \cap_{i = 1}^{n}{O_i} \subset X - A \Rightarrow \cap_{i = 1}^{n}{O_i} \in \tau$
+
+**(2) Calcular el interior, la adherencia y la frontera de los subconjuntos A y B**
+SIN HACER
+
+> **Definición 2.2.1:**
+$Aº = \{x \in X \vert \ \exists V \in \mathcal{U}^x: V \subset A\}$
+$\bar{A} = \{x \in X \vert \ \forall V \in \mathcal{U}^x \quad V \cap A \neq \emptyset\}$
+$Fr(A) = \{x \in X \vert \ \forall V \in \mathcal{U}^x \quad V \cap A \neq \emptyset \ \wedge \ V \cap (X - A) \neq \emptyset\}$
+
+
+**(3) Hallar una base de la topología $\tau$**
+SIN HACER
+
+> **Definición: base de una topología**
+Sea $(X, \tau)$ un espacio topológico. Una base de la topología $\tau$ es una familia $\mathcal{B} \subset \tau$ tal que para todo abierto $O \in   \tau$ existe $\{B_i: i \in I\} \subset \mathcal{B}$ tal que
+$$
+O = \cup_{i \in I}{B_i}
+$$
+Es decir, la topología se genera de la base haciendo las posibles uniones de elementos de la misma.
+
+> **Proposición: caracterización de la base de una topología**
+Sea $(X, \tau)$ un espacio topológico. Una familia $\mathcal{B} \in \tau$ es una base de la topología $\tau$ si y sólo si para todo abierto $O \in \tau$ y todo punto $x \in O$ existe un $B \in \mathcal{B}$ con $x \in B \subset O$
+
+**(4) Hallar una base de entornos y el sistema de entornos de un punto $x \in A$**
+SIN HACER
+
+> **Definición: entorno de un punto**
+Sea $(X, \tau)$ un espacio topológico y $x\in X$. Un entorno de $x$ es un subconjunto $V \subset X$ cumpleniendo:
+existe un abierto $O \in \tau$ tal que $x \in O \subset \tau$
+Denotaremos $\mathcal{U}^x$ al sistema de entornos de $x$, esto es, al conjunto de los entornos de $x$.
+
+> **Definición: base de entornos de un punto**
+Sea $(X, \tau)$ un espacio topológico y $x\in X$. Una base de entornos del punto $x$ es es una familia $\mathcal{B}^x \subset \mathcal{U}^x$ con la propiedad:
+para todo $V \in \mathcal{U}^x$ existe $W \in \mathcal{B}^x$ tal que $W \subset V$
+Es claro que los entornos se construyen a partir de una base de la siguiente manera:
+$\mathcal{U}^x = \{{V \subset X \vert \ \exists W \in \mathcal{B}^x: W \subset V\}}$
