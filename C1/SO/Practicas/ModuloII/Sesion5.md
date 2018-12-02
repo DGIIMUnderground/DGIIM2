@@ -55,8 +55,7 @@ int main(int argc, char *argv[]){
 	}
 }
 ```
-El programa se ejecuta de la siguiente forma:
-`./ejecutable {0,1,2} PID`
+El programa se ejecuta de la siguiente forma: `./ejecutable {0,1,2} PID`
 Dependiendo de si usas 0,1 o 2, el programa con el PID que se ha enviado se cerrará de una forma u otra. No tiene más misterio
 
 ---
