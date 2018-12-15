@@ -1,7 +1,10 @@
-# Apuntes útiles sobre administración de sistemas linux
+---
+author: Sergio Quijano Rey
+title: Apuntes sobre administración de Sistemas
+date: 15/12/2018
+---
 
-* Pequeña lista con los contenidos de la parte 1 de las prácticas de Sistemas Operativos
-* Autor: [Sergio Quijano Rey](sergiquijano@gmail.com)
+# Apuntes útiles sobre administración de sistemas linux
 
 --------------------------------------------------------------------------------
 
@@ -25,6 +28,9 @@
 * Cambiar de un usuario a otro desde la terminal
 	* `su - <username>`: pide la contraseña y se loggea
 	* `su -`: para acceder al usuario root
+* Listar todos los usuarios del sistema:
+	* `awk -F: '{ print $1 }' /etc/passwd`
+* Es útil saber usar `awk` o `sed` para tomar información de los archivos del sistema
 
 ### Usuarios
 
@@ -61,23 +67,29 @@
 	* `system-config-users`: herramienta en modo gráfico
 		* No tengo ni idea de como se utiliza
 	* `passwd` para cambiar la contraseña de un usuario
+		* `passwd <user>`: saca un prompt para cambiar la contraseña de `<user>`
+		* Sin parámetros cambia la contraseña del usuario actual
 	* `chage`: para cambiar los valores de envejecimiento y limites de tiempo
+		* `chage`: sin parámetros muestra las opciones
 
 ### Grupos
 
 * Se puede consultar el `groupname` y `groupid` en `/etc/group`
-* Algunas órdenes para gestionar grupos
+* Algunas órdenes para gestionar grupos (**todas ellas sin parámetros muestran sus opciones**)
 	* `groupadd grupo` crea un nuevo grupo
 	* `groupmod grupo` modifica un grupo existente
 	* `groupdel grupo` elimina un grupo
 	* `newgrp grupo` cambia de grupo activo (lanza un shell con ese grupo)
 	* `gpasswd grupo` asigna una contraseña a un grupo
-	* `gpasswd -a user grupo` añade un usuario a un grupo
+	* `gpasswd -OPTION user grupo` modifica la situación entre grupo-usuario
+		* `gpasswd -a <user> <gropu>`: añade `<user>` a `<group>`
+		* `gpasswd -d <user> <gropu>`: quita `<user>` de `<group>`
 	* `groups [usuario]` informa de los grupos a los que pertenece un usuario
 	* `id [usuario]` lista el identificador del usuario y los grupos a los que pertenece
 	* `grpck` comprueba la consistencia del archivo de grupos
 	* `id` muestra id de usuario y de grupo
 * Un grupo con `GID` inferior a 500 está preconfigurado por el sistema
+* El root tiene `uid`, `gid` y `gropus` con valor 0
 
 --------------------------------------------------------------------------------
 
@@ -97,7 +109,7 @@
 * `/opt`: programas que no forman parte de la distribución instalada del sistema
 * `/proc`: archivos virtuales que hacen de interfaz entre procesos y núcleo
 * `/tmp`: archivos temporales, se suelen borrar al apagar el sistema
-* `/usr`: ejecutables, codigos fuente, bibliotecas, programas y utilidades
+* `/usr`: ejecutables, códigos fuente, bibliotecas, programas y utilidades
 * `/var`: archivos cuyo contenido suele cambiar durante la ejecución del sistema
 
 ### Archivos de configuración del sistema
@@ -106,6 +118,12 @@
 	* El formato de este archivo se puede consultar con `man 5 passwd`
 * `/etc/group`: información sobre los grupos
 * `/etc/shadow`: guarda los usuarios junto a las contraseñas encriptadas y su tiempo de envejecimiento
+	* Guarda varios hasheos de las contraseñas
+	* Guarda la última fecha de cambio de contraseña
+	* Guarda datos sobre envejecimiento como;
+		* Mínimo tiempo para poder cambiar la contraseña
+		* Máximo tiempo sin cambiar la contraseña
+		* Cuándo se va a avisar del usuario para que cambie la contaseña
 * `/etc/skel`: archivos de configuración del shell
 * `/etc/login.defs`: valores por defecto de envejecimiento y límites de tiempo
 * Configuración shell y la sesión de terminal
@@ -113,20 +131,24 @@
 	* `~/.bashrc`: se ejecuta cada vez que se ejecuta un shell (al abrir shell, ejecutar un programa...)
 		* Suele cargar los contenidos de `.bash_profile` y `.bash_aliases`
 	* `~/.bash_logout`: se ejecuta al finalizar la sesión
+* `/etc/shells`: shells instaladas y disponibles para lanzar por los usuarios del sistema
 * `vmlinuz*` es el ejecutable que lanza el kernel del sistema
 * Información sobre los puntos de montaje:
-	* `/etc/fstab`
+	* `/etc/fstab`: muestra los puntos de montaje que se realizan en el *booteo* del sistema
 		* Es útil para que los montajes se realicen de forma automática
+		* El formato se puede consultar con `man fstab`
 		* Formato: `<filesys> <mountpoint> <type> <options> <dump> <pass>`
 			* <filesys>: número que identifica el archivo especial de bloques
 			* <mountpoint>: directorio que actúa como punto de montaje
 			* <type>: tipo de sistema de archivos
-			* <options>: opciones para el proceso de montaje
+			* <options>: opciones para el proceso de montaje: se pueden consultar con `man fstab` y `man 8 mount`
 			* <dump>: no se suele usar, si su valor es distinto de 0 indica la frecuencia con la que se hacen copias de seguridad
 			* <pass>: indica el orden en el que se comprueban los estados de los sistemas de archivos
-	* `/etc/mtab`
-* `/proc/filesystems`: lista los tipos de sistemas de archivos disponibles
-* `/proc/mounts`: sistemas de archivos montados actualmente
+	* `/etc/mtab`: muestra los puntos de montaje **actuales** del sistema
+		* Tiene exactamente el mismo formato que `/etc/fstab`
+		* Si un disco está conectado pero no montado, no aparece en este archivo
+* `/proc/filesystems`: lista los tipos de sistemas de archivos disponibles en el sistema
+* `/proc/mounts`: sistemas de archivos montados actualmente, mismo formato que `/proc/mounts`
 
 --------------------------------------------------------------------------------
 
@@ -139,19 +161,39 @@
 	* Se almacenan el en `Master Boot Record` o `MBR`
 	* Solo se soportan 4, por compatibilidad hacia atrás
 * Particiones lógicas
-	* Son subdivisiones de la partición primaria
+	* Son subdivisiones de una partición primaria
+	* Una partición primaria puede tener más de 4 particiones lógicas
 * Es común crear una partición primaria con el objetivo de crear tantas particiones lógicas como queramos
 	* Se le asigna el formato `extended` que se corresponde con el valor `05`
+* Sobre los nombres de dispositivos en linux:
+	* Los dispositivos se identifican con `/dev/<algo>` donde algo suele ser:
+		* `sd<letra`>
+	* Por ejemplo, `/dev/sda`, `/dev/sdb`
+	* Las particiones del dispositivo se identifican con el nombre del dispositivo
+	  seguido del número de la partición.
+	* Por ejemplo, si `/dev/sda` tiene tres particiones, aparecerán como:
+		* `/dev/sda1`
+		* `/dev/sda2`
+		* `/dev/sda3`
 
 ### Particiones para que un dispositivo sirva de arranque
 
 * Se necesitan obligatoriamente
 	* Una partición primaria: en linux se identifica con `/`
 	* Al menos una partición `swap`
-* A partir de esto, podemos crear tantas particiones lógicas como queramos
+* A partir de esto, podemos crear tantas particiones primarias y lógicas como queramos
+
+### Particiones para un dispositivo secundario
+
+* Se necesita forzosamente:
+	* Al menos una partición primaria o secundaria
+	* No es necesario crear un `swap`, aunque nos es posible
+* A partir de esto podemos crear tantas particiones como queramos
 
 ### Directorios del estándar `FHS` que pueden tener una partición independiente
 
+* `FHS` es el estándar de la organización linux para un sistema de archivos.
+* Se puede consultar el estándar con `man hier`
 * `/`: debe tener una partición primaria, de forma obligatoria
 * `/home`: los motivos por los que podemos querer tener una partición única para `/home` son:
 	* `/home` almacena los archivos personales de los usuarios
@@ -161,28 +203,23 @@
 	* Almacena los ejecutables binarios del sistema
 * `/var`
 	* Contiene directorios *SPOOL* como dispositivos de impresión
-	* Se suele asignar una partición distinta de `/` cuando linux actua como un servidor
+	* Se suele asignar una partición distinta de `/` cuando linux actúa como un servidor
 
 
-### Particiones para un dispositivo secundario
-
-* Se necesita forzosamente:
-	* Al menos una partición primaria o secundaria
-	* No es necesario crear un `swap`, aunque nos es posible
-* A partir de esto podemos crear tantas particiones como queramos
 
 ### Esquema del proceso general para crear particiones y formatear un dispositivo
 
 * Lo desmontamos del sistema
-* Creamos una nueva tabla de particiones
-* Formateamos cada partición creada
-* Montamos el dispositivo en nuestra estructura de directorios
+* Creamos una nueva tabla de particiones con `fdisk` o `gparted`
+* Formateamos cada partición creada con `mkfs`
+* Montamos el dispositivo en nuestra estructura de directorios con `mount`
 
 ### Proceso para crear un UBS o DiscoDuro virtual
 
 ~~~bash
 # Crea los archivos necesarios si no existen
 # La opcion b 7 indica que son dispositivos tipo bloque (USB o disco duro)
+# Estas dos instrucciones no hacen falta si ya existen /dev/loop0 /dev/loop1
 mknod /dev/loop0 b 7 0
 mknod /dev/loop1 b 7 1
 
@@ -202,9 +239,10 @@ fdisk -l /dev/loop0 /dev/loop1
 
 * Se introduce el USB
 * Se puede ver que archivo y directorio especial se le ha asignado en `/proc/mount`
+* Se puede ver que ha aparecido un nuevo dispositivo con `lsblk`
 * Se desmonta el USB con la orden `umount`
 
-### Proceso partición de un USB
+### Proceso de crear la tabla de particiones
 
 * Se crean las particiones con la orden fdisk
 	* `fdisk -l` lista las particiones que haya en el sistema, de todos los dispositivos conectados
@@ -217,22 +255,24 @@ fdisk -l /dev/loop0 /dev/loop1
 		* `w`: guarda los cambios
 		* `q`: sale sin guardar los cambios
 
-### Formatear particiones
+### Proceso de dar formato a las particiones creadas
 
+* Se debe haber creado la tabla de particiones con `fdisk`
 * Se puede usar la instrucción `mke2fs`
-	* mke2fs
+	* Solo sirve para formatear con `ext`
+	* Por tanto, no es muy recomendable
 * Se puede usar la instrucción `mkfs.label /dev/sdb/partitionnumber`
 	* `label` debe ser el nombre del formato a utilizar
 	* `partitionnumber` debe ser el número de la partición que hemos indicado con fdisk
 		* Se puede saber con `lsblk`
 		* Se puede saber con `fdisk -l`
-	* Para memoria swap se usa `mkswap`
-* Se puede usar la orden `mkfs`
-	* Es la más útil según mi experiencia
+	* No suele funcionar, no tiene soporte
+* Se puede usar la orden `mkfs`, **opción que a mi me funciona**:
 	* `mkfs -t <type> <dispositivo>`
 		* `<type>` es un tipo de archivos soportados por linux
 		* `<dispositivo>` es una partición, no un dispositivo entero `/dev/sda1` en lugar de `/dev/sda`
-	* Por ejemplo: `mkfs -t ext4 /dev/sda1`
+	* Por ejemplo: `mkfs -t ext4 /dev/sda1` (*no hay ningún motivo para usar ext2 o ext3 frente a ext4*)
+* Para dar formato `swap` se usa `mkswap`
 
 ### Ajuste de parámetros configurables
 
@@ -240,25 +280,56 @@ fdisk -l /dev/loop0 /dev/loop1
 * Se usa la orden `tune2fs`
 	* `tune2fs -l <dispositivo>`: muestra información de los sistemas de archivos del dispositivo
 	* `tune2fs -c number <dispisitivo>`: establece el número máximo de montajes que se pueden hacer en el dispositivo sin comprobar consistencia
-	* `tune2fs -L label dispositivo`: asigna una etiqueta a un dispositivo
+	* `tune2fs -L label dispositivo`: asigna una etiqueta a un dispositivo o partición
 
 ### Montaje/Desmontaje
 
 * `mount` para el montaje
-	* `mount -t <ftype> <origen> <destino>`
-		* `<ftype>`: tipo de sistema de archivos
-		* `<origen>`: ruta del dispositivo especial, normalmente `/dev/sd...`
-		* `<destino>`: ruta donde queremos colocar la raíz del dispositivo
+	* Sin parámetros muestra los puntos de montaje cargados en el sistema
+	* Modos de uso:
+		* `mount -t <ftype> <device> <destino>`
+			* `<ftype>`: tipo de sistema de archivos
+			* `<device>`: ruta del dispositivo especial, normalmente `/dev/sd...`
+			* `<destino>`: ruta donde queremos colocar la raíz del dispositivo
+		* `mount <device>`:
+			* Se busca en `/etc/fstab` un punto de montaje libre
+			* No es recomendable hacer esto
+		* `mount <device> <mountpoint>`
+			* Es la opción que más se usa
+			* Monta el dispositivo en el punto de montaje especificado
+		* `mount -l <label> <mountpoint>`:
+			* Se usa una etiqueta en vez del nombre del dispositivo
+			* Se puede utilizar con todas las combinaciones en las que intervenga `<device>`
+		* `mount -a`:
+			* Monta todos los dispositvios especificados en `/etc/fstab`
+		* `mount <device> <mountpoint> -o <options>`
+			* Se tienen en cuenta las opciones a la hora de realizar el montaje
+			* Las opciones siguen el mismo formato que en `/etc/fstab`
+			* Las opciones se pueden consultar con `man fstab` y `man 8 mount`
+		* `mount -r <device> <mountpoint>`
+			* Realiza el montaje en modo lectura únicamente
+		* `mount -w <device> <mountpoint>`
+			* Realiza el montaje en modo lectura y escritura
 	* Por ejemplo, `mount -t ext4 /dev/sda1 /media/USB`
+	* Por ejemplo, `mount /dev/sda1 /media/USB`
 * `umount` para el desmontaje
 	* `umount <directoriomontaje>`
-	* Por ejemplo, `umount /media/USB`
+	* `umount <dispositivo>`
+	* Por ejemplo, `umount /media/USB` o `umount /dev/sda1`
+	* Si el dispositivo esta `busy` y aún así queremos desmontarlo usamos 
+	  `umount -f <directorio>`
 * Para el automontaje, se escribe una entrada en `/etc/fstab` como ya hemos estudiado
 
 ### Reparar inconsistencias
 
 * `fsck`
 	* Opera sobre metadatos, no sobre los archivos en si
+	* Modos de ejecución:
+		* `fsck -A`: comprueba todos los sistemas de archivos de `/etc/fstab`
+		* `fsck <dispositivo>`: comprueba el dispositivio especificado
+		* `fsck -r <dispositivo>`: comprueba el dispositivo y muestra otras estadísticas
+	* Existe el programa `e2fsck` que actúa igual que `fsck` pero solo para
+	  sistemas de archivos con formato `ext`
 
 --------------------------------------------------------------------------------
 
@@ -295,14 +366,18 @@ fdisk -l /dev/loop0 /dev/loop1
 * Sirve para limitar el uso del sistema de archivos a un usuario, de forma más flexible que usando particiones del `/home`
 * Se necesita tener instalado el paquete `quota`
 * Tipos de límite
-	* Límite soft: una vez se llega al límite, el usario no puede sobrepasarlo
-	* Límite hard: se puede superar un límte (*aunque no se puede llegar a otro nivel especificado*) durante un periodo de tiempo conocido como *periodo de gracia*
+	* Límite hard: una vez se llega al límite, el usuario no puede sobrepasarlo
+	* Límite soft: se puede superar un límite (*aunque no se puede llegar a otro nivel especificado*) durante un periodo de tiempo conocido como *periodo de gracia*
 * Procedimiento para establecer cuotas en un sistema de archivos:
-	1. Editar el archivo /etc/fstab y activar el sistema de cuotas de usuario para el SA tipo ext3 (mirar como se hace en el manual)
+	1. Editar el archivo /etc/fstab y activar el sistema de cuotas de usuario para el SA tipo ext3 
+		* En las opciones del `/etc/fstab` debe aparecer `usrquota,grpquota`
 	2. Montar de nuevo el SA en el espacio de nombres para que se active la opción previamente establecida. `mount -o remount <directorio_punto_de_montaje>`
 	3. Crear el archivo que permite llevar el control de cuotas de usuario para el SA. El nombre de este archivo es aquota.user. `quotacheck -nm <directorio_punto_de_montaje>`
+		* A mi me funciona con `quotacheck -acug <puntodemontaje>`
+		* Después, `quotacheck -avug`
 	4. Ahora procedemos a activar el sistema de control de cuotas de usuario. `quotaon -a`
 	5. Ahora solo falta editar la cuota para cada usuario del sistema mediante la siguiente orden. `edquota username`
+		* Podemos editar quotas para grupos con `edquota -g <groupname>`
 	6. Para finalizar estableceremos el periodo de gracia para el límite soft. `edquota -t`
 * Otras órdenes útiles:
 	* `quota username`: asignación de las cuotas para un usuario.
@@ -426,7 +501,7 @@ fdisk -l /dev/loop0 /dev/loop1
 		  posibles valores para `TIME` se pueden consultar con `man at`
 	* Algunos ejemplos:
 		* `at now + 1 minute -f sript.sh`
-	* La salida estándar y la salida de error se envia por correo al usuario con
+	* La salida estándar y la salida de error se envía por correo al usuario con
 	  el programa `/usr/bin/sendmail`. Por esto, es conveniente redirigir las salidas
 	  o bien a `/dev/null` o a archivos alojados en el sistema de archivos que podamos
 	  consultar más tarde, sin tener que haber configurado el envío de emails que
