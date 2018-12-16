@@ -513,6 +513,21 @@ fdisk -l /dev/loop0 /dev/loop1
 		* De carácteres: reprensentan terminales
 		* De FIFO: sirve para comunicación entre procesos
 	* Para ver información sobre esta utilidad: `mknod --help`
+	* Podemos especificar en número principal *major* y el número secundario *minor*
+		* *Major* especifica el controlador al que está conectado el dispostivo
+		* *Minor* especifica el dispositivo en si
+		* Estos valores depende de la distribución en la que nos encontremos,
+		  hay que consultar el convenio actual
+	* Formas de lanzar la orden
+		* `mknod <path> <type> <major> <minor>`
+			* Crea el archivo especificado por `<path>`
+			* `<type>` puede ser `c`, `b` o `p` para caracteres, bloques, fifo (*pipe*)
+		* `mknod <path> p`
+			* Crea un FIFO
+			* No hace falta dar los dos números
+	* Para obtener los números principales: `cat /proc/devices`
+	* Para elegir un número secundario, hay que escoger uno que no esté siendo
+	  utilizado por otros dispositivos con el mismo número principal
 
 --------------------------------------------------------------------------------
 
@@ -522,6 +537,9 @@ fdisk -l /dev/loop0 /dev/loop1
 	* Dos tipos de enlaces:
 		* Enlaces simbólicos: se referencia el nombre del archivo
 		* Enlaces duros: se referencian los metadatos del archivo
+	* Todos los archivos tienen un enlace duro desde el nombre de archivo a su inodo
+	* Todos los directorios tienen dos enlaces duros, uno a `.` que representa
+	  al directorio y otro a `..` en sus hijos, que lo representan como nodo padre
 	* Formas de invocar `ln`
 		* `ln archivo_original archivo_enlace`: crea un enlace duro
 		* `ln -s archivo_original archivo_enlace`: crea un enlace simbólico
@@ -537,6 +555,18 @@ fdisk -l /dev/loop0 /dev/loop1
 	  forma imprevista se relancen
 	* Pueden ser servidores, en cuyo caso, están a la espera de que ocurra
 	  cierto evento. En otro caso, ejecutan una utilidad de forma periódica
+* **Importante sobre demonios**:
+	* Con instalar los demonios estos no van a funcionar solos, hay que invocarlos
+	* Esto se suele hacer con `service` o `systemctl` (*esta última a mi me funciona mejor*)
+	* Proceso:
+		* `systemctl start crond`: se inicia crond
+		* `systemctl status crond`: para ver si está en funcionamiento
+		* `systemctl enable crond`: si queréis un demonio de verdad en vuestro
+		  ordenador, esto hace que se inicie solo al encender el equipo
+	* Este proceso es el mismo que con `service`
+	* En general, el demonio se llama igual que el programa, con una `d` al final
+	* No es lo mismo el demonio que el programa que ejecuta o los programas a
+	  los que accedemos para configurar su funcionamiento
 * Demonio `atd`
 	* Algunas funcionalidades del demonio
 		* `at`: ordenar la ejecución de órdenes a una determinada hora
@@ -546,6 +576,8 @@ fdisk -l /dev/loop0 /dev/loop1
 	* El formato de la orden principal es `at [-q queue] [-f <script>] [-mldbv] TIME`
 		* `TIME` indica la hora a la que se va a ejecutar una orden, una única vez. Los
 		  posibles valores para `TIME` se pueden consultar con `man at`
+		* También se puede consultar en `/usr/share/doc/at/timespec`
+		* Por ejemplo, `at -t -f scritp.sh`
 	* Algunos ejemplos:
 		* `at now + 1 minute -f sript.sh`
 	* La salida estándar y la salida de error se envía por correo al usuario con
@@ -553,12 +585,17 @@ fdisk -l /dev/loop0 /dev/loop1
 	  o bien a `/dev/null` o a archivos alojados en el sistema de archivos que podamos
 	  consultar más tarde, sin tener que haber configurado el envío de emails que
 	  es bastante molesto
+	  	* Estos archivos han de ser especificados con rutas absolutas
 	* El script que ejecuta el demonio se debe especificar con su ruta absoluta
 	  o debe encontrase en los directorios de búsqueda de ejecución, porque el 
 	  demonio que lo lanza no va a tener la variable de entorno para saber
 	  cual es el directorio actual
 	* `/etc/at.deny` y `/etc/at.allow` especifican qué usuarios pueden ejecutar
 	  los demonios y qué usuarios no
+	* Si no se especifican rutas absolutas en los archivos donde redirigimos, no se crean
+	  estos archivos
+	* Si invocamos scripts sin especificar rutas absolutas, puede que no se 
+	  ejecute el script (solo podemos usar relativas cuando usemos `at -f <file>`)
 * Demonio `cron`:
 	* Sirve para lanzar scripts de forma periódica
 	* `cron.allow` y `cron.deny` especifican los usuarios que pueden ejecutar el demonio, y aquellos que no
