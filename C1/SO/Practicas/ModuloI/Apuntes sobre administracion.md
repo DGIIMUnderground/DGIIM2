@@ -391,7 +391,10 @@ fdisk -l /dev/loop0 /dev/loop1
 	* Hora actual
 	* Usuarios conectados
 	* Tiempo que lleva en marcha el sistema
-	* Carga del sistema
+	* Carga del sistema en los últimos 1, 5 y 15 minutos
+	* Opciones
+		* `uptime -p`: muestra cuanto tiempo lleva el sistema encendido
+* `w`: muestra los usuarios conectados y la carga que generan
 * `time`: mide el tiempo de ejecución de un programa y muestra recursos consumidos
 	* Tiempo total del programa (real)
 	* Tiempo ejecutándose en modo usuario (user)
@@ -403,31 +406,51 @@ fdisk -l /dev/loop0 /dev/loop1
 * `renice`: modifica el valor de prioridad de un proceso que se está ejecutando
 * `pstree`: visualiza el árbol de procesos en ejecución
 	* Sería interesante conocer los flags del comando
+	* No son muchas las opciones, por lo que se puede consultar comodamente con `man`
 * `ps`: muestra los procesos en ejecución
+	* Sin argumentos muestra los procesos lanzados por el usuario
 	* Se suele lanzar `ps -ef` para mostrar toda la información del sistema
 	* `ps aux` tiene el mismo resultado que el comando anterior
+	* Para buscar un proceso es útil lanzar `ps aux | egrep <proceso>`
 * `top`: muestra información sobre los procesos en tiempo real
 	* Se pueden enviar señales en tiempo real
 	* La versión mejorada de `top` es mucho más útil: `htop`
+	* Comandos
+		* `r`: se introduce un proceso para cambiarle el parámetro `nice`
+		* `k`: mandar una señal (*kill*)
+		* `n`: cambiar el número de procesos que se muestran
+		* `q`: para salir
+		* Ordenamiento:
+			* `N` por pid
+			* `P` por uso de CPU
+			* `A` por tiempo
 * `mpstat`: muestra estadísticas de uso de la CPU
-	* CPU: identificador del procesador
-	* %user: porcentaje de uso a nivel de usuario
-	* %nice: porcentaje de uso con tareas nivel de usuario con prioridad nice
-	* %sys: porcentaje de uso de la CPU en modo núcleo
-	* %iowait: porcentaje de tiempo desocupado de la CPU
-	* %irq: porcentade de tiempo gastado con interrupciones hardware
-	* %idle: porcentaje de tiempo con CPU desocupada y sin peticiones de disco pendientes
-	* intr/s: número de interrupciones por segundo recibidas por el procesador
+	* Campos que se muestran
+		* CPU: identificador del procesador
+		* %user: porcentaje de uso a nivel de usuario
+		* %nice: porcentaje de uso con tareas nivel de usuario con prioridad nice
+		* %sys: porcentaje de uso de la CPU en modo núcleo
+		* %iowait: porcentaje de tiempo desocupado de la CPU
+		* %irq: porcentade de tiempo gastado con interrupciones hardware
+		* %idle: porcentaje de tiempo con CPU desocupada y sin peticiones de disco pendientes
+		* intr/s: número de interrupciones por segundo recibidas por el procesador
+	* Modos de ejecución
+		* `mpstat <intervalo> <numero>`: ejecuta un número `<numero>` de muestras cada `<intervalo>` segundos,
+		  al final se muestra la media de los datos
 
 --------------------------------------------------------------------------------
 
 ## Monitorización de la memoria
 
-* `free`: muestra información sobre el uso de memoria principal
+* `free`: muestra información sobre el uso de memoria principal, únicamente esto
 	* Análogo a `mpstat` pero con el uso de memoria RAM
 	* Es útil ejecutar `watch -d free` para simular de alguna forma el modo interactivo
-* `vmstat`: muestra información de memoria masiva, swap, entradas/salidas, cpu
-	* `vmstat <periodo> <ejecuciones>`: ejecuta <ejecuciones> cada <periodo> segundos
+	* Opciones:
+		* `free -h`: muestra la información en modo humano
+		* `free -l`: muestra toda la información (*low*, *high memory*).
+		  Low es para el kernel (un tercio de la RAM), High es para el usuario (los otros dos tercios)
+* `vmstat`: muestra información de memoria masiva, swap, procesos, entradas/salidas, cpu
+	* `vmstat <periodo> <ejecuciones>`: ejecuta `<ejecuciones>` cada `<periodo>` segundos
 	* Su primera salida suele mostrar las estadísticas desde el inicio del sistema hasta
 	  la ejecución del comando
 	* La columna `r` muestra los procesos que están en colas de ejecución
@@ -451,15 +474,39 @@ fdisk -l /dev/loop0 /dev/loop1
 		* `ls -t`: Ordena por última modificación
 		* `ls -u`: Ordena por último tiempo de acceso
 		* `ls -c`: Ordena por última modificación incluyendo metadatos 
+	* Flags de metadatos
+		* `ls -l`: formato largo, muestra los metadatos
+		* `ls -n`: como `ls -l` y adicionalmente muestra usuarios y grupos de forma numérica
+		* `ls -a`: muestra entradas ocultas
+		* `ls -A`: muestra entradas ocultas excepto `.` y `..`
+		* `ls -i`: muestra el inodo de cada archivo
+		* `ls -h`: se muestra el formato humano
+	* Otros flags
+		* `ls -R`: hace el listado de forma recursiva por los subdirectorios
+		* `ls -B`: no muestra backups (los backups acaban con el caracter `~`)
+		* `ls -d`: lista los directorios y no sus contenidos
+		* `ls -g`: como `ls -l` pero sin listar el propietario
+		* `ls -L`: muestra los metadatos del archivo linkeado en vez de los del link
+		* `ls -Q`: pone los nombres entre comillas dobles
 * `df`: para cada sistema de archivos montado muestra información sobre espacio ocupado,
   espacio libre...
 	* `df -h`: muestra la información para humanos (unidades)
 	* `df -i`: muestra el número de inodos usados y disponibles, en vez de espacio disponible
+	* Sirve para sistemas de archivos por completo, no para directorios
 * `du`: muestra la cantidad de disco usado por los directorios de forma recursiva
-	* `du -l`: muestra información para humanos
-	* `du -d<num>`: solo profundiza <num> en el sistema de archivos. Con <num> igual a 1
-	  obtenemos solo los tamaños del directorio en el que nos encontremos
-	* `du -i`: en vez de mostrar tamaño de disco usado, muestra inodos usados
+	* Hay que tener en cuenta que la última linea muestra la cantidad total de todo el subárbol
+	* Hay que tener en cuenta la fragmentación interna de los bloques de archivos
+	* Opciones
+		* `du -h`: muestra la información con formato para humanos
+		* `du -l`: para trabajar con los enlaces duros
+		* `du -a`: muestra el espacio también de los archivos, no solamente de los directorios
+		* `du -d<profundidad>`: solo aplica recursividad a la profundidad especificada 
+			* Con valor 0, muestra el tamaño del directorio especificado `du -h -d0`
+			* Con valor 1, solo muestra el primer nivel del directorio especificado
+		* `du -i`: en vez de mostrar tamaño de disco usado, muestra inodos usados
+		* `du -B<blocksize>` muestra la cantidad de `<blocksize>` que hay en el directorio
+			* Se especifica con un número y unidad, `du -B12KB`
+			* Por defecto es 1024bytes
 * `mknod`: crea archivos especiales
 	* Tipos:	
 		* De bloques: representan dispostivos de bloques como USBs o discos duros
