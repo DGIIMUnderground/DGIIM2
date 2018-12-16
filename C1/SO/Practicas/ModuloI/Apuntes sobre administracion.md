@@ -406,7 +406,7 @@ fdisk -l /dev/loop0 /dev/loop1
 * `renice`: modifica el valor de prioridad de un proceso que se está ejecutando
 * `pstree`: visualiza el árbol de procesos en ejecución
 	* Sería interesante conocer los flags del comando
-	* No son muchas las opciones, por lo que se puede consultar comodamente con `man`
+	* No son muchas las opciones, por lo que se puede consultar cómodamente con `man`
 * `ps`: muestra los procesos en ejecución
 	* Sin argumentos muestra los procesos lanzados por el usuario
 	* Se suele lanzar `ps -ef` para mostrar toda la información del sistema
@@ -557,13 +557,13 @@ fdisk -l /dev/loop0 /dev/loop1
 	  cierto evento. En otro caso, ejecutan una utilidad de forma periódica
 * **Importante sobre demonios**:
 	* Con instalar los demonios estos no van a funcionar solos, hay que invocarlos
-	* Esto se suele hacer con `service` o `systemctl` (*esta última a mi me funciona mejor*)
+	* Esto se suele hacer con `service` o `systemctl` (*esta última a mi me funciona mejor, es la más moderna*)
 	* Proceso:
 		* `systemctl start crond`: se inicia crond
 		* `systemctl status crond`: para ver si está en funcionamiento
 		* `systemctl enable crond`: si queréis un demonio de verdad en vuestro
 		  ordenador, esto hace que se inicie solo al encender el equipo
-	* Este proceso es el mismo que con `service`
+	* Este proceso es el mismo que con `service`, cambiando el orden `orden-servicio` por `servicio-orden`
 	* En general, el demonio se llama igual que el programa, con una `d` al final
 	* No es lo mismo el demonio que el programa que ejecuta o los programas a
 	  los que accedemos para configurar su funcionamiento
@@ -606,10 +606,46 @@ fdisk -l /dev/loop0 /dev/loop1
 		* Un número entero, que activa ese valor determinado
 		* Dos enteros separados por un guión, que indican un rango de valores
 		* Una serie de enteros o rangos separados por una coma, activando cualquier valor de los que aparecen en la lista.
+		* Se hace un `AND` de los campos menos para el `dia-mes` y `dia-semana`, en los que se hace un `OR`
 	* Se pueden establecer variables (*pueden ser de entorno como HOME, PATH, o SHELL*) con `<nombre>=<valor>`
+		* Las variables `HOME` `LOGNAME` se toman de `/etc/passwd`
+		* `SHELL` se establece a `/bin/sh`
+		* **No funciona la sustitución de variables**
 	* Este formato se puede consultar en `man 5 crontab`
 	* Con la orden `crontab` se puede especificar, crear o listar los archivos para que los lea cron
-		* `crontab -l`: muestra el fichero crontab que ejecuta el usuario actual
+		* `crontab -l`: muestra el contenido el fichero crontab que ejecuta el usuario actual
 		* `crontab -r`: elimina le fichero crontab que ejecuta el usuario actual
 		* `crontab <file>`: ejecuta <file> como crontab
-		* `crontab -e`: edita el fichero crontab
+		* `crontab -e`: edita el fichero crontab, si usamos el anterior
+		  comando para cambiar de fichero crontab, edita este último
+	* Opciones para ejecutar cron
+		* `cron -p`: se admite que cualquier usuario utilice `crontab`
+		* `cron -P`: el valor de `PATH` se toma de las variables de entorno
+
+--------------------------------------------------------------------------------
+
+## Notas sobre Docker
+
+* Docker emplea tecnología de contenedores, es mucho más eficiente que usar `UML`
+  pues no se duplican aquellos recursos innecesarios. Es más cómodo de usar.
+* `UML` solo sirve para lo que hacemos en las prácticas. Docker sirve para esto y
+  además es fundamental a la hora de crear programas que dependen de forma crítica
+  del sistema en el que corra. Por ejemplo, un programa en `C` escrito con llamadas
+  al sistema UNIX no va a funcionar en Windows. Con docker podemos hacer que funcione
+  donde sea
+* Funcionamiento para hacer las prácticas:
+	* Lo primero es instalar docker
+		* `sudo pacman -S docker`
+		* `sudo apt install docker.io`
+	* Activar el demonio para docker
+		* `sudo systemctl enable docker`
+		* `sudo systemctl start docker`
+	* Ahora, usar docker
+		* `sudo docker run -it fedora:latest bash`
+		* `-it`: indica que se use la terminal en modo interactivo
+		* Luego se pone `distribucion:version`
+		* Luego el comando a ejecutar, en este caso queremos tener acceso
+		  a una sesión de terminal
+	* Con esto el funcionamiento es idéntico al uso del `UML`
+* Para cosas más avanzadas, se puede aprender a escribir ficheros `Dockerfile` que
+  permiten hacer muchas cosas
