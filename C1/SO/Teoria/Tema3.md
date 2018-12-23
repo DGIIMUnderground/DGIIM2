@@ -110,26 +110,26 @@ Pasos:
 
 
 
-## Paginacion
+## Paginación
 
 El espacio de direcciones fisicas de un proceso no es contiguo
 
 La memoria física se divide en bloques de tamaño fijo (marcos de paágina)
 
-El espacio lógico se divide en bloques del mismo tamaño, denomidadas paginas (puede que no todas las paginas esten cargadas en memoria)
+El espacio lógico se divide en bloques del mismo tamaño, denomidadas páginas (puede que no todas las páginas esten cargadas en memoria)
 
-Existe una tabla de paginas por cada proceso.
+Existe una tabla de páginas por cada proceso.
 
 Existe una tabla de ubucación en disco, una entrada por cada página, cada entrada almacena donde esta cada página en disco.
 
-Existe una tabla de marcos de pagina, contiene informacion sobre cada marco de página, usada por el SO.
+Existe una tabla de marcos de página, contiene informacion sobre cada marco de página, usada por el SO.
 
-### Contenido de la tabla de paginas
+### Contenido de la tabla de páginas
 
 1. Numero de marco
-2. Bit de presencia: si esta a 1 nos dice si la pagina es valida y esta cargada en memoria principal
+2. Bit de presencia: si esta a 1 nos dice si la página es valida y esta cargada en memoria principal
 
-  ejemplo de pagina invalida : memoria reservada pero sin usar entre el heap y la pila
+  ejemplo de página invalida : memoria reservada pero sin usar entre el heap y la pila
 
 3. Bit de modificacion: nos dice si se ha modificado la página en memoria principal, para saber si tenemos que salvar en el disco secundario cuando se retire la página
 
@@ -138,7 +138,7 @@ Existe una tabla de marcos de pagina, contiene informacion sobre cada marco de p
 4. Modo de acceso (bits de protección)
 
 
-### Tratamiento falta de pagina
+### Tratamiento de falta de página
 
 Pasos:
 
@@ -157,26 +157,26 @@ Pasos:
 7. Reinicia la operación que genero la falta de página
 
 
-### Implementacion de la tabla de pagnas (diapositiva 22)
+### Implementación de la tabla de páginas (diapositiva 22)
 
 Siempre se mantiene en memoria principal
 
-Existe un registro base de la tabla de paginas (RBTP) que apunta a la tabla de paginas
+Existe un registro base de la tabla de páginas (RBTP) que apunta a la tabla de páginas
 
 Cada acceso a instruccion o dato requiere dos accesos a memoria.
 
 Ejemplo:
 
 		direccion virtual : 32 bits
-		tam pagina : 4Kbytes (2^12 bytes)
+		tam página : 4Kbytes (2^12 bytes)
 		tam campo desplazamiento = 12 bits
-		tam numero pagina virtual = 20 bits
+		tam numero página virtual = 20 bits
 
-		numero de paginas virtuales = 2^20 = 1 048 576
+		numero de páginas virtuales = 2^20 = 1 048 576
 
-	Problema:
+Problema: Se necesitan demasiadas páginas virtuales.
 
-		Solucion : Paginación multinivel
+Solucion : Páginación multinivel
 
 
 ### Paginación multinivel
@@ -189,14 +189,14 @@ Ejemplo:
 
 #### Ejemplo: Paginacion a dos niveles
 
-Dividimos la tabla de paginas en partes del tamaño de una página
+Dividimos la tabla de páginas en partes del tamaño de una página
 
 La direccion lógica se divide en :
 
 1. Número de página (primer nivel)
 		Número de página primer nivel -> p1 (k)
 		Desplazamiento de página (nos marcara la de segundo nivel) -> p2 (n-k)
-2. Desplazamiento de pagina (dentro del segundo nivel):  d (m bits)
+2. Desplazamiento de página (dentro del segundo nivel):  d (m bits)
 
 Sintaxis:
 
@@ -233,7 +233,7 @@ La dirección es legal si:
 
 Se combinan paginación y segmentación
 
-El espacio de direcciones lo dividimos en segmentos, y cada segmento se gestiona con una tabla de paginas.
+El espacio de direcciones lo dividimos en segmentos, y cada segmento se gestiona con una tabla de páginas.
 
 No todo el segmento tiene que cargarse en memoria principal, y las páginas del segmento no tienen poque estar contiguas en memoria.
 
@@ -249,8 +249,8 @@ Criterios de clasificacion respecto a:
 1. Políticas de asignación: fija o variable
 2. Políticas de busqueda (recuperación)
 
-	* Paginación por demanda (cuando el proceso lo necesite se carga la pagina)
-	* Paginación anticipada (SO prevee que paginas va a necisitar y las carga) (!= prepaginacion -> la prepaginacion es la carga inicial de paginas)
+	* Paginación por demanda (cuando el proceso lo necesite se carga la página)
+	* Paginación anticipada (SO prevee que páginas va a necisitar y las carga) (!= prepaginacion -> la prepaginacion es la carga inicial de páginas)
 
 3. Políticas de sustitucion (reemplazo)
 
@@ -300,11 +300,11 @@ Combinaciones de algoritmos:
 
 ### Algoritmos:
 
-Se ejecutan cuando se produce falta de página y no hay espacio para mas paginas
+Se ejecutan cuando se produce falta de página y no hay espacio para más páginas
 
 1. Óptimo
 
- * Sustituye la página que no se va a referencia en un futuro, o la que se referencie más tarde (es teorico, nunca se podra realizar, ya que necesitamos saber las paginas que vamos a referenciar en el futuro)
+ * Sustituye la página que no se va a referencia en un futuro, o la que se referencie más tarde (es teorico, nunca se podra realizar, ya que necesitamos saber las páginas que vamos a referenciar en el futuro)
 
 2. FIFO
 
@@ -320,9 +320,9 @@ Se ejecutan cuando se produce falta de página y no hay espacio para mas paginas
 
 	* Cada página tiene asociada un bit de referencia R (lo pone a 1 el hardware (el MMU con la traducción de memoria lógica a física) )
 
-		- Si una pagina tiene bit de referencia 1, ha sido usada al menos una vez
+		- Si una página tiene bit de referencia 1, ha sido usada al menos una vez
 
-		- Tenemos un puntero a la pagina que se ha usado hace mas tiempo (la mas antigua, la que llevamos mas tiempo sin acceder)
+		- Tenemos un puntero a la página que se ha usado hace mas tiempo (la mas antigua, la que llevamos mas tiempo sin acceder)
 
 	Pasos:
 
@@ -408,14 +408,14 @@ En cada referencia se determina el conjunto de trabajo, es decir, las páginas r
 
 El problema de este algoritmo es que necesita mucho coste de CPU.
 
-## Algoritmo FFP (Frecuencia de Falta de Pagina)
+## Algoritmo FFP (Frecuencia de Falta de Página)
 
 Este algoritmo se basa en la eliminación de páginas que no se han referenciado entre el instante de falta de página actual, y el anterior instante de falta de página. Si dicho instante es pequeño, quiere decir que el espacio de memoria asignado a ese proceso es poco, y el nuevo espacio de trabajo (WS) es más grande que el anterior, asi que simplemente se asigna (si es posible) un nuevo marco de página al proceso. Si no es posible realizar esta operacion, se bloque el proceso hasta que quede algún marco disponible.
 
 
  Tc = instante de actual falta de página
  Tc-1 = instante de la anterior falta de página
- Z = conjunto de paginas referenciadas en un intervalo de tiempo
+ Z = conjunto de páginas referenciadas en un intervalo de tiempo
  R = conjunto de páginas residentes en MP
 
 Si: Tc - Tc-1 > Y
@@ -629,7 +629,7 @@ Donde:
    * Dirección de comienzo y fin de la VMA
 
 2. permission
-   * Permisos de acceso al conjunto de paginas de la VMA
+   * Permisos de acceso al conjunto de páginas de la VMA
 
 3. offset
    * Si la VMA proyecta un archivo, indica el offset de este, si no vale 0
@@ -661,9 +661,9 @@ Donde:
 
 Linux implimenta una paginación multinivel de 3 niveles
 
-Las direcciones virtuales deben convertirse a direcciones físicas mediante tablas de páginas. En linux tenemos 3 niveles de tablas de paginas:
+Las direcciones virtuales deben convertirse a direcciones físicas mediante tablas de páginas. En linux tenemos 3 niveles de tablas de páginas:
 
-1. Tabla de páginas de más alto nivel, es el directorio global de paginas (PGD, page global directory) que consta de un array de tipo pgd_t
+1. Tabla de páginas de más alto nivel, es el directorio global de páginas (PGD, page global directory) que consta de un array de tipo pgd_t
 
 2. Las PGD apuntan a entradas de la tabla de páginas de segundo nivel (PMD, page middle directory)  que consta de un array de tipo pmd_t
 
@@ -700,7 +700,7 @@ Si solo leo una vez, no optimizamos nada, incluso malgastamos en duplicados
 
 #### LRU
 
-Requiere mantener la información de cuando se accede a cada página y seleccionar las paginas más antiguas. El problema es el acceso a archivos una única vez
+Requiere mantener la información de cuando se accede a cada página y seleccionar las páginas más antiguas. El problema es el acceso a archivos una única vez
 
 Linux soluciona el problema usando dos listas pseudo-LRU: active list e inactive list
 
@@ -719,10 +719,10 @@ Si el bloque que hay en una entrada de la inactive list se llama dos veces, pasa
 
 ### Operaciones
 
-1. Una pagina puede contener varios bloques de disco, posiblemente no contiguos
+1. Una página puede contener varios bloques de disco, posiblemente no contiguos
 
 2. La caché de páginas en linux usa una estructura para gestionar entradas de caché y operaciones de E/S de páginas: addres_space
 
-3. L/E de paginas en caché
+3. L/E de páginas en caché
 
 4. Hebras de estructura retardada.
