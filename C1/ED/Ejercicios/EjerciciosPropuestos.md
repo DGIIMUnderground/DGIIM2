@@ -383,3 +383,40 @@ bool anagrama ( list< int >& l1, list < int >& l2 ) {
     return true;
 }
 ```
+
+## Ejercicio 15
+**Implementar una función `void flota_pares( stack<int> & p )` que recorre los elementos de una pila de forma que los elementos pares quedan arriba de los impares. Los elementos pares deben quedar en el mismo orden entre sí y lo mismo para los impares.**
+> Restricciones: Pueden usarse pilas auxiliares (y solo pilas). La función debe ser O(n)
+
+Ejemplo: 
+```
+p = {4, 17, 9, 7, 4, 2, 0, 9, 2, 17}    =>    p = {4, 4, 2, 0, 2, 17, 9, 7, 9, 17}
+```
+
+```C++
+void flota_pares( stack<int> & p ) {
+    stack<int> pares, impares;
+    int elemento;
+
+    while ( !p.empty() ) {
+        elemento = p.top();
+
+        if ( elemento % 2 == 0 )
+            pares.push(elemento);
+        else
+            impares.push(elemento);    
+
+        p.pop();
+    }
+
+    while ( !pares.empty() ) {
+        p.push( pares.top() );
+        pares.pop();
+    }
+    
+    while ( !impares.empty() ) {
+        p.push( impares.top() );
+        impares.pop();
+    }
+}
+```
