@@ -138,12 +138,12 @@ date: 15/12/2018
 		* Es útil para que los montajes se realicen de forma automática
 		* El formato se puede consultar con `man fstab`
 		* Formato: `<filesys> <mountpoint> <type> <options> <dump> <pass>`
-			* <filesys>: número que identifica el archivo especial de bloques
-			* <mountpoint>: directorio que actúa como punto de montaje
-			* <type>: tipo de sistema de archivos
-			* <options>: opciones para el proceso de montaje: se pueden consultar con `man fstab` y `man 8 mount`
-			* <dump>: no se suele usar, si su valor es distinto de 0 indica la frecuencia con la que se hacen copias de seguridad
-			* <pass>: indica el orden en el que se comprueban los estados de los sistemas de archivos
+			* \<filesys>: número que identifica el archivo especial de bloques
+			* \<mountpoint>: directorio que actúa como punto de montaje
+			* \<type>: tipo de sistema de archivos
+			* \<options>: opciones para el proceso de montaje: se pueden consultar con `man fstab` y `man 8 mount`
+			* \<dump>: no se suele usar, si su valor es distinto de 0 indica la frecuencia con la que se hacen copias de seguridad
+			* \<pass>: indica el orden en el que se comprueban los estados de los sistemas de archivos
 	* `/etc/mtab`: muestra los puntos de montaje **actuales** del sistema
 		* Tiene exactamente el mismo formato que `/etc/fstab`
 		* Si un disco está conectado pero no montado, no aparece en este archivo

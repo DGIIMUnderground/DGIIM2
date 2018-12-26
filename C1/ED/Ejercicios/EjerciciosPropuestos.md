@@ -7,7 +7,7 @@ Para resolverlo, asignaremos a cada nodo una puntuación, que será la suma de l
 
 Recorreremos, entonces, el árbol en postorden (para visitar antes a los hijos), iremos asignando puntuaciones a los nodos y nos iremos quedando con la mayor puntuación.
 
-```
+```C++
 int max_subtree(bintree<int> & T){
   int maximo = 0;
   bintree<int>::postorder_iterator it;
@@ -27,7 +27,7 @@ int max_subtree(bintree<int> & T){
 ```
 
 Ha sido necesaria la implementación de la siguiente función:
-```
+```C++
 nodo & bintree<int>::postorder_iterator::getNodo(){return elnodo};
 ```
 ---
@@ -36,7 +36,7 @@ nodo & bintree<int>::postorder_iterator::getNodo(){return elnodo};
 
 Con precondición $0<=$ n $<=$ l.size(), la siguiente función resuelve el problema.
 
-```
+```C++
 void rotalista(list<int> & l, int n){
 	for(int i=0; i<n; i++){
 		l.push_back(*l.begin());
@@ -50,7 +50,7 @@ void rotalista(list<int> & l, int n){
 
 Para resolver este ejercicio usaremos tres iteradores: escritura, que irá tomando el primer valor de cada subgrupo de n elementos, donde se acumulará la suma del subgrupo; lectura, que irá moviéndose entre los elementos del subgrupo; y borrado, que permitirá borrar todo el subgrupo menos el primer elemento tras haber acumulado la suma.
 
-```
+```C++
 void juntalista(list<int> & l, int n){
 	list<int>::const_iterator lectura, borrado;
 	list<int>::iterator escritura;
@@ -78,7 +78,7 @@ void juntalista(list<int> & l, int n){
 
 **Ejercicio 4. Implementar una función *void ordenag(list\<int\>* & *l, int m)* que dada una lista, ordene sus elementos a grupos de a m elementos. Por ejemplo si m=5, la función ordena los primeros 5 elementos entre sí, después los siguientes 5 y así sucesivamente. Si la longitud de la lista no es un múltiplo exacto de m elementos, entonces los últimos l.size()%m elementos se ordenan también. Ejemplo: lista={10, 1, 15, 7, 2, 12, 1, 9, 13, 3, 7, 6, 19, 15, 16, 11, 15}, con m=5 queda lista={1, 2, 7, 10, 15, 1, 3, 9, 12, 13, 6, 7, 15, 16, 19, 11, 15}.**
 
-```
+```C++
 void ordenag(list<int> & l, int m){
 	list<int>::iterator it = l.begin();
 	while(it != l.end()){
@@ -103,7 +103,7 @@ void ordenag(list<int> & l, int m){
 
 **Si el valor del mínimo aparece repetido se debe tomar la primera posición en que aparece, mientras que para el máximo se debe tomar la última.**
 
-```
+```C++
 int dminmax(list<int> & l){
 	pair<int, int> min = {0, *(l.begin())};
 	pair<int, int> max = min;
@@ -129,7 +129,7 @@ int dminmax(list<int> & l){
 
 **Ejemplo: lista1={1, 3, 2, 4, 6}, lista2={1, 3, 2, 5}, llamando a lexiord(lista1, lista2) obtendríamos false.**
 
-```
+```C++
 bool lexiord(list<int> & l1, list<int> & l2){
 	bool l1esmayor = true;
 
@@ -154,7 +154,7 @@ bool lexiord(list<int> & l1, list<int> & l2){
 
 **Ejemplo: Dada C={1, 3, 5, 2, 4}, tras la rotación obtenemos C={2, 4, 1, 3, 5}.**
 
-```
+```C++
 void rotacion(queue<int> & C){
 	int contador = 0;
 	bool par = false;
@@ -178,10 +178,10 @@ Para resolverlo, recorreremos una primera vez el árbol de modo que cuando detec
 Bastará entonces con un segundo recorrido en el que deberá verificarse que el valor de las etiquetas de todos los nodos interiores es 0. En caso contrario, no se verifica la condicioón buscada.
 
 Ha sido necesaria la implementación de la siguientes funciones:
-```
+```C++
 nodo & bintree<int>::postorder_iterator::getNodo(){return elnodo};
 ```
-```
+```C++
 bool esHoja(const bintree<int> & A, const bintree<int>::node &v)
 {
   return ( v.left().null()  && v.right().null() );
@@ -189,7 +189,7 @@ bool esHoja(const bintree<int> & A, const bintree<int>::node &v)
 ```
 
 La función buscada sería la siguiente:
-```
+```C++
 bool pesointerior(bintree<int> a){
 	bintree<int>::postorder_iterator it;
 	for(it = a.begin_postorder(); it != a.end_postorder(); ++it){
@@ -218,7 +218,7 @@ bool pesointerior(bintree<int> a){
 
 La solución que presentamos a continuación se basa en recorrer la lista *l* con un iterador *lectura*. Cada vez que encontremos al primer elemento de *seq*, guardamos esa posición con el iterador *fijador* y vamos comparando la lista *l* con *seq*. Si *seq* está contenida totalmente, la borramos de la lista *l* e insertamos en su lugar la secuencia *reemp*. En caso de que no esté contenida, volvemos a la siguiente posición a la que se quedó fijador.
 
-```
+```C++
 void reemplaza(list<int> & l, list<int> seq, list<int> reemp){
 	list<int>::iterator lectura, fijador, secuencia;
 
@@ -262,7 +262,7 @@ void reemplaza(list<int> & l, list<int> seq, list<int> reemp){
 
 Con la llamada *sumaparante(arbol, arbol.root())* obtendremos la suma buscada. Se calculará de manera recursiva.
 
-```
+```C++
 int sumaparante(bintree<int> a, bintree<int>::node n){
 	int suma;
 	if(!n.null()){
@@ -281,7 +281,7 @@ int sumaparante(bintree<int> a, bintree<int>::node n){
 
 **Ejercicio 11. Implementar una función *node cont_hijos(list\<int\> l, bintree\<int\> a)* que devuelva un nodo m en el árbol *a* cuyas etiquetas de hijos (de izquierda a derecha) coinciden con los elementos de la lista *l*. Si no hay ningún nodo así devuelve nodo nulo.**
 
-```
+```C++
 bintree<int>::node cont_hijos(list<int> l, bintree<int> a){
 	bintree<int>::node solucion;
 	bool encontrado = false;
@@ -301,7 +301,7 @@ bintree<int>::node cont_hijos(list<int> l, bintree<int> a){
 ```
 
 Ha sido necesario implementar:
-```
+```C++
 nodo & bintree<int>::preorder_iterator::getNodo(){return elnodo};
 ```
 ---
@@ -310,7 +310,7 @@ nodo & bintree<int>::preorder_iterator::getNodo(){return elnodo};
 
 Para resolverlo, iremos restando a los elementos de *l2* los elementos de *l1* hasta que vayan quedando cero. Se verificará la condición del enunciado si se agotan todos los elementos de *l1* y al llegar al final, la lista *l2* tiene todos sus elementos hechos cero.
 
-```
+```C++
 bool check_suma(list<int> l1, list<int> l2){
 	list<int>::iterator it1, it2;
 	it1 = l1.begin();

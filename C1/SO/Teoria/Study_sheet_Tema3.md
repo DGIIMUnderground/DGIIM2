@@ -57,8 +57,11 @@ Posibilidades:
     - Problemas:
         - La que lleva más tiempo podría usarse con mucha frecuencia
         - Anomalía de Belady: *más marcos $\nRightarrow$ menos faltas de página*
+        - No consulta el bit de referencia
 - Algoritmo LRU (*Least Recently Used*)
     - La página que se debe reemplazar es la que no se ha referenciado desde hace más tiempo
+- Algoritmo de reloj
+    - TODO
 
 ### Políticas de asignación
 
