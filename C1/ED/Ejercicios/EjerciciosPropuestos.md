@@ -354,3 +354,32 @@ bool check_suma(list<int> l1, list<int> l2){
 }
 ```
 ---
+
+## Ejercicio 14
+
+**Implementar una función `bool anagrama ( list< int >& l1, list < int >& l2 ) ` que devuelve si `l1` y `l2` tienen la misma cantidad de elementos y los elementos de `l1` son una permutación de los de `l2`**
+*Ejemplos:*
+```
+l1 = {1, 23, 21, 4, 2, 3, 0} | l1 es una permutación
+l2 = {21, 1, 3, 2, 4, 23, 0} |       de l2
+
+l1 = {1, 3, 5} | false
+l2 = {4, 5, 4} |
+```
+> Restricciones: Si hay elementos repetidos, tiene que estar el mismo número de veces en ambas listas. No se pueden usar estructuras auxiliares. El algoritmo debe ser como máximo O(n⁶2). Puede ser destructivo. No puede usarse ningún tipo de ordenación
+
+```C++
+bool anagrama ( list< int >& l1, list < int >& l2 ) {
+    for ( auto num: l1 ) {
+        if ( find( l2.begin(), l2.end(), num) == l2.end() )
+            return false;
+        
+        if (   count( l1.begin(), l1.end(), num ) 
+            != count( l2.begin(), l2.end(), num ) )
+
+            return false;
+    }
+
+    return true;
+}
+```
