@@ -32,20 +32,15 @@ nodo & bintree<int>::postorder_iterator::getNodo(){return elnodo};
 ```
 ---
 
-**Ejercicio 2. Implementar una función *void rutalista(list\<int\>* & *l, int n)* que traslada los n primeros elementos de la lista al final de la misma. Ejemplo: lista={1, 3, 5, 4, 2, 6}, con n=2 obtenemos lista={5, 4, 2, 6, 1, 3}.**
+**Ejercicio 2. Implementar una función *void rotalista(list\<int\>* & *l, int n)* que traslada los n primeros elementos de la lista al final de la misma. Ejemplo: lista={1, 3, 5, 4, 2, 6}, con n=2 obtenemos lista={5, 4, 2, 6, 1, 3}.**
 
 Con precondición $0<=$ n $<=$ l.size(), la siguiente función resuelve el problema.
 
 ```
-void rutalista(list<int> & l, int N){
-	list<int>::iterator it = l.begin();
-	int contador = 0;
-
-	while(contador < N){
-		l.push_back(*it);
-		it++;
-		l.erase(l.begin());
-		contador++;
+void rotalista(list<int> & l, int n){
+	for(int i=0; i<n; i++){
+		l.push_back(*l.begin());
+		l.pop_front();
 	}
 }
 ```
