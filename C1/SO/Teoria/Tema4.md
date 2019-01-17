@@ -1,16 +1,14 @@
 # Tema 4 SO
 
-> Por Mapachana
-
 ## Interfaz de los sistemas de archivos
 
 ### Definiciones
 
-- Archivo.
+- Archivo: Colección de información almacenada en un dispositivo de almacenamiento secundario, el usuario puede hacer uso de esta información sin verse involucrado en cómo está almacenadad en el dispositivo de almacenamiento secundario.
 
 ### Estructura interna de un archivo
 
-- Secuencia de bytes.
+- Secuencia de bytes: El SO transfiere en una operación de lectura o escritura sobre el archivo una subcadena del mismo determinada por los parámetros especificados en la operación.
 
 - Secuencia de registros de longitud fija.
 
@@ -18,17 +16,17 @@
 
 ### Formas de acceso a un archivo
 
-- Acceso secuencial.
+- Acceso secuencial: Se accede al resgitro siguiente al último accedido.
 
-- Acceso directo.
+- Acceso directo: Se especifica a qué parte del archivo se quiere acceder independientemente de lo realizado en operaciones anteriores.
 
 ### Tipos de sistemas de archivos
 
-- SA basados en disco.
+- SA basados en disco: Forma clásica de almacenar archivos en medios no volátiles.
 
-- SA virtuales.
+- SA virtuales: Generados por el kernel constituyen una forma simple de comunicación entre programas y usuarios. No requieren espacio de almacenamiento en hardware
 
-- SA de red.
+- SA de red: Los datos están ubicados en un dispositivo hardware de otro ordenador. Es el otro ordenador el que se encarga de almacenarlos e informar de que los datos han llegado.
 
 ### Responsabilidades básicas de la gestión de archivos del SO.
 
@@ -174,4 +172,70 @@ Además, cuando este superbloque está en memoria tiene asociado:
 
 ### Sobre los inodos
 
+Cada elemento de un sistema de archivo tiene asociado un inodo.
 
+Dentro de un sistema de archivos, cada inodo tiene un nº distinto, que sirve de identificativo.
+
+El nº de inodo se corresponde con su ubicación secuencial dentro de la lista de inodos.
+
+El contenido de un inodo es:
+
+- Tipo de archivo.
+
+- Propietario.
+
+- Grupo.
+
+- Permisos para 2 categorías : propietario, grupo y otros.
+
+- Tres fechas: Último acceso, última modificación y última modificación de estado.
+
+- Número de enlaces duros al archivo.
+
+- Tamaño del archivo en bytes.
+
+- Número de bloques asociados al archivo, medido en bloques de 512 B.
+
+- Puntero al bloque de datos del fichero.
+
+### Enlaces duros y simbólicos
+
+> Hay que poner las fotos, que aqui no hay nada mas
+
+### Acceso a un archivo
+
+> Hay que poner la foto, es lo unico que hay, aunque no es muy relevante
+
+### Buffer caché
+
+Está situada entre el subsistema de archivos y los bloques en la arquitectura de unix.
+
+Buffer es equivalente a bloque de disco en memoria o copia en memoria de bloque de disco.
+
+Buffer cache o Cache de bufferes: Conjunto de bloques de disco que el kernel mantiene en MP para almacenar los recientemente utilizados.
+
+Bloque alude a bloque lógico o cluster, esto es, un cierto número de bloques físicos consecutivos que se asignan o desasignan como una unidad.
+
+Si un bloque de disco está en memoria solo puede estar en un buffer.
+
+En lectura el kernel comprueba si el bloque aludidio se encuentra en la buffer cache, evitando asi la lectura. En escritura el bloque se mantiene también en un buffer para que no sea necesaria otra lectura si es aludido en el futuro. Así se eliminan accesos a disco.
+
+Un buffer está en estado bloqueado si actualmente se está realizando una operación de E/S sobre él, en caso contrario está en estado libre y es elegible para leer sobre él un nuevo bloque de disco.
+
+El buffer caché mantiene:
+
+- Una lista de buffers bloqueados.
+
+- Una lista de buffers libres con los cuales se pueden satisfacer nuevas asignaciones.
+
+Se aplica el criterio LRU para elegir un buffer a ser reemplazado.
+
+Cuando un proceso deja de usar un buffer este pasa al final de la lista de buffers libres. Cuando se  necesita un buffer para traer a MP un bloque nuevo se toma el primero de la lista.
+
+El tamaño de la buffer caché se determina durante la inicialización del sistema y se cambia para adaptarse a la situación del conjunto de procesos y MP:
+
+- Cuando se solicita un buffer nuevo y no hay buffers libres se solicita un marco de página más para albergar el bloque de disco solicitado.
+
+- Cuando la MP disponible pasa a estar por debajo de un umbral predefinido el kernel puede decidir disminuir el tamaño de buffer caché liberando marcos de  página.
+
+### Cabecera del buffer
