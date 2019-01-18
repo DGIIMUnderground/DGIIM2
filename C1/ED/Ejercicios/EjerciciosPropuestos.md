@@ -420,3 +420,38 @@ void flota_pares( stack<int> & p ) {
     }
 }
 ```
+
+
+## Ejercicio 16
+**Implementar una función `void creciente (queue<int> & q)` que elimine elementos de q de forma que los elementos que queden estén ordenados de forma creciente.**
+> Restricciones: Pueden usarse colas auxiliares (y solo colas). La función debe ser O(n)
+
+Ejemplo:
+```
+q = {5, 5, 9, 13, 19, 17, 16, 20, 19, 21}    =>    q = {5, 5, 9, 13, 19, 20, 21}
+```
+
+```C++
+void creciente (queue<int> & q){
+  queue<int> q2;
+  int n;
+
+  n = q.top();
+  q2.push(n);
+  q.pop();
+
+  while (!q.empty ()){
+    n = q.top();
+
+    if (n >= q2.top()){
+      q2.push(n);
+      q.pop();
+    }
+  }
+
+  while (!q2.empty()){
+    n = q2.top();
+    q.push(n);
+  }
+}
+```
