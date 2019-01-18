@@ -191,7 +191,7 @@ void rotacion(queue<int> & C){
 
 Para resolverlo, recorreremos una primera vez el árbol de modo que cuando detectemos que un nodo es hoja, restaremos el valor de su etiqueta a todos sus antecesores hasta llegar a la raíz.
 
-Bastará entonces con un segundo recorrido en el que deberá verificarse que el valor de las etiquetas de todos los nodos interiores es 0. En caso contrario, no se verifica la condicioón buscada.
+Bastará entonces con un segundo recorrido en el que deberá verificarse que el valor de las etiquetas de todos los nodos interiores es 0. En caso contrario, no se verifica la condición buscada.
 
 Ha sido necesaria la implementación de la siguientes funciones:
 ```C++
@@ -221,7 +221,7 @@ bool pesointerior(bintree<int> a){
 	bool valido = true;
 	for(it = a.begin_postorder(); it != a.end_postorder() && valido; ++it){
 		if(!esHoja(a, it.getNodo()) && (*it)!=0)
-			valido = false;	
+			valido = false;
 	}
 	return valido;
 }
@@ -269,7 +269,7 @@ void reemplaza(list<int> & l, list<int> seq, list<int> reemp){
 				}
 			}
 		}
-		
+
 		lectura++;
 	}
 }
@@ -310,7 +310,7 @@ bintree<int>::node cont_hijos(list<int> l, bintree<int> a){
 	bintree<int>::preorder_iterator it;
 	for(it = a.begin_preorder(); it != a.end_preorder() && !encontrado; ++it){
 		if(!it.getNodo().left().null() && !it.getNodo().right().null()){
-			if((*it.getNodo().left() == *l.begin()) 
+			if((*it.getNodo().left() == *l.begin())
 				&& (*it.getNodo().right() == *(++l.begin()))){
 
 					solucion = it.getNodo();
@@ -373,8 +373,8 @@ bool anagrama ( list< int >& l1, list < int >& l2 ) {
     for ( auto num: l1 ) {
         if ( find( l2.begin(), l2.end(), num) == l2.end() )
             return false;
-        
-        if (   count( l1.begin(), l1.end(), num ) 
+
+        if (   count( l1.begin(), l1.end(), num )
             != count( l2.begin(), l2.end(), num ) )
 
             return false;
@@ -388,7 +388,7 @@ bool anagrama ( list< int >& l1, list < int >& l2 ) {
 **Implementar una función `void flota_pares( stack<int> & p )` que recorre los elementos de una pila de forma que los elementos pares quedan arriba de los impares. Los elementos pares deben quedar en el mismo orden entre sí y lo mismo para los impares.**
 > Restricciones: Pueden usarse pilas auxiliares (y solo pilas). La función debe ser O(n)
 
-Ejemplo: 
+Ejemplo:
 ```
 p = {4, 17, 9, 7, 4, 2, 0, 9, 2, 17}    =>    p = {4, 4, 2, 0, 2, 17, 9, 7, 9, 17}
 ```
@@ -413,7 +413,7 @@ void flota_pares( stack<int> & p ) {
         p.push( pares.top() );
         pares.pop();
     }
-    
+
     while ( !impares.empty() ) {
         p.push( impares.top() );
         impares.pop();
