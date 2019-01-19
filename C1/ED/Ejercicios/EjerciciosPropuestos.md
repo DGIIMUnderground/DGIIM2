@@ -455,3 +455,20 @@ void creciente (queue<int> & q){
   }
 }
 ```
+
+## Ejercicio 17
+**Sea L una lista conteniendo los elementos (4, 7, 6, 5, 3). Se aplica sobre ella:**
+```C++
+list<int>:: iterator p, q;
+p = L.begin();
+q = ++p;
+p = ++q;
+p = L.erase(p);
+```
+**¿Cuál es verdadera?
+a. *p = *q = 7
+b. *p = 5, *q = 7
+c. *p = 5, q inválido
+d. p, q inválidos**
+
+Respuesta: c
