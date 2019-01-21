@@ -80,6 +80,28 @@ void juntalista(list<int> & l, int n){
 	}
 }
 ```
+Otra implementación alternativa sería la siguiente:
+```C++
+void juntalista (list<int> & l, int n) {
+    for (list<int>::iterator it = l.begin(); it != l.end(); it++) {
+        list<int>::iterator aux = it;
+
+        int suma = *it;
+        for (int i = 1; i < n; i++) {
+            it = aux;
+            if (++it != l.end()) {
+                suma += *it;
+                l.erase(it);
+            }
+        }
+
+        it = aux;
+        *it = suma;
+    }
+}
+```
+En esta, nos paramos en una posción, y sumamos los n siguientes números uno por uno, de forma que al acumularlos, los eliminamos.
+
 ---
 
 ## Ejercicio 4
@@ -166,7 +188,7 @@ bool lexiord(list<int> & l1, list<int> & l2){
 
 **Implementar una función `void rotacion(queue<int> & C)` que saque una cierta cantidad de enteros del frente de la cola C y los vuelve a insertar al final de la cola de forma que queda en el frente el primer número par que haya en la cola.**
 
-*sEjemplo: Dada C={1, 3, 5, 2, 4}, tras la rotación obtenemos C={2, 4, 1, 3, 5}.*
+*Ejemplo: Dada C={1, 3, 5, 2, 4}, tras la rotación obtenemos C={2, 4, 1, 3, 5}.*
 
 ```C++
 void rotacion(queue<int> & C){
