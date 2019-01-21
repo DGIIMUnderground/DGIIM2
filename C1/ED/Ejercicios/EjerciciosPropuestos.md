@@ -410,6 +410,37 @@ bool check_suma(list<int> l1, list<int> l2){
 ```
 ---
 
+## Ejercicio 13
+
+**Dado un árbol binario A y un nodo n, implementar una función `bool camino_ordenado (bintree<int> a, node n)` que devuelva `true` si existe algún camino desde n hasta una hoja con los elementos ordenados**
+Por ejemplo, en el siguiente árbol:
+```
+     3
+   /   \
+  6     7
+ / \   / \
+1   3 9   5
+```
+3, 7 y 9 es un camino ordenado.
+```C++
+bool camino_ordenado (bintree<int> arbol, bintree<int>::node nodo) {
+    bool camino_izquierda = false, camino_derecha = false;
+
+    if (nodo.right().null() && nodo.left().null())
+        return true;
+    else {
+        if ( !nodo.right().null() && *nodo.right() > *nodo )
+            camino_derecha = camino_ordenado(arbol, nodo.right());
+        
+        if ( !nodo.left().null() && *nodo.left() > *nodo )
+            camino_izquierda = camino_ordenado(arbol, nodo.left());
+        
+        return camino_derecha || camino_izquierda;    
+    }
+}
+```
+---
+
 ## Ejercicio 14
 
 **Implementar una función `bool anagrama ( list< int >& l1, list < int >& l2 ) ` que devuelve si `l1` y `l2` tienen la misma cantidad de elementos y los elementos de `l1` son una permutación de los de `l2`**
