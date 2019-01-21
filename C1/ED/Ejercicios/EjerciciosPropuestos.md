@@ -296,6 +296,39 @@ void reemplaza(list<int> & l, list<int> seq, list<int> reemp){
 	}
 }
 ```
+Implementación alternativa:
+```C++
+void reemplaza(list <int> & l, list <int> & seq, list <int> & reemp) {
+    bool encontrado;
+    list<int>::iterator posicion_guardada;
+
+    for (auto it_l = l.begin(); it_l != l.end(); it_l++) {
+        encontrado = true;
+
+        if ( *it_l == *seq.begin() ) {
+            posicion_guardada = it_l;
+
+            // Comprobamos que todos los siguientes son idénticos
+            for (auto it_seq = seq.begin(); it_seq != seq.end() && encontrado; it_seq++) {
+                if (*it_seq != *it_l)
+                    encontrado = false;
+                
+                it_l++;
+            }
+
+            it_l = posicion_guardada;
+
+            if (encontrado) {
+                for (auto it_reemp = reemp.begin(); it_reemp != reemp.end(); it_reemp++) {
+                    *it_l = *it_reemp;
+                    it_l++;
+                }
+            }
+        }
+    }
+}
+```
+
 ---
 
 ## Ejercicio 10
