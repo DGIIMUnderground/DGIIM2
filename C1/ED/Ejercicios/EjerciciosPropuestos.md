@@ -563,7 +563,149 @@ d. p, q inválidos
 
 Respuesta: c
 
+## Ejercicio 18
 
+Implantar una función
+
+```c++
+bool depth_if(const ArbolBinario<int> &a)
+```
+
+que devuelva `true` si el nodo a mayor profundidad en `a` tiene etiqueta par y `false` en caso contrario.
+
+_Una posible estrategia es crear una función que retorne el hijo en mayor profundidad (si hay varios, retorna el primero de ellos), que utilizaremos fuertemente en `depth_if`. Para dicha fución, crearemos una auxiliar recursiva que va recorriendo todos los nodos del árbol._
+
+```c++
+void hijo_mayor_profundidad_aux(const ArbolBinario<int> &a, const ArbolBinario<int>::nodo &nod, int profundidad, int &max_prof, ArbolBinario<int>::nodo &nodo_max_prof) {
+    if ( !nod.nulo() )
+        if ( nod.hi().nulo() && nod.hd().nulo() ) {
+            // estamos ante un nodo hoja, comprobamos
+            if ( profundidad > max_prof ) {
+                max_prof = profundidad;
+            	nodo_max_prof = nod;
+            }
+        } else {
+            if ( !nod.hi().nulo() )
+                hijo_mayor_profundidad_aux(a, nod.hi(), ++profundidad, max_prof, nodo_max_prof);
+            if ( !nod.hd().nulo() )
+                hijo_mayor_profundidad_aux(a, nod.hd(), ++profundidad, max_prof, nodo_max_prof);
+        }
+}
+
+ArbolBinario<int>::nodo hijo_mayor_profundidad(const ArbolBinario<int> &a) {
+    ArbolBinario<int>::nodo nod;
+    int max_prof = 0;
+    hijo_mayor_profundidad_aux(a, a.getRaiz(), 0, max_prof, nod);
+    return nod;    
+}
+
+bool depth_if(const ArbolBinario<int> &a) {
+    ArbolBinario<int>::nodo hijo_mas_prof = hijo_mayor_profundidad(a);
+    if ( *hijo_mas_prof % 2 == 0 )
+        return true;
+    else
+        return false;
+}
+```
+
+## Ejercicio 19
+
+Implementar una función
+
+```c++
+bool en_todos(const vector<set<int> > &v)
+```
+
+que devuelva `true` si existe al menos un elemento que pertenece a todos los conjuntos `v[j]`.
+
+```c++
+bool en_todos(const vector<set<int> > &v) {
+    bool esta = false;
+    
+    if ( v.size() > 1 ) {
+        for ( it = v[0].begin(); it != v[0].end() && !esta; ++it ) {
+            bool continuar = true;
+            for ( int i = 1; i < v.size() && continuar; ++i ) {
+                if ( !v[1].find(*it) )
+                    continuar = false;
+            }
+            if ( continuar )
+                esta = true;
+        }
+    } else
+        esta = true;  // sólo hay un set, o ninguno
+    
+    return esta;
+}
+```
+
+## Ejercicio 20
+
+Implementar una función
+
+```c++
+bool es_neg(const set<int> &A, const set<int> &B)
+```
+
+que devuelve `true` si el conjunto `B` contiene los de `A` pero cambiados de signo.
+
+_Podemos usar un `set` que contenga los elementos opuestos de `B`. Bastará comprobar que el set `A` y el nuevo set son iguales._
+
+```c++
+bool es_neg(const set<int> &A, const set<int> &B) {
+    set<int> opB;
+    set<int>::iterator it, it2;
+    bool es = true;
+    
+    // comprobamos que tengan el mismo tamaño
+    if ( A.size() != B.size() )
+        return false;
+    
+    // creamos el set de opuestos de B
+    for ( it = B.begin(); it != B.end(); ++it )
+        opB.insert(-1*(*it));
+    
+    it = A.begin(); it2 = opB.begin();
+    
+    while ( it != A.end() && es ) {		// cuando lleguemos al fin de uno, habremos llegado al fin del otro
+        if ( *it != *it2 )
+            es = false;
+        ++it; ++it2;
+    }
+    
+    return es;
+}
+```
+
+## Ejercicio 21
+
+Implementar una función
+
+```c++
+void apply_map(const list<int> &L, const map<int,int> &M, list<int> &ML)
+```
+
+que dada una lista `L` y un map `M` devuelva en `ML` el resultado de aplicar a `M` los elementos de `L`. Si algún elemento de `L` no está en el dominio de `M`, no se incluye en `ML` el elemento correspondiente.
+
+>  **Restricciones:** No pueden usarse estructuras auxiliares y la función ha de ser _O(n)_.
+
+> **Ejemplo:**
+>
+> - L = {1,2,3,4,5,6,7,1,2,3}
+> - M = {(1,2), (2,3), (4,5), (7,8)}
+> - ML = {2,3,5,8,2,3}
+
+```c++
+void apply_map(const list<int> &L, const map<int,int> &M, list<int> &ML) {
+    list<int>::iterator itl;
+    
+    for ( itl = L.begin(); itl != L.end(); ++itl )
+        if ( M.find(*itl) != M.end() )
+            ML.insert(M[*itl]);
+    		// equivalentemente, podría haberse hecho
+    		// ML.insert(M.find(*itl)->second);
+}
+```
 
 ## Ejercicios adicionales
 
