@@ -730,6 +730,88 @@ void apply_map(const list<int> &L, const map<int,int> &M, list<int> &ML) {
 }
 ```
 
+## Ejercicio 22
+
+Implementar una función
+
+```c++
+void longest_path(const bintree<int> &A, list<int> &L)
+```
+
+que dado un árbol binario `A` devuelva en `L` la lista de valores en el camino más largo en el árbol. Si hay más de uno se devuelve cualquiera de ellas.
+
+```c++
+void longest_path_aux(const ArbolBinario<int> &A, list<int> &L, const ArbolBinario<int>::nodo &n, list<int> camino) {
+    if ( !n.nulo() ) {
+        if ( n.hi().nulo() && n.hd().nulo() ) {
+            // estamos en una hoja: vemos si el camino es mayor
+            if ( camino.size() > L.size() )
+                L = camino;
+        } else {
+            if ( !n.hi().nulo() ) {
+                list<int> new_camino = L;
+                new_camino.push_back(*n.hi());
+                longest_path_aux(A, L, n.hi(), new_camino);
+            }
+            if ( !n.hd().nulo() ) {
+                list<int> new_camino = L;
+                new_camino.push_back(*n.hd());
+                longest_path_aux(A, L, n.hd(), new_camino);
+            }
+        }
+    }
+}
+
+void longest_path(const ArbolBinario<int> &A, list<int> &L) {
+    list<int> camino;
+    ArbolBinario<int>::nodo n = A.getRaiz();
+    camino.push_back(n);
+    longest_path_aux(A, L, n, camino);
+}
+```
+
+## Ejercicio 23
+
+Implementar una función
+
+```c++
+void path_of_largest(const bintree<int> &A, list<int> &L)
+```
+
+que dado un árbol binario `A`,  devuelva en `L` el camino que se obtiene recrriendo el árbol desdela raíz a las hojas siempre con el hijo con mayor valor de etiqueta. Si para un nodo el valor más grande está repetido, entonces el camino puede seguir por cualquiera de ellos.
+
+```c++
+void path_of_largest_aux(const ArbolBinario<int> &A, list<int> &L, const ArbolBinario<int>::nodo &nod) {
+    if ( !n.nulo() ) {
+        if ( !n.hi().nulo() && !n.hd().nulo() ) {
+            // tiene ambos hijos: seguimos por el mayor de ellos
+            if ( *(n.hi()) > *(n.hd()) ) {
+                L.push_back(*(n.hi()));
+            	path_of_largest_aux(A, L, n.hi());
+            }
+            else if ( *(n.hi()) < *(n.hd()) ) {
+                L.push_back(*(n.hd()));
+                path_of_largest_aux(A, L, n.hd());
+            }
+        } else if ( !n.hi().nulo() ) {
+            // tiene solo hijo izquierdo: seguimos por él
+            L.push_back(*(n.hi()));
+            path_of_largest_aux(A, L, n.hi());
+        } else if ( !n.hd().nulo() ) {
+            // tiene solo hijo derecho: seguimos por él
+            L.push_back(*(n.hd()));
+            path_of_largest_aux(A, L, n.hd());
+        }
+    }
+}
+
+void path_of_largest(const ArbolBinario<int> &A, list<int> &L) {
+    path_of_largest_aux(A, L, A.getRaiz());
+}
+```
+
+
+
 ## Ejercicios adicionales
 
 ###### Ancestro común más cercano (AMC)
