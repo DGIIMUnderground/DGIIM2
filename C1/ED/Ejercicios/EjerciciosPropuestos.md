@@ -573,10 +573,10 @@ bool depth_if(const ArbolBinario<int> &a)
 
 que devuelva `true` si el nodo a mayor profundidad en `a` tiene etiqueta par y `false` en caso contrario.
 
-_Una posible estrategia es crear una función que retorne el hijo en mayor profundidad (si hay varios, retorna el primero de ellos), que utilizaremos fuertemente en `depth_if`. Para dicha fución, crearemos una auxiliar recursiva que va recorriendo todos los nodos del árbol._
+_Una posible estrategia es crear una función que retorne la hoja en mayor profundidad (si hay varios, retorna el primero de ellos), que utilizaremos fuertemente en `depth_if`. Para dicha fución, crearemos una auxiliar recursiva que va recorriendo todos los nodos del árbol, y cuando llega a una hoja realiza las comprobaciones necesarias._
 
 ```c++
-void hijo_mayor_profundidad_aux(const ArbolBinario<int> &a, const ArbolBinario<int>::nodo &nod, int profundidad, int &max_prof, ArbolBinario<int>::nodo &nodo_max_prof) {
+void hoja_mayor_profundidad_aux(const ArbolBinario<int> &a, const ArbolBinario<int>::nodo &nod, int profundidad, int &max_prof, ArbolBinario<int>::nodo &nodo_max_prof) {
     if ( !nod.nulo() )
         if ( nod.hi().nulo() && nod.hd().nulo() ) {
             // estamos ante un nodo hoja, comprobamos
@@ -586,27 +586,50 @@ void hijo_mayor_profundidad_aux(const ArbolBinario<int> &a, const ArbolBinario<i
             }
         } else {
             if ( !nod.hi().nulo() )
-                hijo_mayor_profundidad_aux(a, nod.hi(), ++profundidad, max_prof, nodo_max_prof);
+                hoja_mayor_profundidad_aux(a, nod.hi(), ++profundidad, max_prof, nodo_max_prof);
             if ( !nod.hd().nulo() )
-                hijo_mayor_profundidad_aux(a, nod.hd(), ++profundidad, max_prof, nodo_max_prof);
+                hoja_mayor_profundidad_aux(a, nod.hd(), ++profundidad, max_prof, nodo_max_prof);
         }
 }
 
-ArbolBinario<int>::nodo hijo_mayor_profundidad(const ArbolBinario<int> &a) {
+ArbolBinario<int>::nodo hoja_mayor_profundidad(const ArbolBinario<int> &a) {
     ArbolBinario<int>::nodo nod;
     int max_prof = 0;
-    hijo_mayor_profundidad_aux(a, a.getRaiz(), 0, max_prof, nod);
+    hoja_mayor_profundidad_aux(a, a.getRaiz(), 0, max_prof, nod);
     return nod;    
 }
 
 bool depth_if(const ArbolBinario<int> &a) {
-    ArbolBinario<int>::nodo hijo_mas_prof = hijo_mayor_profundidad(a);
+    ArbolBinario<int>::nodo hijo_mas_prof = hoja_mayor_profundidad(a);
     if ( *hijo_mas_prof % 2 == 0 )
         return true;
     else
         return false;
 }
 ```
+
+_**NOTA:** en esta resolución, es posible que aunque haya una hoja que esté a igual profundidad que otra y que sea par, pero que la hoja que se retorne sea impar. Podría modificarse el código de la función `hoja_mayor_profundidad_aux` para que de prioridad a las hojas pares, véase:_
+
+~~~c++
+void hoja_mayor_profundidad_aux(const ArbolBinario<int> &a, const ArbolBinario<int>::nodo &nod, int profundidad, int &max_prof, ArbolBinario<int>::nodo &nodo_max_prof) {
+    if ( !nod.nulo() )
+        if ( nod.hi().nulo() && nod.hd().nulo() ) {
+            // cambiamos las comprobaciones para reemplazar en caso de que la hoja tenga la misma profundidad que
+            // la mejor, pero sea par
+            if ( (profundidad > max_prof) || ( (profundidad == max_prof) && (*nod % 2 == 0) )) {
+                max_prof = profundidad;
+            	nodo_max_prof = nod;
+            }
+        } else {
+            if ( !nod.hi().nulo() )
+                hoja_mayor_profundidad_aux(a, nod.hi(), ++profundidad, max_prof, nodo_max_prof);
+            if ( !nod.hd().nulo() )
+                hoja_mayor_profundidad_aux(a, nod.hd(), ++profundidad, max_prof, nodo_max_prof);
+        }
+}
+~~~
+
+
 
 ## Ejercicio 19
 
