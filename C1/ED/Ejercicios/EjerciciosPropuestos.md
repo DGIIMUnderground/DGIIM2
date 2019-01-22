@@ -562,3 +562,152 @@ c. *p = 5, q inválido
 d. p, q inválidos
 
 Respuesta: c
+
+
+
+## Ejercicios adicionales
+
+###### Ancestro común más cercano (AMC)
+
+sea _A_ un árbol binario con _n_ nodos. Se define el **ancestro común más cercano (AMC)** entre dos nodos `r` y `w` como el ancestro de mayor profundidad que tiene tanto a `r` como a `w` como descendientes (se entiende como caso extremo que un nodo es descendiente de sí mismo). Diseñar una función para hacer esto.
+
+~~~c++
+template<typename T>
+int getProfundidad(const ArbolBinario &arb, ArbolBinario<T>::nodo n) {
+    int profundidad = 0;
+    
+    while ( n != arb.getRaiz() ) {
+        n = n.padre();
+        profundidad++;
+    }
+    
+    return profundidad;
+}
+
+template<typename T>
+ArbolBinario<T>::nodo AMC(const ArbolBinario<T> &arb, ArbolBinario<T>::nodo r, ArbolBinario<T>::nodo w) {
+    ArbolBinario<T>::nodo ancestro;
+    
+    // primero hacemos que ambos estén en el mismo nivel, entonces
+    // encontrar el ancestro común más cercano será ir subiendo en los
+    // padres de cada uno hasta que coincidan
+    int prof_r = getProfundidad(arb, r), prof_w = getProfundidad(arb, w);
+    if ( prof_r < prof_w )
+        for ( int i = 0; i < prof_w-prof_r; ++i )
+            w = w.padre();
+    else if ( prof_r > prof_w )
+        for ( int i = 0; i < prof_r-prof_w; ++i )
+            r = r.padre();
+    
+    // caso límite
+    if ( r == w )
+        return r;
+    
+    bool continuar = true;
+    while ( continuar ) {
+        r = r.padre();
+        w = w.padre();
+        
+        if ( r == w ) {
+            ancestro = r;
+            continuar = false;
+        }
+    }
+    
+    return ancestro;
+}
+~~~
+
+
+
+###### TDA Documento
+
+TDA Documento tiene en su representación una tabla hash en la que cada palabra del documento tiene asociada una lista ordenada con las posiciones en las que aparece la palabra en el mismo.
+
+Implementar función
+
+```c++
+int Documento::min_distancia(string pal1, string pal2);
+```
+
+que devuelva la distancia mínima en la que aparecen las palabras `pal1` y `pal2` en el documento. Para la representación de la tabla hash se usa hashing abierto.
+
+~~~c++
+class Documento {
+    map<string, list<int> > hash;
+private:
+    int min_distancia(string pal1, string pal2) {
+        list<int> pal1_h = hash[pal1];
+        list<int> pal2_h = hash[pal2];
+        
+        list<int>::iterator it1, it2;
+        int minimo = numeric_limits<int>::max();
+        
+        for ( it1 = pal1_h.begin(); it1 != pal1_h.end(); ++it1 )
+            for ( it2 = pal2_h.begin(); it2 != pal2_h.end(); ++it2 ) {
+                int dif = abs(*it1-*it2);
+                if ( dif < minimo )
+                    minimo = dif;
+            }
+        
+        return minimo;
+    }
+};
+~~~
+
+
+
+###### Árbol binario hilvanado
+
+Un árbol binario hilvanado es una ED para la representación de un ABB que facilita ciertos recorridos. En el registro que define un nodo se añade un puntero `hilvan` que apunta al siguiente nodo en el recorrido en inorden del ABB. Diseñar un procedimiento para insertar un nodo en este árbol.
+
+> **Bonus:** aquí aparece la función de inserción en un ABB cualquiera
+
+```c++
+class ABBhilvan {
+    ArbolBinario<T> arb;
+    // suponemos implementado el nodo con hilvan
+public:
+    void insertar(T elem) {
+        // es una inserción similar, pero modificamos hilvan
+        ArbolBinario<T>::nodo n = arb.getRaiz(), padre;
+        while ( !n.nulo() ) {
+            if ( elem == *n )
+                raise_error();	// no puede existir el mismo nodo
+            
+            padre = n;
+            if ( elem < *n )
+                n = padre.hi();
+            else if ( elem > *n )
+                n = padre.hd();
+        }
+        
+        n = ArbolBinario<T>::nodo(elem);
+        if ( padre.nulo() )			   // el árbol estaba vacío
+            pass;
+        else if ( elem < *padre ) {    // insertamos a izquierda de padre
+            n.hilvan = padre;
+        } else if ( elem > *padre ) {  // insertamos a derecha de padre
+            n.hilvan = padre.hilvan;
+            padre.hilvan = n;
+        }
+    }
+    
+    // algoritmo para insertar en ABB (sin hilvan)
+    void insertar(T elem) {
+        insertar_nodo(arb.getRaiz(), elem);
+    }
+private:
+    void insertar_nodo(ArbolBinario<T>::nodo n, T elem) {
+        if ( n.nulo() ) {
+            n = ArbolBinario<T>(elem);
+        } else {
+            if ( *n < elem )
+                insertar_nodo(n.hi(), elem);
+            else
+                insertar_nodo(n.hd(), elem);
+        }
+    }
+};
+```
+
