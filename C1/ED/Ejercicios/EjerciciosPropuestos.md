@@ -649,7 +649,7 @@ bool en_todos(const vector<set<int> > &v) {
         for ( it = v[0].begin(); it != v[0].end() && !esta; ++it ) {
             bool continuar = true;
             for ( int i = 1; i < v.size() && continuar; ++i ) {
-                if ( !v[1].find(*it) )
+                if ( !v[i].find(*it) )
                     continuar = false;
             }
             if ( continuar )
