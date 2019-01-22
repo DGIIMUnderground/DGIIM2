@@ -50,12 +50,9 @@ __Implementa un método que dado un código de equipo obtenga el número de enfr
 int enfrentamientosganados(unsigned char eq){
   list<enfrentamiento>::iterator it;
   int contador = 0;
-  for(it = res.begin(),it != res.end(); ++it){
-    if(*it.eq1 == eq && *it.puntos_eq1 > *it.puntos_eq2)
+  for(it = res.begin(),it != res.end(); ++it)
+    if ((*it).eq1 == eq && (*it).puntos_eq1 > (*it).puntos_eq2 || ((*it).eq2 == eq && (*it).puntos_eq2 > (*it).puntos_eq1))
       contador++;
-    if(*it.eq2 == eq && *it.puntos_eq2 > *it.puntos_eq1)
-      contador++;
-  }
   return contador;
 }
 ```
@@ -77,13 +74,9 @@ class empate_iterator{
   }
   iterator & operator++(){
     ++it;
-    bool encontrado = false;
-    while (it != final && !encontrado){
-      if (*it.puntos_eq1 == *it.puntos_eq2)
-        encontrado = true;
-      else
-        ++it;
-    }
+    /*
+    while (it != final && (*it).puntos_eq1 != (*it).puntos_eq2)
+    	++it;
     return *this;
   }
   friend class liga;
@@ -92,9 +85,9 @@ empate_iterator begin(){
   empate_iterator i;
   i.it = res.begin();
   i.final = res.end();
-  if(!(*(i.it).puntos_eq1 == *(i.it).puntos_eq2))
+  if(! (*i).it.puntos_eq1 == (*i).it.puntos_eq2)
     ++i;
- 	return i;
+ return i;
 }
 
 empate_iterator end(){
@@ -117,12 +110,10 @@ int orden (const list<int> & L){
   it = L.begin();
   it2 = ++L.begin();
   while(it != L.end() && it2 != L.end() && (ascendente || descendente)){
-    if (*it > *it2)
-      ascendente = false;
-    if (*it < *it2)
-      descendente = false;
-    ++it;
-    ++it2;
+   ascendente = *it > *it2;
+   descendente = *it < *it2;
+   ++it;
+   ++it2;
   }
   if (ascendente)
     return 1;
@@ -178,7 +169,7 @@ __Implementa un iterador que itere sobre los elementos que cumplan la propiedad 
 ```c++
 class iterator{
   private:
-  	typename unordered_map<T, bintree<T, bintree<int> >::iterator it, final;
+  	typename unordered_map<T, bintree<int> >::iterator it, final;
   public:
   iterator(){}
   bool operator==(const iterator &i) const{
@@ -187,19 +178,14 @@ class iterator{
   bool operator!=(const iterator &i) const{
     return i.it != it;
   }
-  pair<const T, bintree<int> > & operator*(){
+  pair<T, bintree<int> > & operator*(){
     return *it;
   }
   iterator & operator++(){
-    ++it;
-    bool encontrado = false;
-    while (it != final && !encontrado){
-      if (sumaarbol(*it.second) %2 == 0)
-        encontrado = true;
-      else
-        ++it;
-    }
-    return *this;
+	do {
+		++it;
+	} while (it != final && sumaarbol((*it).second.getraiz()) % 2 != 0);
+	return *this;
   }
 };
 
@@ -207,7 +193,7 @@ iterator begin(){
   iterator i;
   i.it = datos.begin();
   i.final = datos.end();
-  if (sumaarbol(*it.second) %2 == 1)
+  if (sumaarbol((*it).second.getraiz()) % 2 == 1)
     ++i;
   return i;
 }
@@ -218,18 +204,17 @@ iterator end(){
   return i;
 }
 
-int sumaarbol(bintree<int> arbol){
-  bintree<int>::node nodo = arbol.getraiz();
-  if (node.nulo())
+int sumaarbol(bintree<int>::node nodo){ // el argumento es un nodo para poderla hacer recursiva
+  if (nodo.nulo())
     return 0;
   else
-    return *node+sumaarbol(node.left)+sumaarbol(node.right);
+    return *nodo + sumaarbol(nodo.left)+sumaarbol(nodo.right);
 }
 ```
 
 ### Ejercicio 6
 
-__Un "heap-doble" es una estructura jerárquica que tiene como propiedad fundamental que para cualquier nodo Z a profundidad a profundidad par la clave almacenada en Z es menor que la del padre pero mayor que la del abuelo (cuando existen), y para cualquier nodo Z a profundidad impar la clave almacenada en Z es mayor que la del padre pero menor que la del abuelo (cuando existen), siendo el árbol binario y estando las hojas empujadas a la izquierda. Diseña una función para insertar un nuevo nodo en la estructura y aplicarla a la construcción de un heap-doble con  las claves {30,25,12,16,10,15,5,18,23,32,4,17}.__
+__Un "heap-doble" es una estructura jerárquica que tiene como propiedad fundamental que para cualquier nodo Z a profundidad par la clave almacenada en Z es menor que la del padre pero mayor que la del abuelo (cuando existen), y para cualquier nodo Z a profundidad impar la clave almacenada en Z es mayor que la del padre pero menor que la del abuelo (cuando existen), siendo el árbol binario y estando las hojas empujadas a la izquierda. Diseña una función para insertar un nuevo nodo en la estructura y aplicarla a la construcción de un heap-doble con  las claves {30,25,12,16,10,15,5,18,23,32,4,17}.__
 
 ```c++
 class heap_doble{
@@ -241,7 +226,7 @@ public:
     int pos = datos.size()-1; //posicion de la clave en el vector
     int padre = (pos-1)/2;
     int abuelo = (padre-1)/2;
-    int profundidad = (log(pos+1)/log(2)); //esto lo sabes por gracia divina
+    int profundidad = (log(pos+1)/log(2)); // esto lo sabes por gracia divina
     bool colocado = false;
     while(pos > 0 && !colocado){
       if(padre > 0){ //Solo no tiene abuelo si padre > 0
@@ -281,7 +266,7 @@ public:
             }
           }
         }
-      } 
+      }
       else{ //Solo tiene padre, luego tiene profundidad 1 si o si
         if (datos[padre] < datos[pos])
           colocado = true;
@@ -296,7 +281,3 @@ public:
   }
 };
 ```
-
-
-
-
