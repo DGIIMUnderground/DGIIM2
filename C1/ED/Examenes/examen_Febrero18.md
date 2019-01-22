@@ -48,12 +48,12 @@ private:
 __Implementar un método que dada una palabra obtenga todas las posiciones en las que aparece. Implementar una clase iterator dentro de la clase libro que permita recorrer las palabras que comiencen por la z y estén en una posicion par. Implementar los métodos begin y end.__
 
 ```c++
-list<int> libro::posiciones (const string & palabra){
+list<int> libro::posiciones (const string & palabra) const {
   list<int> resultado;
-  list<int>::iterator it;
+  list<palabra>::iterator it;
   for(it = datos.begin(); it != datos.end(); ++it)
-    if(*it.pal == palabra)
-      resultado.push_back(*it.posicion);
+    if((*it).pal == palabra)
+      resultado.push_back((*it).posicion);
   return resultado;
 }
 ```
@@ -64,27 +64,30 @@ private:
   list<palabra>::iterator it, fin;
 public:
   iterator(){}
-  bool operator== (const iterator & i){
+  bool operator== (const iterator & i) const {
     return it == i.it;
   }
-  bool operator!= (const iterator & i){
+  bool operator!= (const iterator & i) const {
     return it != i.it;
   }
   palabra operator*(){
-    palabra aux;
-    aux.string = *it.pal;
-    aux.posicion = *it.posicion;
+    palabra aux = {(*it).pal, (*it).posicion};
     return palabra;
   }
-  iterator & operator++(){
+  iterator& operator++(){
+  /*
     ++it;
     bool encontrado = false;
     while(it != fin && !encontrado)
-      if(*it.pal[0] == 'z' && *it.posicion %2 == 0)
+      if((*it).pal[0] == 'z' && (*it).posicion % 2 == 0)
           encontrado = true;
-        else
-          ++it;
-    return it;
+       else
+         ++it;
+   */
+    ++it;
+   	while (it != fin && ((*it).pal[0] != 'z' || (*it).posicion % 2 != 0))
+   		++it;
+    return *this;
   }
 };
 
@@ -145,6 +148,7 @@ int caminossuma_k(bintree<int>::node nodo, int s, int k){
 }
 ```
 
+---
 ### Ejercicio 5
 
 __Tenemos un contenedor de pares de elementos definido como:__
