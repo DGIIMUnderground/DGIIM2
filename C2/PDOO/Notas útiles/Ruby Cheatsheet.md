@@ -73,7 +73,7 @@ puts msg.include? "is"
 
 ### Array Methods
 
-* Initialize: `friends = Array["Antonio", "Lucia", "Celia"]`
+* Initialize: `friends = Array["No", "tengo", "amigos"]
 * `array.length`
 * `array.include? element`
 * `array.reverse()`
@@ -93,7 +93,7 @@ states = {
 
 states2 = {
 	2 => "Sergio",
-	"Antonio" => "Merino",
+	"Antonio" => "Dios y puto amo",
 	:stock_price => 12.3
 }
 
