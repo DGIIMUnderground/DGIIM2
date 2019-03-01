@@ -16,6 +16,6 @@ $$\Vert k \cdot f\Vert _\infty = \sup_{x \in A} |k \cdot f(x)| = |k| \cdot \sup_
 
 - Desigualdad triangular: $\Vert f+g\Vert _\infty \le \Vert  f \Vert _\infty + \Vert  g \Vert _\infty$
 
-$$\Vert f+g \Vert_\infty = \sup_{x \in A} |f(x)+g(x)| \le \sup_{x \in A} |f(x)| + \sup_{x \in A} |g(x)| = \Vert f \Vert_\infty + \Vert g \Vert_\infty$$
+$$\Vert f+g \Vert _\infty = \sup_{x \in A} |f(x)+g(x)| \le \sup_{x \in A} |f(x)| + \sup_{x \in A} |g(x)| = \Vert f \Vert _\infty + \Vert g \Vert _\infty$$
 
 Por tanto, $\Vert f\Vert _\infty$ define una norma sobre el espacio de funciones continuas acotadas y $(\mathcal{C}_b(A,\mathbb{R}), \Vert  \cdot \Vert _\infty )$ es un espacio normado
