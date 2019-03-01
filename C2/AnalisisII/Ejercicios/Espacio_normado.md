@@ -6,13 +6,13 @@ Debemos probar que $|| \cdot ||_\infty$ es, en efecto, una norma. Para ello, com
 
 Hemos definido la norma infinito como
 
-$$||f\|_\infty := \sup_{x \in A} |f(x)|$$
+$$||f||_\infty := \sup_{x \in A} |f(x)|$$
 
 Por tanto, necesariamente, se tiene que las imágenes son todas mayores e iguales que 0, debido al valor absoluto. Además, $||f||_\infty = 0 \iff f(x) = 0\forall x \in A$
 
 - Si $k \in \mathbb{R}$, ¿ $||f \cdot k||_\infty = |k| \cdot ||f||_\infty$ ?
 
-$$||k \cdot f||_\infty = \sup_{x \in A} |k \cdot f(x)| = |k| \cdot \sup_{x \in A} |f(x)| = |k| \cdot ||f||_\infty$$
+$$ ||k \cdot f||_\infty = \sup_{x \in A} |k \cdot f(x)| = |k| \cdot \sup_{x \in A} |f(x)| = |k| \cdot ||f||_\infty $$
 
 - Desigualdad triangular: $||f+g||_\infty \le || f ||_\infty + || g ||_\infty$
 
