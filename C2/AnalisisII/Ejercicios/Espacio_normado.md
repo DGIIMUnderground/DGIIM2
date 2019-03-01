@@ -2,7 +2,7 @@
 
 Debemos probar que $\| \cdot \|_\infty$ es, en efecto, una norma. Para ello, comprobaremos la no negatividad, homogeneidad y la desigualdad triangular de la posible norma.
 
-- Sea $f: A\rightarrow\mathbb{R^{n}}$. Debemos comprobar que $\| f \|_\infty\ge0$ $\ \forall f\in \mathcal{C}_b(A,\mathbb{R})$
+- Sea $f: A\rightarrow\mathbb{R^{n}}$. Debemos comprobar que $ \| f \|_\infty\ge0$ $ \ \forall f\in \mathcal{C}_b(A,\mathbb{R}) $
 Hemos definido la norma infinito como
 $$ \|f\|_\infty := \sup_{x \in A} |f(x)| $$
 Por tanto, necesariamente, se tiene que las imágenes son todas mayores e iguales que 0, debido al valor absoluto. Además, $\| f \|_\infty = 0 \iff f(x) = 0\ \forall x \in A$
