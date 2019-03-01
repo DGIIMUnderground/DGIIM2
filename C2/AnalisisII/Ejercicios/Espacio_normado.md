@@ -1,4 +1,4 @@
-**Sea $A\subset\mathbb{R^n}$. Probar que $(\mathcal{C}_b(A,\mathbb{R}), \Vert \cdot \Vert_ \infty )$ es un espacio normado**
+**Sea $A\subset\mathbb{R^n}$. Probar que $(\mathcal{C}_b(A,\mathbb{R}), \Vert \cdot \Vert _\infty)$ es un espacio normado**
 
 Debemos probar que $\Vert  \cdot \Vert _\infty$ es, en efecto, una norma. Para ello, comprobaremos la no negatividad, homogeneidad y la desigualdad triangular de la posible norma.
 
