@@ -1,0 +1,33 @@
+## Enunciado
+Sea $(\Omega, \mathcal{A})$ medible, $X$ un espacio topológico con $\mathcal{B}$ su sigma-álgebra, y $f:\Omega \rightarrow X$ medible.
+
+Comprobar que $M = \{ E \subseteq X\ |\ f^{-1}(E) \in \mathcal{A}\}$ es una $\sigma - Álgebra$
+
+
+## Demostración
+
+Tenemos que una familia de conjuntos $X$, que representaremos por $\Sigma$ es una sigma álgebra si se cumple que
+1. $\emptyset \in \Sigma$
+2. Si $C\in \Sigma$, su complementario también: $\bar{C} = X-C \in \Sigma$
+3. La unión arbitraria de elementos de $\Sigma$ está en $\Sigma$
+
+Por tanto, comprobemos que el conjunto $M = \{ E \subseteq X\ |\ f^{-1}(E) \in \mathcal{A}\}$ cumple dichas propiedades:
+
+Veamos que el vacío está en $M$:
+
+$\emptyset \subset X$. Como $f^{-1}(\emptyset) = \emptyset \in \mathcal{A} \Rightarrow \emptyset \in M$
+
+Cojamos ahora un elemento de $M$. Sea $C \in M$. $\bar{C} = X - C \subset X$. Por tanto, 
+
+$$f^{-1}(\bar{C}) = f^{-1}(X - C) \in \mathcal{A}$$
+
+por ser $f$ medible
+
+Comprobemos finalmente la unión. 
+Tomamos $\{E_1, E_2,...\}$ elementos de $M$. 
+
+$$\bigcup_{i}{E_i} \subseteq X \Rightarrow f^{-1}\Big(\bigcup_{i}{E_i}\Big) \in \mathcal{A}$$
+
+por ser $f$ medible.
+
+Por tanto, $M$ es un $\sigma - Álgebra$
