@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\textbf{Propiedades de una $\sigma$-álgebra}
+\begin{enumerate}
+    \item $\Omega\in\mathcal{A}$
+    \item $\{A_i:i=1,\dots,n\}\subset\mathcal{A}\Rightarrow\bigcup_{i=1}^n A_i\in\mathcal{A} $
+    \item $\bigcap_{n=1}^\infty A_n\in \mathcal{A} \ \forall\{A_n\}\subset\mathcal{A}$
+    \item $\{A_i:i=1,\dots,n\}\subset\mathcal{A}\Rightarrow\bigcap_{i=1}^n A_i\in\mathcal{A} $
+    \item $A,B\in\mathcal{A}\Rightarrow A\backslash B\in\mathcal{A}$
+\end{enumerate}
+
+\textbf{Demostración}
+
+\begin{enumerate}
+    \item Sabemos que $\emptyset\in\mathcal{A}$, y como el complemento de todo conjunto medible es medible, entonces $\emptyset^c=\Omega\in\mathcal{A}$.
+    \item Por definición, la unión infinita numerable de conjuntos medibles es medible, consideramos el conjunto infinito:
+    $$\{A_1,A_2,\dots,A_n,\emptyset=A_{n+1},\emptyset=A_{n+2},\dots\}$$
+    Como $\emptyset\in\mathcal{A}$ y $A_i\in\mathcal{A}$ para todo $i\in\{1,\dots,n\}$, entonces se tiene un conjunto infinito de conjuntos medibles, luego $\bigcup_{i=1}^n A_i= \bigcup_{i=1}^\infty A_i\in\mathcal{A}$.
+    \item Para probar que $\bigcap_{n=1}^\infty A_n$ basta probar que su complemento es medible, así, por las leyes de Morgan:
+    $$\left(\bigcap_{n=1}^\infty A_n\right)^c=\bigcup_{n=1}^\infty A_n^c$$
+    Y como $A_i\in\mathcal{A}$ para todo $i\in\{1,\dots,n\}$, sus complementos son también medibles, y como la unión infinita numerable de conjuntos medibles es medible, se tiene que $\bigcup_{n=1}^\infty A_n^c\in\mathcal{A}$, y como su complemento también es medible, tenemos que $\bigcap_{n=1}^\infty A_n\in\mathcal{A}$.
+    \item Acabamos de deducir que la intersección infinita de conjuntos medibles es medible, por tanto, aplicando un razonamiento similar al de la propiedad (2) podemos obtener este resultado. Consideramos el conjunto infinito:
+    $$\{A_1,A_2,\dots,A_n,\Omega=A_{n+1},\Omega=A_{n+2},\dots\}$$
+    Como según la propiedad (1), $\Omega\in\mathcal{A}$, y $A_i\in\mathcal{A}$ para todo $i\in\{1,\dots,n\}$, entonces se tiene un conjunto infinito de conjuntos medibles, y aplicando la propiedad (3), tenemos que $\bigcap_{i=1}^n A_i=\bigcap_{i=1}^\infty A_i\in\mathcal{A}$.
+    \item Por simple álgebra de conjuntos, sabemos que $A\backslash B=A\cap B^c$, como $A$ es medible por hipótesis y $B^c$ lo es porque es el complemento de $B$, tenemos una intersección finita de conjuntos medibles, que por la propiedad (4) sabemos que también es medible.
+    
+\end{enumerate}
+
+
+
+
+
+
+\end{document}
