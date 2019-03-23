@@ -28,7 +28,7 @@
 * Boolean: `true false`
 * Null value: `name = nil`
 * Array: `name = Array[<values>]`
-* Hash Table 
+* Hash Table
 
 ### String Methods
 
@@ -261,21 +261,21 @@ end
 
 --------------------------------------------------------------------------------
 
-## Classes 
+## Classes
 
 ### Definition
 
 ~~~ruby
 class Classname
 	attr_accessor :data1, :data2, :data3 ....
-	
+
 	def initialize(param1, param2, param3 ...)
 		@data1 = param1
 		@data2 = param2
 		@data3 = param3
-		
+
 		....
-		
+
 	end
 end
 
@@ -294,7 +294,7 @@ class Book
 		@title = title
 		@author = author
 		@pages = pages
-		
+
 	end
 
 	def display()
