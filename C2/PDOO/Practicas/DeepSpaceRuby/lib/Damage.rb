@@ -23,6 +23,7 @@ module Deepspace
     end
     
     def adjust(w,s)
+=begin
       if @weapons==nil
         return Damage.newNumericWeapons(w.length,s.length)
         return Damage.newNumericWeapons([@nWeapons, w.length].min,[@nShields, s.length].min)
@@ -48,6 +49,7 @@ module Deepspace
 
         return Damage.newSpecificWeapons(tipos,[@nShields, s.length].min)
       end
+=end
     end
 
 
@@ -57,13 +59,6 @@ module Deepspace
     end
     
     def discardWeapon(w)
-      if @weapons!=nil
-        @weapons.delete(w.type)
-      else
-        if @nWeapons>0
-        @nWeapons-=1
-        end
-      end 
     end
     
     def discardShieldBooster
