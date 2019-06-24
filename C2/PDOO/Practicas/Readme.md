@@ -1,8 +1,24 @@
-# Prácticas PDOO
+# Prácticas PDOO Deepspace
+
+Nota: puede que estas prácticas **se queden desactualizadas** y las cambien para el curso 2019-2020
 
 Hola gente, os subo este documento porque, a no ser que Lastra cambie el orden de los contenidos, cosa que dudo, cuando os den el material para las prácticas os encontrareis un montón de clases que no sabréis para qué sirven y muy probablemente os pongan a programar un juego que ni vosotros sabéis de qué va.
 
-Antes de nada deciros que estas prácticas son del curso 2017/2018 y es muy posible que cambien ciertas cosas en los guiones y en el diseño del juego más allá de correcciones de erratas, yo os subo lo que hice el año pasado y dudo que cambie demasiado, en cualquier caso supongo que os ayudará. Realmente lo que subo es el contenido de las prácticas hasta la 4, con ciertos cambios. Por ejemplo, vosotros antes de añadir herencia al juego lo haréis de una forma un poco más rudimentaria (y cutre la verdad). La práctica 1 y 2 no deberían costaros demasiado, la tercera quizá un poco más, pero la chunga es la 4, que es casualmente para la que más puede ayudar nuestro código. Hay una práctica 5 que consiste en incluirle en Java una interfaz gráfica al juego. Aconsejo llegar con más de una semana de antelación porque esa práctica a mí me costó mucho, de hecho no os la subo porque está tremendamente mal hecha, seguramente otros compañeros las tengan mejor hechas que nosotros xD. Adjunto también unas clases de test que hice para depurar, quizá os sirvan y si no pues ahí están.
+Texto original por Juan Antonio:
+ > Antes de nada deciros que estas prácticas son del curso 2017/2018 y es muy posible que cambien ciertas cosas en los guiones y en el diseño del juego más allá de correcciones de erratas, yo os subo lo que hice el año pasado y dudo que cambie demasiado, en cualquier caso supongo que os ayudará. Realmente lo que subo es el contenido de las prácticas hasta la 4, con ciertos cambios. Por ejemplo, vosotros antes de añadir herencia al juego lo haréis de una forma un poco más rudimentaria (y cutre la verdad).
+
+Ahora que ha acabado el curso, y hemos tenido una generación con estas prácticas, voy a actualizarlas para que quede todo más clarito.
+
+Lo primero: no, apenas han cambiado las prácticas. Sí que es cierto que han tocado el controlador. He decidido dejar el orignal, e incrustar una copia del nuevo de 2018-2019 para la práctica 5. Por ello, las carpetas tienen una estructura un poco inusual:
+
+`src/ui` contiene la vista por terminal para la práctica de 2017-2018.
+`src/View/GUI` contiene la vista gráfica del año 2018-2019. Esta vista gráfica la tenemos que hacer nosotros. Es bastante lioso, y la idea que tenemos ahora mismo es de subir un tutorial. Si todo ha salido como esperábamos, debe estar por el repositorio
+`src/controller/Controller.java` y `src/controller/ControllerGrafico.java` tienen los controladores del año 2018-2019
+`src/controller/ControllerText.java` es el del año 2017-2018
+
+De todas formas, estos archivos no hay que tocarlos a excepción de los relacionados con la práctica 5. Esto es, el controlador que os proporcionen.
+
+La práctica 1 y 2 no deberían costaros demasiado, la tercera quizá un poco más, pero la chunga es la 4, que es casualmente para la que más puede ayudar nuestro código. Hay una práctica 5 que consiste en incluirle en Java una interfaz gráfica al juego. Aconsejo llegar con más de una semana de antelación porque esa práctica a mí me costó mucho, de hecho no os la subo porque está tremendamente mal hecha, seguramente otros compañeros las tengan mejor hechas que nosotros xD. Adjunto también unas clases de test que hice para depurar, quizá os sirvan y si no pues ahí están.
 
 Importante también, tanto las prácticas como el juego están un poco mal hechas y diseñadas a mi parecer, así que si veis que algo no tiene sentido es muy posible que sea así y ya está. De hecho, cuando esté todo implementado, como al iniciar el juego no te toque hangar estás jodido.
 
@@ -14,7 +30,7 @@ Antes de nada, pongo una pincelada del Modelo Vista-Controlador para que le veai
 
 # El Modelo Vista-Controlador
 
-Básicamente el MVC es un patrón de diseño que consiste en separar el juego en tres capas, que como su propio nombre indica, son el modelo, la vista y el controlador. Os pongo un poco de documentación que os volvereis a encontrar en la lección 4.1, pero considero conveniente que os la mireis ahora para entender mejor el desarrollo de las prácticas. 
+Básicamente el MVC es un patrón de diseño que consiste en separar el juego en tres capas, que como su propio nombre indica, son el modelo, la vista y el controlador. Os pongo un poco de documentación que os volvereis a encontrar en la lección 4.1, pero considero conveniente que os la mireis ahora para entender mejor el desarrollo de las prácticas.
 
 ## Elementos del patrón MVC
 
@@ -33,10 +49,6 @@ Básicamente el MVC es un patrón de diseño que consiste en separar el juego en
 7. Las vistas afectadas por el cambio se actualizan.
 
 ![](./MVC.png)
-
-
-
-
 
 # Las clases de las prácticas
 
