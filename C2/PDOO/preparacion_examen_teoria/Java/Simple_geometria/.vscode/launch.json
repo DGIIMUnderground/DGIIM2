@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - simple_geometria",
+            "request": "launch",
+            "mainClass": "simple_geometria.simple_geometria",
+            "projectName": "Simple_geometria"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Circulo",
+            "request": "launch",
+            "mainClass": "simple_geometria.Circulo",
+            "projectName": "Simple_geometria"
+        }
+    ]
+}
