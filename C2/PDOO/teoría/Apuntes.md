@@ -2,9 +2,57 @@
 
 ## Tabla de contenidos
 
+<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [ Tabla de contenidos](#tabla-de-contenidos)
+- [ 1.- Introducción](#1-introducción)
+- [ 2.- Instancias y clases](#2-instancias-y-clases)
+    - [ Java](#java)
+    - [ Ruby](#ruby)
+- [ 3.- Constructores](#3-constructores)
+    - [ Java](#java-1)
+    - [ Ruby](#ruby-1)
+- [ 4.- Pseudovariables](#4-pseudovariables)
+- [ 5.- Paquetes](#5-paquetes)
+    - [ Java](#java-2)
+    - [ Ruby](#ruby-2)
+- [ 6.- Visibilidad](#6-visibilidad)
+    - [ Java](#java-3)
+    - [ Ruby](#ruby-3)
+- [ 7.- Herencia](#7-herencia)
+    - [ Java](#java-4)
+    - [ Ruby](#ruby-4)
+- [ 8.- Interfaces y clases abstractas](#8-interfaces-y-clases-abstractas)
+    - [ 8.1.- Clases abstractas](#81-clases-abstractas)
+    - [ 8.2.- Interfaces](#82-interfaces)
+- [ 9.- Polimorfismo](#9-polimorfismo)
+  - [ 9.1.- Introducción al polimorfismo en Java](#91-introducción-al-polimorfismo-en-java)
+  - [ 9.2.- Casting](#92-casting)
+  - [ 9.3.- Polimorfismo paramétrico](#93-polimorfismo-paramétrico)
+    - [ Java](#java-5)
+    - [ Ruby](#ruby-5)
+  - [ 9.4.- Evitar comprobaciones explícitas de tipos](#94-evitar-comprobaciones-explícitas-de-tipos)
+- [ 10.- Revisitando herencia](#10-revisitando-herencia)
+  - [ 10.1.- ¿Qué método se selecciona?](#101-qué-método-se-selecciona)
+    - [ Ruby](#ruby-6)
+  - [ 10.2.- Herencia y atributos](#102-herencia-y-atributos)
+    - [ Java](#java-6)
+      - [ Resumen Java](#resumen-java)
+    - [ Ruby](#ruby-7)
+      - [ Resumen de Ruby](#resumen-de-ruby)
+- [ 11.- Copia de objetos](#11-copia-de-objetos)
+- [ 12.- Reflexión](#12-reflexión)
+- [ 13.- UML](#13-uml)
+    - [ Tipos de relaciones](#tipos-de-relaciones)
+    - [ Paquetes](#paquetes)
+
+<!-- /code_chunk_output -->
 
 
-## 1. Introducción
+
+## 1.- Introducción
 
 Estos apuntes repasan la asignatura Programación y Diseño Orientado a Objetos. Están pensados para usarlo como guía de estudio. Señalarán los conceptos más importantes, así como posibles fallos que se puedan dar a la hora de programar.
 
@@ -88,7 +136,7 @@ Empezamos así con la asignatura
 
 
 
-## 2. Instancias y clases
+## 2.- Instancias y clases
 
 #### Java
 
@@ -140,7 +188,7 @@ Usamos `self` para crear métodos de clase.
 
 
 
-## 3. Constructores
+## 3.- Constructores
 
 #### Java
 
@@ -176,14 +224,14 @@ Hay otras formas de recibir parámetros de forma variable: mediante un array o c
 
 
 
-## 4. Pseudovariables
+## 4.- Pseudovariables
 
 `this` se refiere a la instancia que está ejecutando el código. Equivalentemente `self`. Si estamos tratando métodos de clase, se refiere a la clase.
 
 
 
 
-## 5. Paquetes
+## 5.- Paquetes
 
 #### Java
 
@@ -196,7 +244,7 @@ No usar `include`. Simplemente copia y pega contenido de archivos.
 
 
 
-## 6. Visibilidad
+## 6.- Visibilidad
 
 #### Java
 
@@ -302,7 +350,7 @@ h.publico
 
 
 
-## 7. Herencia
+## 7.- Herencia
 
 La clase hija que hereda del padre añade y/o modifica el comportamiento de la clase padre.
 
@@ -329,16 +377,16 @@ Esto hace que no se puedan usar métodos del padre ni atributos. Cuidado.
 
 
 
-## 8. Interfaces y clases abstractas
+## 8.- Interfaces y clases abstractas
 
 Ruby no tiene clases abstractas ni interfaces. Se puede simular, pero poco más. Por lo tanto, todo lo que hablaremos a continuación será aplicable principalmente a Java.
 
-#### Clases abstractas
+#### 8.1.- Clases abstractas
 
 Una clase abstracta no tiene por qué implementar un método. Lo que hacen es **forzar** a que las hijas lo hagan. Estos métodos se denominan `abstract`. Tener hijos para esto...
 **No se puede instanciar una clase abstracta**
 
-#### Interfaces
+#### 8.2.- Interfaces
 
 Una interfaz es un contrato. Es una colección de métodos abstractos y propiedades constantes. Especifican qué se debe hacer, pero no cómo. Por tanto, las clases que implementen esa interfaz, están obligadas a proporcionar dichos métodos.
 
@@ -376,7 +424,7 @@ class clase implements A, B {
 
 
 
-## 9. Polimorfismo
+## 9.- Polimorfismo
 
 En términos generales, el [polimorfismo es la propiedad que permite enviar mensajes sintácticamente iguales a objetos de distinto tipo](https://es.wikipedia.org/wiki/Polimorfismo_(inform%C3%A1tica)). También es la capacidad de un objeto de tomar diferentes formas. Como vemos, la definición es muy general. Por lo que es normal que nos encontremos diferentes tipos.
 
@@ -397,7 +445,7 @@ Es decir, si B es un subtipo de A, se pueden utilizar instancias de B donde se e
 
 ---
 
-### 9.1. Introducción al polimorfismo en Java
+### 9.1.- Introducción al polimorfismo en Java
 
 Java utliza tanto tipos estáticos como dinámicos. Cuando declaramos una variable sin hacer new, estamos usando el tipo estántico. Lo que viene tras `new` denota su tipo dinámico:
 
@@ -465,7 +513,7 @@ public class Main {
 
 ---
 
-### 9.2. Casting
+### 9.2.- Casting
 
 Para arreglar ciertos problemas de compilación, haremos casting o *casteo*, un *spanglishmo* que suena bastante bien. Consiste en cambiar una expresión de un tipo de dato a otro. Esto puede ocurrir de forma implícita o explícita:
 
@@ -480,6 +528,7 @@ if (d < i) // Implícita
 Es importante matizar que castear no hace ninguna transformación en el objeto referenciado ni cambia su comportamiento. Únicamente es una indicación al compilador. El **programador se responsabiliza de lo que ocurra a partir de ahí con el objeto.**
 
 > ![](./Fotos_apuntes/MJHID.gif)
+>
 > \- *Compilador*
 
 La forma de esquivar ciertos erores de compilación esto son casteos. Pero te la juegas a que pete en tiempo de ejecución. Si estás seguro de que se puede encontrar el método, puedes hacerlo. Si no, ten cuidado.
@@ -606,9 +655,7 @@ public class Main {
 }
 ```
 
-
-
-## 10. Polimorfismo paramétrico
+### 9.3.- Polimorfismo paramétrico
 
 También conocido como *generics* o *templates*. Permiten definir métodos y clases genéricas cuyas operaciones son aplicables a distintos tipos de datos. Por ejemplo, si un método devuelve la suma de dos objetos, esta operación es válida para strings, floats, enteros, dobles o cualquier clase que tenga definida la suma.
 
@@ -638,10 +685,343 @@ Aunque lo siguiente es una chapuza, si nos ponemos farrucos, podemos tener array
 
 Ruby no es fuertemente tipado. Tiene duck typing. Así que... Todo es genérico `¯\_(ツ)_/¯`
 
+### 9.4.- Evitar comprobaciones explícitas de tipos
+
+Hemos aprendido a usar diferentes tipos en mismas funciones, así como métodos genéricos. Esto nos puede incitar a intentar comprobar el tipo de dato que estemos pasando a nuestras funciones.
+Esto es un fallo de diseño muy gordo.
+No lo hagáis.
+Lo digo en serio.
+Evitadlo. Buscad otras formas. Pero, si llegado el momento, nos vemos forzado a usar comprobación de tipos, debemos dar un paso atrás y replantear nuestro diseño. Porque tiene fallos.
+
+
+## 10.- Revisitando herencia
+
+Dado que ya hemos aprendido qué es el polimorfismo, la harencia, y otros conceptos más básicos, es hora de revisitar lo que sabemos para juntarlo todo. El comportamiento de la llamada de métodos y el acceso a atributos podría sorprendernos, porque no funciona exactamente igual en estos dos mensajes.
+
+### 10.1.- ¿Qué método se selecciona?
+
+Cuando invocamos un método, cada lenguaje necesita saber dónde está el código que se debe usar. Con ligadura dinámica, primero lo buscará en el tipo dinámico. Si no se encuentra, se busca en el antecesor más próximo. Y así, hasta que se encuentre.
+
+#### Ruby
+
+Veamos un ejemplo en Ruby:
+
+```ruby
+class Padre
+    def interno
+        puts "Yo soy tu padre"
+    end
+
+    def metodo
+        puts "¿Quién soy?"
+        interno
+    end
+end
+
+class Hijo < Padre
+    def interno # Lo sobreescribimos
+        puts "Soy el hijo!"
+    end
+end
+
+Padre.new.metodo # => ¿Quién soy? Yo soy tu padre
+Hijo.new.metodo  # => ¿Quién soy? Soy el hijo!
+```
+
+Planteémoslo de la siguiente forma: En Ruby, cuando se decide buscar un método, se vuelve siempre al tipo dinámico. Y va subiendo hasta que lo encuentre.
+
+### 10.2.- Herencia y atributos
+
+#### Java
+
+Java no permite la redefinición de métodos de clase al mismo nivel que de instancia. Por ello, pueden existir métodos de clase con el mismo nombre que producen efectos distintos. Analicemos algunos ejemplos:
+
+```java
+class Padre {
+    public static final int DECLASE = 1;
+
+    public static int getDECLASE () {
+        return DECLASE;
+    }
+}
+
+class Hija extends Padre {
+    public static final int DECLASE = 2;
+/*
+    A partir de ahora, todos los hijos tendrán como valor de la variable 2.
+    Esto ocurrirá hasta que se modifique de nuevo, como acabamos de hacer.
+    La variable del padre queda intacta. No es la misma en Java.
+*/
+
+}
+
+class Nieta extends Hija {
+    public static int getDECLASE() { // NO se está redefiniendo
+        // No podemos hacer super.getDECLASE()
+
+        return DECLASE;
+    }
+}
+
+public class Main {
+    public static void main (String[] args) {
+        System.out.println(Padre.DECLASE);   // 1
+        System.out.println(Hija.DECLASE);    // 2
+        System.out.println(Nieta.DECLASE);   // 2
+
+        System.out.println(Padre.getDECLASE());  // 1
+        System.out.println(Hija.getDECLASE());   // 1. Esto ocurre porque busca la variable de clase en el ámbito más cercano
+        System.out.println(Nieta.getDECLASE());  // 2. Se ha "redefinido" el método. Ahora busca la más cercana desde Nieta.
+
+    /*
+        Aunque lo siguiente es válido y no arroja errores, no se deben invocar
+        métodos de clase desde instancias. No es nada recomendable.
+
+        El tipo estático también influye en la llamada
+    */
+
+        Padre p = new Padre();
+        System.out.println(p.getDECLASE()); // 1
+
+        p = new Nieta();
+        System.out.println(p.getDECLASE()); // 1
+
+        Nieta n = new Nieta();
+        System.out.println(n.getDECLASE()); // 2
+    }
+}
+```
+
+El término correcto para describir lo que ocurre con la variable de clase es *shadowing*. Este concepto denota la capacidad de llamar a dos variables distintas de la misma forma. Esto es posible dado que se encuentran en diferente ámbito.
+
+En el siguiente ejemplo, seguiremos el flujo de llamadas de Java con el objetivo de comprender cómo funciona:
+
+```java
+class Super {
+    protected int x = 5;
+
+    public Super() {
+        x++;
+        System.out.print("-" + method(7, 3));
+    }
+
+    public int method (int i) {
+        return x + i - 4;
+    }
+
+    public int method (int i, int i2) {
+        return method(i) + i - i2;
+    }
+}
+
+class Sub extends Super {
+    int x = 3;
+
+    public int method (int i) {
+        return ( (x * 2) + (i + super.x) );
+    }
+
+    public static void main (String[] args) {
+        Super s = new Sub();
+        System.out.print("-" + s.x);
+        Super sup = new Super();
+    }
+}
+```
+
+La salida del programa es `-17-6-13`.
+
+1. `Super s = new Sub()`: Llama al constructor de la clase `Sub`. Como no existe, llama por defecto al del padre `Super`
+    2. Incrementa la variable Super.x => x = 6. Esto ocurre porque toma el atributo más cercano al lugar donde se define el método
+    3. Llama a `Super.method(7, 3)`
+        4. Suma `method(7) + 7 - 3`. Llama a `Sub.method(7)`. Para métodos, siempre intenta tomar los del tipo dinámico. Si no los encuentra, asciende
+        5. `method(7)` devuelve `( (x * 2) + (i + super.x) )`, donde
+            - `x = 0`, dado que todavía no se ha inicializado. La operación de **`super()` siempre tiene prioridad al resto del cuerpo del constructor**. Debe ser puesto en la primera línea. Por lo tanto, y, aunque la clase tenga un valor por defecto en x, este todavía no se ha usado, puesto que se ha ejecutado primero el constructor del padre.
+            - `super.x = 6`
+            - Por tanto, se devuelve (0 * 2) + 7 + 6 = 13
+    6. Saca a pantalla `(13 + 7 - 3) = 17`
+7. En `main()`, saca `s.x`. Como se le da prioridad al tipo estático, se saca `- 6`
+8. `Super sup = new Super()`.
+9. El desarrollo es más o menos el mismo, pero en este caso, se usa `Super.method(int i)`.  El resultado es `13`.
+
+---
+
+##### Resumen Java
+
+Debemos de tener bastantes matices en cuenta, así que resumámoslos:
+
+- Se tomará el método más profundo en el árbol de herencia. Esto es, el más cercano al tipo dinámico
+- Se tomará el atributo más cercano adonde se implemente el método usado. Pero debemos tener cuidado con el shadowing
+- Si se accede a un atributo desde fuera, se usará el tipo estático
+
+
+#### Ruby
+
+Aquí, las clases son *first-class-citizens*. Esto nos dice que las clases son entidades que también soportan operaciones comunes a otros tipos de datos. Por ejemplo, ser pasadas como argumentos, retornadas como valores, ser modificados o asignados...
+
+Ruby funciona de forma diferente a Java. Veamos el siguiente ejemplo:
+
+```ruby
+class Padre
+    @instancia_clase1 = 1
+    @instancia_clase2 = 2
+
+    def self.salida
+        puts @instancia_clase1
+        puts @instancia_clase2 unless @instancia_clase2.nil?
+    end
+
+    def self.salida2
+        salida
+    end
+end
+
+class Hija < Padre
+    @instancia_clase1 = 3
+
+    #####################################################
+    # Los atributos de instancia de clase NO SE heredan #
+    #####################################################
+
+    def self.salida2
+        super
+        puts @instancia_clase1
+    end
+end
+
+Padre.salida    # 1, 2
+Hija.salida     # Acaba en el método del padre => 3
+Padre.salida2   # 1, 2
+
+Hija.salida2
+# Usa Hija.salida. Llama a super => se ejecuta Padre.salida2 => busca salida
+# empezando por la Hija. No lo encuentra, por lo que se va a buscarlo al Padre.
+# lo encuentra => 3. Como los atributos de instancia de clase no se heredan, @instancia_clase2 no existe
+# finalmente, saca @instancia_clase1 => 3
+# Salida final: 3,3
+```
+
+Hemos sacado en claro entonces que:
+- Los métodos se buscan siempre desde abajo hacia arriba
+- Las variables de instancia de clase no se heredan
+
+Ahora, observemos un ejemplo con variables de clase:
+
+```ruby
+class Padre
+  @@de_clase=6
+
+  def self.de_clase
+    @@de_clase
+  end
+end
+
+puts Padre.de_clase # 6
+
+class Hija < Padre
+  @@de_clase=666
+end
+
+puts Padre.de_clase # 666 !!!!
+puts Hija.de_clase
+```
+Lo que podemos aprender aquí es que las **variable de clase son compartidas en Ruby**. Al contrario que en Java. Si modificamos una en una subclase, todos los ancestros se verán modificados. Además, se heredan.
+
+Finalmente, juntemos todo lo aprendido en un último ejemplo, que repasará todo:
+
+```ruby
+class Padre
+    @instanciaDeClase = 1
+    @duda             = 2
+    @@deClase         = 11
+    @@duda            = 22
+
+    def initialize
+        @deInstancia = 333
+        @duda        = 444
+    end
+
+    def self.salida
+        puts @instanciaDeClase+1
+        puts @duda+1 unless @duda.nil? # desde Hija?
+        puts @@deClase+1
+        puts @@duda+1
+    end
+
+    def salida
+        puts @deInstancia+1
+        puts @duda+1
+        puts @@deClase+1
+        puts @@duda+1
+    end
+end
+
+class Hija < Padre
+    @instanciaDeClase = -1
+    # Sobreescribimos el valor fijado anteriormente
+    # Este atributo es compartido
+    @@deClase = -11
+
+    def modifica
+    # Acceso a los atributos definidos en Padre
+        @duda += 111
+    end
+end
+
+
+# Fuera de cualquier clase
+Padre.salida
+Hija.salida # Atención a lo que ocurre con la segunda línea
+
+p = Padre.new
+p.salida
+
+h = Hija.new
+h.salida
+h.modifica
+
+h.salida
+p.salida
+```
+
+Este caso lo haremos poco a poco. Pero debemos tener en cuenta todo lo que hemos aprendido en los ejemplos anteriores.
+Primero, debemos entender bien qué hacen nuestras variables y bajo qué ámbito se encuentran.
+Lo más destacable es el caso de `@duda`. Durante todo el código, existirán 2 `@duda` independientes: uno de instancia, y otra de instancia de clase.
+Otro detalle de importancia es el método salida. Hay uno de clase, y otro de instancia. Cuidado, porque sacarán información diferente.
+
+Dicho esto, empecemos:
+
+- `Padre.salida`: `2, 3, -10, 23`.
+Lo único que podría sorprendernos es el -10. Esto es debido a que la clase hija sobreescribe la variable de clase. Y, al ser interpretado Ruby, y haber leído esa línea, su valor queda modificado también para el padre
+- `Hija.salida`: `0, -10, 23`. O, de otra forma: `0, nil, -10, 23`
+Recordemos que los atributos de instancia de clase no se heredan. En la clase Hija se crea uno nuevo que se llama exactamente igual que el anterior. Ruby busca el método `salida` en Hija, pero no lo encuentra. Por tanto, se va al Padre. Ahí, busca las variables de línea en línea. Cuando intenta buscarlas, siempre empieza por Hija, y asciende poco a poco. Usa `@instanciaDeClase = -1`, y como `@duda` no existe en la hija, su valor es nil. Las variables de clase se comportan como esperamos. Estas sí se heredan. A partir de aquí, no las comentaré, porque su valor será exactamente el mismo.
+- `p.salida`: `334, 445, -10, 23`. Nada que objetar aquí
+- `h.salida`: `334, 445, -10, 23`. Ahora sí tenemos chicha.
+Al no haber definido `initialize`, automáticamente se llama al constructor del padre. Por tanto, construye una copia de los atributos de instancia del padre, y se los guarda en la clase Hija. Los valores que saca son exactamente los mismos que antes, porque, a fin de cuentas, solo los ha copiado.
+- `h.salida` tras `h.modifica`: `334, 556, -10, 23`.
+Mira el párrafo de arriba. Y haz incapié en lo siguiente: *construye una copia de los atributos de instancia del padre, y se los guarda en la clase Hija*. Copia. Efectivamente. Hemos modificado el atributo de instancia `@duda`, pero solo para la instancia de Hija. Veamos qué ocurre con la instancia del padre...
+- `p.salida`: `334, 445, -10, 23`. Bingo. No se ve afectado.
+
+---
+
+##### Resumen de Ruby
+
+Dado que es mucha información, hagamos un resumen sobre los atributos y las clases:
+- Se buscan siempre empezando en el mayor descendiente y ascendiendo (Desde la hija a los padres y más allá).
+- Atributos de instancia:
+    - Es necesario llamar a super para construirlos.
+    - Se hereda una copia del valor de las variables en ese momento.
+- Atributos de clase:
+    - Se heredan.
+    - Son compartidos.
+    - Modificar uno cambia el valor de la variable en toda la familia.
+- Atributos de instancia de clase:
+    - No se heredan.
+    - Solo se sobreescriben en ámbitos cercanos.
 
 
 
-## 11. Copia de objetos
+## 11.- Copia de objetos
 
 Copia de profundidad baja:
 
@@ -698,7 +1078,11 @@ class ComplejaMasSegura implements Cloneable {
 
 
 
-## 12. UML
+## 12.- Reflexión
+
+
+
+## 13.- UML
 
 Sintaxis:
 <img src="./Fotos_apuntes/UML.png" alt="UML" class="center">
