@@ -44,9 +44,16 @@
       - [ Resumen de Ruby](#resumen-de-ruby)
 - [ 11.- Copia de objetos](#11-copia-de-objetos)
 - [ 12.- Reflexión](#12-reflexión)
+    - [ Java](#java-7)
+    - [ Ruby](#ruby-8)
 - [ 13.- UML](#13-uml)
     - [ Tipos de relaciones](#tipos-de-relaciones)
     - [ Paquetes](#paquetes)
+  - [ 14.- Para practicar...](#14-para-practicar)
+  - [ 14.1.- Errores comunes](#141-errores-comunes)
+  - [ Java](#java-8)
+    - [ Java](#java-9)
+  - [ 15.- Créditos](#15-créditos)
 
 <!-- /code_chunk_output -->
 
@@ -133,8 +140,7 @@ Esto al menos te forzará a pensar en el diseño de tus programas y, sobre todo,
 
 Empezamos así con la asignatura
 
-
-
+---
 
 ## 2.- Instancias y clases
 
@@ -145,7 +151,7 @@ Sintaxis:
 - Métodos y atributos de clase: se usa `static`
 - Métodos y atributos de instancia: no tienen ningún matiz en especial. No llevan static
 
-`final` funciona como const
+`final` funciona como const. Impide además heredar métodos/variables y sobreescribirlos
 `static` comparte un mismo atributo entre todas las clases - atributo de clase
 
 No llamar a métodos de clase desde una instancia. Don't do it. Stahp
@@ -844,13 +850,19 @@ La salida del programa es `-17-6-13`.
 8. `Super sup = new Super()`.
 9. El desarrollo es más o menos el mismo, pero en este caso, se usa `Super.method(int i)`.  El resultado es `13`.
 
+Finalmente, veamos este ejemplo:
+
+![](./Fotos_apuntes/Constructores.png)
+
+Lo más interesante es que en la clase existen dos `z`: una que pertenece a la clase MySuper, y otra a MySub. Son copias. Por tanto, cuando hacemos `mySuper.z`, se le da prioridad a la `z` de la clase `MySuper`. Por ello sale 3.
+
 ---
 
 ##### Resumen Java
 
 Debemos de tener bastantes matices en cuenta, así que resumámoslos:
 
-- Se tomará el método más profundo en el árbol de herencia. Esto es, el más cercano al tipo dinámico
+- Se tomará el método de instancia más profundo en el árbol de herencia. Esto es, el más cercano al tipo dinámico
 - Se tomará el atributo más cercano adonde se implemente el método usado. Pero debemos tener cuidado con el shadowing
 - Si se accede a un atributo desde fuera, se usará el tipo estático
 
@@ -1185,3 +1197,26 @@ La herencia se indica como una asociación con una punta de flecha hueca
 
 #### Paquetes
 Se pueden dar relaciones de dependencia entre paquetes
+
+### 14.- Para practicar...
+
+### 14.1.- Errores comunes
+
+Esta sección está pensada para practicar los exámenes de la UGR de PDOO. Se señalan algunos fallos típicos en el código:
+
+### Java
+
+- Restringir visibilidad de métodos al heredar produce fallo de compilación
+- Fallo en los constructores por no usar `super`. No se crean atributos y otros problemas
+- ¿Qué método se llama?
+- Instanciar una interfaz (`new Interface()`) es un fallo
+
+#### Java
+
+[Varios tests](https://www.geeksforgeeks.org/quiz-corner-gq/#Java%20Programming%20Mock%20Tests)
+[Casting](http://www.sarmaroof.com/exercise-beginner-java-object-casting/)
+
+
+### 15.- Créditos
+
+El contenido de esta guía está sacado principalmente de las diapositivas de M. Lastra, profesor de la UGR. Además, algunas definiciones se han sacado de Wikipedia.
