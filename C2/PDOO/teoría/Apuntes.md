@@ -54,7 +54,7 @@
 
 ## 1.- Introducción
 
-Estos apuntes repasan la asignatura Programación y Diseño Orientado a Objetos. Están pensados para usarlo como guía de estudio. Señalarán los conceptos más importantes, así como posibles fallos que se puedan dar a la hora de programar.
+Estos apuntes repasan la asignatura Programación y Diseño Orientado a Objetos. Están pensados para usarlo como guía de estudio. Señalarán los conceptos más importantes, así como posibles fallos que se puedan dar a la hora de programar. La parte más básica se verá bastante por encima, puesto que es relativamente sencillo y en cualquier libro aparece bien. Sin embargo, trataremos herencia, polimorfismo y similares con más profundidad.
 
 Antes de empezar, hay que tener en cuenta lo siguiente:
 
@@ -64,7 +64,7 @@ En Java son todo referencias.
 
 ¿He dicho que en en Java son referencias siempre?
 
-Pues lo son. Ten cuidado con eso. Si metemos mano a lo que no debemos, y de una forma que aparentemente no parece incorrecta, podríamos ser capaces de modificar el comportamiento interno de un objeto desde fuera. Por ejemplo:
+Pues lo son. Ten cuidado con eso. Si metemos mano a lo que no debemos, y aunque parezca aparentemente correcta, podríamos haber expuesto el comportamiento interno de la clase desde fuera. Por ejemplo:
 
 ```java
 class ShitHappens {
@@ -78,7 +78,7 @@ class ShitHappens {
 }
 ```
 
-No está devolviendo una copia. Está devolviendo **el array entero**. Aunque es un getter, tocar lo que devuelve modifica el array de la clase. Bueno, y... ¿Qué pasará si devolvemos una copia?
+No está devolviendo una copia. Está devolviendo **la dirección del array**. Aunque es un getter, tocar lo que devuelve modifica el array de la clase. Bueno, y... ¿Qué pasará si devolvemos una copia?
 
 ```java
 class ShitHappens {
@@ -97,7 +97,7 @@ class ShitHappens {
 }
 ```
 
-Tampooc nos vale. Estamos devolviendo **las referencias que se hayan dentro del array**. Así que podemos seguir tocándolo. Ya veremos más adelante cómo se hacen las copias debidamente. Pero hay que tener en cuenta lo anterior. Aquí todo son referencias
+Tampoco nos vale. Estamos devolviendo **las referencias que se hallan dentro del array**. Así que podríamos seguir modificando sus elementos. Veremos más adelante cómo se hacen las copias debidamente. Pero hay que tener en cuenta lo anterior. Aquí todo son referencias
 
 Es también muy importante que tengamos en cuenta siempre cómo debe funcionar una clase. Podría seguir el siguiente esquema por capas:
 
@@ -1080,7 +1080,70 @@ class ComplejaMasSegura implements Cloneable {
 
 ## 12.- Reflexión
 
+La reflexiónes la capacidad de un programa para manipularse a si mismo y comprender sus estructuras en tiempo de ejecución. Hay dos mecanismos:
 
+- **Introspección**, que es la habilidad del programa para observar y razonar sobre su estado en tiempo de ejecución
+- **Modificación**, el cual sí nos permite modificarlo. Este es más típico de lenguajes interpretrados
+
+#### Java
+
+Se permite introspección. Es algo más limitado, pero podría ser de utilidad. Veamos un pequeño ejemplo:
+
+```java
+A obj = new A();
+Class clase = obj.getClass();
+
+Field[] var_instancia = clase.getFields();
+Constructor[] construct = clase.getConstructors();
+Method[] metodos_instancia = clase.getMethods();
+String class_name = clase.getSimpleName();
+```
+
+#### Ruby
+
+Aquí nos encontramos tanto con introspección como modificación:
+
+```ruby
+class Libro
+    def initialize titulo
+        @titulo = titulo
+    end
+end
+
+libro1 = Libro.new("¿Sueñan los androides con ovejas eléctricas?")
+
+# Añadimos un método de instancia nuevo
+Libro.class_eval do def publicacion (year)
+                        @ano_pubicacion = year
+                    end
+
+libro1.publicacion(1968)
+puts libro1.inspect     # ahora aparece también @ano_pubicacion
+
+# Solo para esta instancia
+libro1.instance_eval do def autor (autor)
+                            @autor = autor
+                        end
+libro1.autor("Philip K. Dick")
+
+libro2 = Libro.new("Metro 2033")
+libro2.autor("Dmitri Glujovski") # error: undefined method 'autor'
+
+puts  Libro.instance_methods(false) # publicacion
+# El parámetro indica si queremos solo los métodos de esa clase (false)
+# o también los heredados (true)
+
+puts libro1.instance_variables
+    # @autor,  @titulo,  @añoPublicacionputs
+
+libro2.instance_variables       # @titulo
+puts libro1.instance_of?(Libro) # true
+
+```
+
+Recordatorio. No uséis `instance_of`. Ni comprobéis tipos. No lo hagáis.
+
+---
 
 ## 13.- UML
 
