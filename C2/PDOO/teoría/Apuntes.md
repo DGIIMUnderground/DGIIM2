@@ -250,11 +250,15 @@ Usamos `self` para crear métodos de clase.
 
 ## 3.- Constructores
 
+Los constructores se encargar de instanciar objetos de una clase. En ellos se realizarán las operaciones necesarias para que lo anterior ocurra. Son los únicos métodos que no tienen asociado ningún tipo de retorno en su declaración
+
 #### Java
 
 ```java
 class Punto3D {
-    ...
+    public Punto3D() {
+        ...
+    }
 
     public static void main() {
         Punto3D punto;   // No se crea nada. Es un objeto nulo.
@@ -281,28 +285,25 @@ end
 
 Hay otras formas de recibir parámetros de forma variable: mediante un array o con valores por defecto. Están en la presentación. No los recomienda.
 
-
-
+---
 
 ## 4.- Pseudovariables
 
 `this` se refiere a la instancia que está ejecutando el código. Equivalentemente `self`. Si estamos tratando métodos de clase, se refiere a la clase.
 
-
-
+---
 
 ## 5.- Paquetes
 
 #### Java
 
-No tiene subpaquetes: el paquete `A` y `A.B` no tienen nada que ver. La única relación es el almacenamiento en disco
+No tiene subpaquetes: el paquete `A` y `A.B` no tienen nada que ver. La única relación es el almacenamiento en disco.
 
 #### Ruby
 
-No usar `include`. Simplemente copia y pega contenido de archivos.
+Usar `include` simplemente copia y pega contenido de módulos.
 
-
-
+---
 
 ## 6.- Visibilidad
 
