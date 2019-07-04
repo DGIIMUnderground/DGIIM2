@@ -8,6 +8,9 @@
 
 - [ Tabla de contenidos](#tabla-de-contenidos)
 - [ 1.- Introducción](#1-introducción)
+  - [ Sección especial: Cómo leer código](#sección-especial-cómo-leer-código)
+    - [ Código como concepto](#código-como-concepto)
+    - [ Funciones y métodos](#funciones-y-métodos)
 - [ 2.- Instancias y clases](#2-instancias-y-clases)
     - [ Java](#java)
     - [ Ruby](#ruby)
@@ -61,7 +64,7 @@
 
 ## 1.- Introducción
 
-Estos apuntes repasan la asignatura Programación y Diseño Orientado a Objetos. Están pensados para usarlo como guía de estudio. Señalarán los conceptos más importantes, así como posibles fallos que se puedan dar a la hora de programar. La parte más básica se verá bastante por encima, puesto que es relativamente sencillo y en cualquier libro aparece bien. Sin embargo, trataremos herencia, polimorfismo y similares con más profundidad.
+Estos apuntes repasan la asignatura Programación y Diseño Orientado a Objetos. Están pensados para usarlos como guía de estudio. Señalarán los conceptos más importantes, así como posibles fallos que se puedan dar a la hora de programar. La parte más básica se verá bastante por encima, puesto que es relativamente sencillo y en cualquier libro aparece bien. Sin embargo, trataremos herencia, polimorfismo y similares con más profundidad.
 
 Antes de empezar, hay que tener en cuenta lo siguiente:
 
@@ -71,13 +74,11 @@ En Java son todo referencias.
 
 ¿He dicho que en en Java son referencias siempre?
 
-Pues lo son. Ten cuidado con eso. Si metemos mano a lo que no debemos, y aunque parezca aparentemente correcta, podríamos haber expuesto el comportamiento interno de la clase desde fuera. Por ejemplo:
+Pues lo son. Ten cuidado con eso. Si metemos mano a lo que no debemos, y aunque parezca aparentemente pudiera estar bien, podríamos haber expuesto el comportamiento interno de la clase desde fuera. Por ejemplo:
 
 ```java
 class ShitHappens {
     ArrayList<String> array;
-
-    ...
 
     ArrayList<String> getArray () {
         return array;
@@ -85,13 +86,11 @@ class ShitHappens {
 }
 ```
 
-No está devolviendo una copia. Está devolviendo **la dirección del array**. Aunque es un getter, tocar lo que devuelve modifica el array de la clase. Bueno, y... ¿Qué pasará si devolvemos una copia?
+No está devolviendo una copia. Está devolviendo **la dirección del array**. Aunque es un getter, cambiar lo que devuelve modifica el array de la clase. Por ejemplo, podríamos hacer un `.clear()`. Bueno, y... ¿Qué pasará si devolvemos una copia?
 
 ```java
 class ShitHappens {
     ArrayList<String> array;
-
-    ...
 
     ArrayList<String> getArray () {
         ArrayList<String> retorno = new ArrayList<>();
@@ -120,7 +119,7 @@ Clase:  | Comportamiento internto |
         ---------------------------
 ```
 
-Como nota final, debemos señalar que Ruby no es fuertemente tipado. Usa lo que se denomina *duck typing*. Esto produce lo siguiente:
+Con respecto a Ruby, debemos señalar que no es fuertemente tipado. Usa lo que se denomina *duck typing*. Esto produce lo siguiente:
 
 ```ruby
 class A
@@ -132,13 +131,68 @@ end
 
 ¿Qué es `p`? ¿Un String? ¿Un entero? ¿Otra clase nuestra? ¿Tiene definido la suma?
 
-La respuesta es: sepa dios `¯\_(ツ)_/¯`
+La respuesta es: `¯\_(ツ)_/¯`
 
 Le puedes pasar lo que te dé la absoluta gana. Y ya si peta Ruby, te lo dirá. Porque **Ruby es interpretrado**. Y, si algo no funciona, te lo dirá. Pero si funciona aunque sepa mal, no tendrás ni un warning, ni un fallo al compilar.
 
 Esto al menos te forzará a pensar en el diseño de tus programas y, sobre todo, a apreciar lo maravillosamente pesado que es un compilador.
 
-Empezamos así con la asignatura
+### Sección especial: Cómo leer código
+
+#### Código como concepto
+
+Es usual en principiantes tener problemas para leer programas y entenderlos. Saben perfectamente qué hace cada sentencia y cada variable, pero no en conjunto. Son capaces de leer línea a línea, pero no de *entender* lo que hace un fragmento de programa.
+
+El primer paso para avanzar y romper esta mentalidad es saber leer. **Leer conceptos**.
+
+Cito un fragmento del profesor F.J. Pérez curioso que lo ejemplifica:
+
+> Para ponerlo de manifiesto vamos a considerar un ejemplo. En uno de los ejercicios al final deesta sección te propongo que pruebes que la igualdad:
+> $$\frac{1}{x} + \frac{1}{y} = \frac{1}{x+y}$$
+> nunca es cierta. Bien, supongamos que ya lo has probado. Seguidamente te pido que me digas cuándo es cierta la igualdad
+> $$\frac{1}{x+y^2} + \frac{1}{z} = \frac{1}{x + y^2 + z}$$
+> tienes 15 segundos. Y sobran 2. ¿Sí? ¿No? ¡Son la misma igualdad! Y aquí es donde yo quería llegar: si no te parece la misma igualdad es porque estás *leyendo los símbolos y no los conceptos*
+
+En programación, pasa exactamente lo mismo:
+
+```java
+public float fire () {
+    float disparo = base.fire();
+
+    for (SpaceStation colaboradores : collaborators)
+        disparo += colaboradores.fire();
+
+    return disparo;
+}
+```
+
+Así es como yo lo leería: *obtén el disparo base, y añádele el disparo de cada colaborador*.
+
+A lo mejor, ahora mismo te estás preguntando... *¿Pero cómo sé yo que se hace eso? No conozco la clase SpaceStation, ni lo que hace el método `fire()`*.
+
+Un buen código será legible incluso para alguien que no lo ha hecho. Programar es un trabajo en equipo. Deberías escribir como si detrás tuvieras una manada de monos furiosos con cuchillos que leyera tu código en cuanto termines.
+
+<div style="text-align:center"><img src="./Fotos_apuntes/32b07d8ba2c2aeb37e54c43f0ab1204c_2_2_art.jpg" width="800" height="390">
+/><p>Mejor tenerlos delante que detrás</p></div>
+
+Las variables deberían ser descriptivas. Las sentencias sencillas. El código debería estar bien estructurado. Y, no, los *hacks* que funcionan mediante superposición cuántica no son útiles. Lo más difícil es hacer un código simple y elegante. Los batiburrillos mejor dejárselos a las empresas que hacen software de DRM.
+
+#### Funciones y métodos
+
+Un método o función es una serie de operaciones, que pueden ser aplicadas o no a ciertos objetos. Vienen dados por un nombre, unos parámetros y una salida. Es un análogo al concepto de función en matemáticas
+
+$$f:X \rightarrow Y$$
+
+Y, como tal, es **muy importante** saber leer y escribir bien una función. Es el 50% del trabajo. Una sola línea.
+
+Antes de escribir cualquier implementación, debes tener muy clara la cabecera. Y deberías ser capaz de leerlo tal que:
+
+> Es una función llamada ___ que recibe ___ y devuelve ___
+
+Esa simple frase facilitará muchísimo la coherencia de tu programa.
+
+
+Dicho esto, empezamos con el temario propio de la asignatura
 
 ---
 
