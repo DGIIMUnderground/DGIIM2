@@ -192,7 +192,7 @@ Antes de escribir cualquier implementación, debes tener muy clara la cabecera. 
 Esa simple frase facilitará muchísimo la coherencia de tu programa.
 
 
-Dicho esto, empezamos con el temario propio de la asignatura
+Dicho esto, empezamos con el temario propio de la asignatura.
 
 ---
 
