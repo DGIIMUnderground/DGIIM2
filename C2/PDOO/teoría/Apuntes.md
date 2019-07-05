@@ -52,15 +52,15 @@
 - [ 13.- UML](#13-uml)
     - [ Tipos de relaciones](#tipos-de-relaciones)
     - [ Paquetes](#paquetes)
-  - [ 14.- Para practicar...](#14-para-practicar)
+- [ 14.- Para practicar...](#14-para-practicar)
   - [ 14.1.- Errores comunes](#141-errores-comunes)
   - [ Java](#java-8)
     - [ Java](#java-9)
-  - [ 15.- Créditos](#15-créditos)
+- [ 15.- Créditos](#15-créditos)
 
 <!-- /code_chunk_output -->
 
-
+---
 
 ## 1.- Introducción
 
@@ -173,7 +173,7 @@ A lo mejor, ahora mismo te estás preguntando... *¿Pero cómo sé yo que se hac
 Un buen código será legible incluso para alguien que no lo ha hecho. Programar es un trabajo en equipo. Deberías escribir como si detrás tuvieras una manada de monos furiosos con cuchillos que leyera tu código en cuanto termines.
 
 <div style="text-align:center"><img src="./Fotos_apuntes/32b07d8ba2c2aeb37e54c43f0ab1204c_2_2_art.jpg" width="800" height="390">
-/><p>Mejor tenerlos delante que detrás</p></div>
+<p>Mejor tenerlos delante que detrás</p></div>
 
 Las variables deberían ser descriptivas. Las sentencias sencillas. El código debería estar bien estructurado. Y, no, los *hacks* que funcionan mediante superposición cuántica no son útiles. Lo más difícil es hacer un código simple y elegante. Los batiburrillos mejor dejárselos a las empresas que hacen software de DRM.
 
@@ -203,7 +203,7 @@ Dicho esto, empezamos con el temario propio de la asignatura.
 Sintaxis:
 
 - Métodos y atributos de clase: se usa `static`
-- Métodos y atributos de instancia: no tienen ningún matiz en especial. No llevan static
+- Métodos y atributos de instancia: no tienen ningún matiz en especial. No llevan `static`
 
 `final` funciona como const. Impide además heredar métodos/variables y sobreescribirlos
 `static` comparte un mismo atributo entre todas las clases - atributo de clase
@@ -245,8 +245,7 @@ end
 Para llamar a ese método: `Persona.edad_legal`.
 Usamos `self` para crear métodos de clase.
 
-
-
+---
 
 ## 3.- Constructores
 
@@ -267,19 +266,43 @@ class Punto3D {
 }
 ```
 
+Es posible llamar a otros constructores dentro de otros. Pudiera ser útil en ciertas situaciones:
+
+```java
+public class Foo {
+    private int x;
+
+    public Foo() {
+        this(1);
+    }
+
+    public Foo(int x) {
+        this.x = x;
+    }
+}
+```
+
 #### Ruby
 
-No se pueden tener varios `initialize`
-Nuevos constructores:
+No se pueden tener varios `initialize`. Para poder definir nuevos constructores, podemos hacer lo siguiente:
 
 ```ruby
 class Punto
+    def initialize x, y, z
+        @x = x
+        @y = y
+        @z = z
+    end
+
     def self.new_2D(x, y)
-        new(x,y,0)            # Importante llamar siempre a new() alf final. self.new_2D no construye nada por sí mismo
+        new(x, y, 0)     # Importante llamar siempre a new() alf final. self.new_2D no construye nada por sí mismo
+    end
+
+    def self.new_3D x, y, z
+        new(x, y, z)
     end
 
     private_class_method :new # pasa a ser privado. Con esto lo sobreescribimos
-
 end
 ```
 
@@ -309,18 +332,18 @@ Usar `include` simplemente copia y pega contenido de módulos.
 
 #### Java
 
-- `private`
-    - Solo accesible desde el código de la propia clase. Tanto en ámbito de instancia como de clase
-    - Permite acceder a elementos privados de una instancia de la misma clase
-- `package`
+- `private`:
+    - Solo accesible desde el código de la propia clase. Tanto en ámbito de instancia como de clase.
+    - Permite acceder a elementos privados de una instancia de la misma clase.
+- `package`:
+    - Elementos accesibles dentro del mismo paquete.
+    - Inaccesibles desde otros paquetes.
+- `protected`:
     - Elementos públicos dentro del mismo paquete
-    - Inaccesibles desde otros paquetes
-- `protected`
-    - Elementos públicos dentro del mismo paquete
-    - Accesibles para subclases, aunque estén en otros paquetes
-    - Inaccesibles desde otros paquetes por no subclases
-    - Dentro de una misma instancia se podrán acceder a elementos protegidos de la superclase
-- `public`
+    - Accesibles para subclases, aunque estén en otros paquetes.
+    - Inaccesibles desde otros paquetes por no subclases.
+    - Dentro de una misma instancia se podrán acceder a elementos protegidos de la superclase.
+- `public`:
     - Libre albedrío. Como Pedro por su casa.
 
 
@@ -338,7 +361,7 @@ Usar `include` simplemente copia y pega contenido de módulos.
 Lo anterior no se aplica. Los atributos son siempre privados. Los métodos son públicos por defecto.
 
 
-`private` solo afecta a los métodos de instancia:
+La palabra reservada `private` solo afecta a los métodos de instancia:
 
 ```ruby
 private
@@ -346,7 +369,7 @@ def self.metodo_clase_privado
     puts "Cosas"
 end
 
-# Esta mierda no es privada
+# Esto no es privado
 ```
 
 Para hacer un método de clase privado, hay que hacer lo siguiente:
@@ -409,7 +432,7 @@ h = Hija.new
 h.publico
 ```
 
-
+---
 
 ## 7.- Herencia
 
@@ -421,14 +444,14 @@ Realmente, podemos ver la herencia como una especie de composición implícita d
 
 #### Java
 
-**Los constructores no se heredan**, pero sí se pueden invocar. Por ello, se necesita llamar a `super`. **En la primera línea**. Si no se hace, la instancia del padre que se halla *"dentro"*
+**Los constructores no se heredan**, pero sí se pueden invocar. Por ello, se necesita llamar a `super`. **En la primera línea**. Si no se hace, la instancia del padre que se halla *"dentro"* no se crea, por lo que habrá fallos.
 `super.metodo()` permite llamar a cualquier método. No se limita al que se está redefiniendo.
 
 Restricciones de la redefinición:
-- Cambiar la visibilidad a una más permisiva
-- El valor retornado puede ser de una subclase al indicado en el ancestro
-- No se pueden redefinir métodos `final`
-- No se pueden redefinir métodos privados
+- Cambiar la visibilidad a una más permisiva producirá fallo de compilación.
+- El valor retornado puede ser de una subclase al indicado en el ancestro.
+- No se pueden redefinir métodos `final`.
+- No se pueden redefinir métodos privados.
 
 #### Ruby
 
@@ -436,7 +459,7 @@ Ruby llama automáticamente al initialize del padre **si no se ha redefinido su 
 Esto hace que no se puedan usar métodos del padre ni atributos. Cuidado.
 `super` únicamente puede llamar al método del padre que se está redefiniendo. Si se utiliza sin argumentos, automáticamente se pasan los argumentos
 
-
+---
 
 ## 8.- Interfaces y clases abstractas
 
@@ -468,11 +491,15 @@ Para resolver las colisiones de nombres, se puede hacer lo siguiente:
 
 ```java
 interface A {
-    default int metodo() { return 2; }
+    default int metodo() {
+        return 2;
+    }
 }
 
 interface B {
-    default int metodo() { return 1; }
+    default int metodo() {
+        return 1;
+    }
 }
 
 class clase implements A, B {
@@ -483,7 +510,7 @@ class clase implements A, B {
 }
 ```
 
-
+---
 
 ## 9.- Polimorfismo
 
@@ -524,14 +551,20 @@ Además, **limita también los métodos que pueden ser invocados**. Solo se perm
 
 ```java
 class Persona {
-    String andar()  {return "Ando como una persona"}
+    String andar()  {
+        return "Ando como una persona"
+    }
 
-    String hablar() {return "Hablo como una persona"}
+    String hablar() {
+        return "Hablo como una persona"
+    }
 }
 
 class Profesor extends Persona {
     @Override
-    String hablar() {return "Hablo como un profesor"}
+    String hablar() {
+        return "Hablo como un profesor"
+    }
 }
 
 public class Main {
@@ -546,7 +579,7 @@ public class Main {
 ```
 Vemos que en el caso de `p2`, **se ha ejecutado el código asociado al tipo dinámico**.
 
-> La disponibilidad de métodos de una variable viene dada por la intersección de los métodos de estático y dinámico, dándole prioridad a los del tipo dinámico
+> La disponibilidad de métodos de una variable viene dada por la intersección de los métodos de estático y dinámico, dándole prioridad a los del tipo dinámico.
 
 Se pueden ejecutar los métodos que tenga `Persona`, pero si se encuentran en `Profesor`, se usarán esos. Si no, recaen a los de `Persona`.
 
@@ -592,7 +625,7 @@ Es importante matizar que castear no hace ninguna transformación en el objeto r
 >
 > \- *Compilador*
 
-La forma de esquivar ciertos erores de compilación esto son casteos. Pero te la juegas a que pete en tiempo de ejecución. Si estás seguro de que se puede encontrar el método, puedes hacerlo. Si no, ten cuidado.
+La forma de esquivar ciertos errores de compilación es mediante casteos. Pero te la juegas a que falle en tiempo de ejecución. Si estás seguro de que se puede encontrar el método, puedes hacerlo. Si no, ten cuidado.
 
 A continuación veremos la forma explícita. Existen diferentes tipos de casteos:
 - Downcast: se le indica al compilador que el tipo dinámico de una referencia es una subclase del tipo estático.
@@ -620,7 +653,7 @@ public class Main {
 
         ((Profesor) p).impartir_clase();
     /*    ^^^^^^^^
-        Cambiamos el tipo dinámico momentáneamente a Profesor. Y, entonces,
+        Cambiamos momentáneamente el tipo a Profesor. Y, entonces,
         Podemos saltarnos la restricción de la intersección de los tipos.
         Como el tipo dinámico es Profesor, y new hace que SÍ TENGAMOS disponibles los métodos
         de la clase Profesor, esto no tendrá ningún problema
@@ -647,7 +680,7 @@ public class Main {
 
         ((Persona) profe).hablar(); // => "Hablo como un profesor"
         /*
-            Recuerdas lo que dijimos? Los upcast en general no hacen nada
+            ¿Recuerdas lo que dijimos? Los upcast en general no hacen nada
             Efectivamente, ha conseguido hacer absolutamente 0 este upcast.
             Dissapointed but not surprised
         */
@@ -676,6 +709,8 @@ public class Main {
         ( (Profesor) new Persona() );      // Fallo en tiempo de ejecución
         ( (Profesor) p).impartir_clase();  // Fallo en tiempo de ejecución
         // De nuevo, no tenemos los métodos de Profesor porque nunca se construyeron. No se pueden usar
+
+    // ────────────────────────────────────────────────────────────────────────────────
 
         ( (Profesor) ((Object) new Profesor()) ).impartir_clase(); // Este funciona
     /*
@@ -754,6 +789,7 @@ No lo hagáis.
 Lo digo en serio.
 Evitadlo. Buscad otras formas. Pero, si llegado el momento, nos vemos forzado a usar comprobación de tipos, debemos dar un paso atrás y replantear nuestro diseño. Porque tiene fallos.
 
+---
 
 ## 10.- Revisitando herencia
 
@@ -1086,7 +1122,7 @@ Dado que es mucha información, hagamos un resumen sobre los atributos y las cla
     - No se heredan.
     - Solo se sobreescriben en ámbitos cercanos.
 
-
+---
 
 ## 11.- Copia de objetos
 
@@ -1143,7 +1179,7 @@ class ComplejaMasSegura implements Cloneable {
 }
 ```
 
-
+---
 
 ## 12.- Reflexión
 
@@ -1253,7 +1289,9 @@ La herencia se indica como una asociación con una punta de flecha hueca
 #### Paquetes
 Se pueden dar relaciones de dependencia entre paquetes
 
-### 14.- Para practicar...
+---
+
+## 14.- Para practicar...
 
 ### 14.1.- Errores comunes
 
@@ -1261,17 +1299,19 @@ Esta sección está pensada para practicar los exámenes de la UGR de PDOO. Se s
 
 ### Java
 
-- Restringir visibilidad de métodos al heredar produce fallo de compilación
-- Fallo en los constructores por no usar `super`. No se crean atributos y otros problemas
+- Restringir visibilidad de métodos al heredar produce fallo de compilación.
+- Fallo en los constructores por no usar `super`. No se crean atributos y otros problemas.
 - ¿Qué método se llama?
-- Instanciar una interfaz (`new Interface()`) es un fallo
+- Instanciar una interfaz (`new Interface()`) es un fallo.
+- TODO seguir añadiendo fallos.
 
 #### Java
 
 [Varios tests](https://www.geeksforgeeks.org/quiz-corner-gq/#Java%20Programming%20Mock%20Tests)
 [Casting](http://www.sarmaroof.com/exercise-beginner-java-object-casting/)
 
+---
 
-### 15.- Créditos
+## 15.- Créditos
 
 El contenido de esta guía está sacado principalmente de las diapositivas de M. Lastra, profesor de la UGR. Además, algunas definiciones se han sacado de Wikipedia.
