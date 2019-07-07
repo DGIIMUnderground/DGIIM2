@@ -245,6 +245,12 @@ end
 Para llamar a ese método: `Persona.edad_legal`.
 Usamos `self` para crear métodos de clase.
 
+No podemos llamar a métodos de instancia desde una clase ni a métodos de clase desde una instancia
+
+#### Pseudovariables
+
+`this` se refiere a la instancia que está ejecutando el código. Equivalentemente `self`. Si estamos tratando métodos de clase, se refiere a la clase.
+
 ---
 
 ## 3.- Constructores
@@ -310,13 +316,7 @@ Hay otras formas de recibir parámetros de forma variable: mediante un array o c
 
 ---
 
-## 4.- Pseudovariables
-
-`this` se refiere a la instancia que está ejecutando el código. Equivalentemente `self`. Si estamos tratando métodos de clase, se refiere a la clase.
-
----
-
-## 5.- Paquetes
+## 4.- Paquetes
 
 #### Java
 
@@ -325,6 +325,34 @@ No tiene subpaquetes: el paquete `A` y `A.B` no tienen nada que ver. La única r
 #### Ruby
 
 Usar `include` simplemente copia y pega contenido de módulos.
+
+---
+
+
+## 5.- Herencia
+
+La clase hija que hereda del padre añade y/o modifica el comportamiento de la clase padre.
+
+La relación que se establece es del tipo *es-un*. Reutilizar métodos no es motivo suficiente para aplicar herencia. Tampoco debe limitar el comportamiento del padre.
+
+Realmente, podemos ver la herencia como una especie de composición implícita del lenguaje.
+
+#### Java
+
+**Los constructores no se heredan**, pero sí se pueden invocar. Por ello, se necesita llamar a `super`. **En la primera línea**. Si no se hace, la instancia del padre que se halla *"dentro"* no se crea, por lo que habrá fallos.
+`super.metodo()` permite llamar a cualquier método. No se limita al que se está redefiniendo.
+
+Restricciones de la redefinición:
+- Cambiar la visibilidad a una más permisiva producirá fallo de compilación.
+- El valor retornado puede ser de una subclase al indicado en el ancestro.
+- No se pueden redefinir métodos `final`.
+- No se pueden redefinir métodos privados.
+
+#### Ruby
+
+Ruby llama automáticamente al initialize del padre **si no se ha redefinido su initialize**. Si vas a cambiar algo, necesitas llamar a `super` o de lo contrario, no existirá una instancia del padre *"dentro"* de la hija.
+Esto hace que no se puedan usar métodos del padre ni atributos. Cuidado.
+`super` únicamente puede llamar al método del padre que se está redefiniendo. Si se utiliza sin argumentos, automáticamente se pasan los argumentos
 
 ---
 
@@ -352,14 +380,122 @@ Usar `include` simplemente copia y pega contenido de módulos.
 | Misma clase                          | ✓            | ✓               | ✓             | ✓             |
 | Clase del mismo paquete              | ✓            | ✓               | ✓             | ✗             |
 | Subclase del mismo paquete           | ✓            | ✓               | ✓             | ✗             |
-| Subclase de distinto paquete         | ✓            | Solo herencia   | ✗             | ✗             |
+| Subclase de distinto paquete         | ✓            | Solo herencia*  | ✗             | ✗             |
 | No subclase de distinto paquete      | ✓            | ✗               | ✗             | ✗             |
+
+Además, protegido tiene otra característica especial:
+
+Para poder acceder a elementos protegidos de una instancia distinta:
+- Esa instancia tiene que ser de la misma clase o subclase que la propietaria del código que realiza el acceso
+- El elemento accedido tiene que estar declarado en la clase propietaria que realiza el código desde que se realiza el acceso o superclase.
+
+Veamos un ejemplo, porque puede ser confuso:
+```java
+package otroPaquete;
+
+public class Padre {
+    private int privado;
+    protected int protegido;
+    int paquete;
+    public int publico;
+}
+
+public class HijaPaquete extends Padre {}
+
+// ────────────────────────────────────────────────────────────────────────────────
+
+package visibilidad;
+
+public class HijaNoPaquete extends Padre {
+    public void test_instancia_hija_no_paquete (Padre o) {
+        System.out.println(protegido); // Se accede por herencia
+
+        //System.out.println(o.privado);
+        //System.out.println(o.paquete);
+        //System.out.println(o.protegido);
+        System.out.println(o.publico);
+    }
+
+    public void test_instancia_hija_no_paquete (HijaNoPaquete o) {
+        //System.out.println(o.privado);
+        //System.out.println(o.paquete);
+        System.out.println(o.protegido); // Característica especial
+        System.out.println(o.publico);
+    }
+
+    public void test_instancia_hija_no_paquete (NietaNoPaquete o) {
+        //System.out.println(o.privado);
+        //System.out.println(o.paquete);
+        System.out.println(o.protegido); // Característica especial
+        System.out.println(o.publico);
+    }
+}
+
+public class NietaNoPaquete extends HijaNoPaquete {}
+```
+
+Por último, miremos este ejemplo. Nos centraremos en cómo funciona `protected`
+
+```java
+//package base;
+
+// Lo pongo comentado para que no dé fallo el linter.
+
+public class A {
+    protected int protegidoA = 0;
+}
+
+public class B extends A {
+    protected int protegidoB = 1;
+}
+
+// ────────────────────────────────────────────────────────────────────────────────
+
+//import base2.c;
+
+public class D extends C {
+    protected int protegidoD = 3;
+}
+
+// ────────────────────────────────────────────────────────────────────────────────
+
+//package base2;
+//import base.*;
+
+public class C extends B {
+    protected int protegidoC = 2;
+
+    public void test () {
+        A a = new A();
+        //a.protegidoA = 666;
+        // No es accedido por herencia ni por el mecanismo de protegidos especial
+
+        B b = new B();
+        //b.protegidoB = 666;
+        // Lo mismo que arriba
+
+
+        // Sin embargo, en los dos siguientes sí
+        C local1 = new C();
+        local1.protegidoA = 555;
+
+        D local2 = new D();
+        local2.protegidoB = 555;
+
+        // Cuidado, que el atributo tiene que estar definido en las superclases.
+        // No podemos acceder a uno inferior:
+
+        //local3.protegidoD;
+
+        this.protegidoA = 777;
+    }
+}
+```
 
 
 #### Ruby
 
 Lo anterior no se aplica. Los atributos son siempre privados. Los métodos son públicos por defecto.
-
 
 La palabra reservada `private` solo afecta a los métodos de instancia:
 
@@ -434,43 +570,16 @@ h.publico
 
 ---
 
-## 7.- Herencia
-
-La clase hija que hereda del padre añade y/o modifica el comportamiento de la clase padre.
-
-La relación que se establece es del tipo *es-un*. Reutilizar métodos no es motivo suficiente para aplicar herencia. Tampoco debe limitar el comportamiento del padre.
-
-Realmente, podemos ver la herencia como una especie de composición implícita del lenguaje.
-
-#### Java
-
-**Los constructores no se heredan**, pero sí se pueden invocar. Por ello, se necesita llamar a `super`. **En la primera línea**. Si no se hace, la instancia del padre que se halla *"dentro"* no se crea, por lo que habrá fallos.
-`super.metodo()` permite llamar a cualquier método. No se limita al que se está redefiniendo.
-
-Restricciones de la redefinición:
-- Cambiar la visibilidad a una más permisiva producirá fallo de compilación.
-- El valor retornado puede ser de una subclase al indicado en el ancestro.
-- No se pueden redefinir métodos `final`.
-- No se pueden redefinir métodos privados.
-
-#### Ruby
-
-Ruby llama automáticamente al initialize del padre **si no se ha redefinido su initialize**. Si vas a cambiar algo, necesitas llamar a `super` o de lo contrario, no existirá una instancia del padre *"dentro"* de la hija.
-Esto hace que no se puedan usar métodos del padre ni atributos. Cuidado.
-`super` únicamente puede llamar al método del padre que se está redefiniendo. Si se utiliza sin argumentos, automáticamente se pasan los argumentos
-
----
-
-## 8.- Interfaces y clases abstractas
+## 7.- Interfaces y clases abstractas
 
 Ruby no tiene clases abstractas ni interfaces. Se puede simular, pero poco más. Por lo tanto, todo lo que hablaremos a continuación será aplicable principalmente a Java.
 
-#### 8.1.- Clases abstractas
+#### 7.1.- Clases abstractas
 
 Una clase abstracta no tiene por qué implementar un método. Lo que hacen es **forzar** a que las hijas lo hagan. Estos métodos se denominan `abstract`. Tener hijos para esto...
 **No se puede instanciar una clase abstracta**
 
-#### 8.2.- Interfaces
+#### 7.2.- Interfaces
 
 Una interfaz es un contrato. Es una colección de métodos abstractos y propiedades constantes. Especifican qué se debe hacer, pero no cómo. Por tanto, las clases que implementen esa interfaz, están obligadas a proporcionar dichos métodos.
 
@@ -512,7 +621,7 @@ class clase implements A, B {
 
 ---
 
-## 9.- Polimorfismo
+## 8.- Polimorfismo
 
 En términos generales, el [polimorfismo es la propiedad que permite enviar mensajes sintácticamente iguales a objetos de distinto tipo](https://es.wikipedia.org/wiki/Polimorfismo_(inform%C3%A1tica)). También es la capacidad de un objeto de tomar diferentes formas. Como vemos, la definición es muy general. Por lo que es normal que nos encontremos diferentes tipos.
 
@@ -533,7 +642,7 @@ Es decir, si B es un subtipo de A, se pueden utilizar instancias de B donde se e
 
 ---
 
-### 9.1.- Introducción al polimorfismo en Java
+### 8.1.- Introducción al polimorfismo en Java
 
 Java utliza tanto tipos estáticos como dinámicos. Cuando declaramos una variable sin hacer new, estamos usando el tipo estántico. Lo que viene tras `new` denota su tipo dinámico:
 
@@ -607,7 +716,7 @@ public class Main {
 
 ---
 
-### 9.2.- Casting
+### 8.2.- Casting
 
 Para arreglar ciertos problemas de compilación, haremos casting o *casteo*, un *spanglishmo* que suena bastante bien. Consiste en cambiar una expresión de un tipo de dato a otro. Esto puede ocurrir de forma implícita o explícita:
 
@@ -751,7 +860,7 @@ public class Main {
 }
 ```
 
-### 9.3.- Polimorfismo paramétrico
+### 8.3.- Polimorfismo paramétrico
 
 También conocido como *generics* o *templates*. Permiten definir métodos y clases genéricas cuyas operaciones son aplicables a distintos tipos de datos. Por ejemplo, si un método devuelve la suma de dos objetos, esta operación es válida para strings, floats, enteros, dobles o cualquier clase que tenga definida la suma.
 
@@ -781,7 +890,7 @@ Aunque lo siguiente es una chapuza, si nos ponemos farrucos, podemos tener array
 
 Ruby no es fuertemente tipado. Tiene duck typing. Así que... Todo es genérico `¯\_(ツ)_/¯`
 
-### 9.4.- Evitar comprobaciones explícitas de tipos
+### 8.4.- Evitar comprobaciones explícitas de tipos
 
 Hemos aprendido a usar diferentes tipos en mismas funciones, así como métodos genéricos. Esto nos puede incitar a intentar comprobar el tipo de dato que estemos pasando a nuestras funciones.
 Esto es un fallo de diseño muy gordo.
@@ -791,11 +900,11 @@ Evitadlo. Buscad otras formas. Pero, si llegado el momento, nos vemos forzado a 
 
 ---
 
-## 10.- Revisitando herencia
+## 9.- Revisitando herencia
 
 Dado que ya hemos aprendido qué es el polimorfismo, la harencia, y otros conceptos más básicos, es hora de revisitar lo que sabemos para juntarlo todo. El comportamiento de la llamada de métodos y el acceso a atributos podría sorprendernos, porque no funciona exactamente igual en estos dos mensajes.
 
-### 10.1.- ¿Qué método se selecciona?
+### 9.1.- ¿Qué método se selecciona?
 
 Cuando invocamos un método, cada lenguaje necesita saber dónde está el código que se debe usar. Con ligadura dinámica, primero lo buscará en el tipo dinámico. Si no se encuentra, se busca en el antecesor más próximo. Y así, hasta que se encuentre.
 
@@ -827,7 +936,7 @@ Hijo.new.metodo  # => ¿Quién soy? Soy el hijo!
 
 Planteémoslo de la siguiente forma: En Ruby, cuando se decide buscar un método, se vuelve siempre al tipo dinámico. Y va subiendo hasta que lo encuentre.
 
-### 10.2.- Herencia y atributos
+### 9.2.- Herencia y atributos
 
 #### Java
 
@@ -1124,7 +1233,7 @@ Dado que es mucha información, hagamos un resumen sobre los atributos y las cla
 
 ---
 
-## 11.- Copia de objetos
+## 10.- Copia de objetos
 
 Copia de profundidad baja:
 
@@ -1181,7 +1290,7 @@ class ComplejaMasSegura implements Cloneable {
 
 ---
 
-## 12.- Reflexión
+## 11.- Reflexión
 
 La reflexiónes la capacidad de un programa para manipularse a si mismo y comprender sus estructuras en tiempo de ejecución. Hay dos mecanismos:
 
@@ -1248,7 +1357,7 @@ Recordatorio. No uséis `instance_of`. Ni comprobéis tipos. No lo hagáis.
 
 ---
 
-## 13.- UML
+## 12.- UML
 
 Sintaxis:
 <img src="./Fotos_apuntes/UML.png" alt="UML" class="center">
@@ -1291,9 +1400,9 @@ Se pueden dar relaciones de dependencia entre paquetes
 
 ---
 
-## 14.- Para practicar...
+## 13.- Para practicar...
 
-### 14.1.- Errores comunes
+### 13.1.- Errores comunes
 
 Esta sección está pensada para practicar los exámenes de la UGR de PDOO. Se señalan algunos fallos típicos en el código:
 
@@ -1305,6 +1414,12 @@ Esta sección está pensada para practicar los exámenes de la UGR de PDOO. Se s
 - Instanciar una interfaz (`new Interface()`) es un fallo.
 - TODO seguir añadiendo fallos.
 
+### Ruby
+
+No podemos llamar a métodos de instancia desde una clase ni a métodos de clase desde una instancia
+
+### 13.2.- Ejercicios
+
 #### Java
 
 [Varios tests](https://www.geeksforgeeks.org/quiz-corner-gq/#Java%20Programming%20Mock%20Tests)
@@ -1312,6 +1427,6 @@ Esta sección está pensada para practicar los exámenes de la UGR de PDOO. Se s
 
 ---
 
-## 15.- Créditos
+## 14.- Créditos
 
 El contenido de esta guía está sacado principalmente de las diapositivas de M. Lastra, profesor de la UGR. Además, algunas definiciones se han sacado de Wikipedia.
