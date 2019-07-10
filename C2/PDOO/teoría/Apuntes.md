@@ -644,7 +644,7 @@ Es decir, si B es un subtipo de A, se pueden utilizar instancias de B donde se e
 
 ### 8.1.- Introducción al polimorfismo en Java
 
-Java utliza tanto tipos estáticos como dinámicos. Cuando declaramos una variable sin hacer new, estamos usando el tipo estántico. Lo que viene tras `new` denota su tipo dinámico:
+Java utliza tanto tipos estáticos como dinámicos. Cuando declaramos una variable sin hacer new, estamos usando el tipo estático. Lo que viene tras `new` denota su tipo dinámico:
 
 ```java
 estatico objeto = new dinamico();
@@ -753,9 +753,9 @@ public class Main {
         Persona p = new Profesor();
 
         p.impartir_clase() // Fallo de compilación: No se puede encontrar el método
-        p = new Object()   // Fallo de compilación: Object no es una sublcase de Persona
+        p = new Object()   // Fallo de compilación: Object no es una subclase de Persona
 
-        Profesor prof = p; // Fallo de compilación. Un profesor no es en general una persona
+        Profesor prof = p; // Fallo de compilación. Una persona no es en general un profesor
 
     // ────────────────────────────────────────────────────────────────────────────────
 
