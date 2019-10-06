@@ -47,6 +47,18 @@ Indico las órdenes que escribo en la terminal y también las salidas que me dan
 [root@localhost ~]# losetup /dev/loop1 /root/archivo_SA30
 ```
 
+Si sale un error del tipo:
+```bash
+losetup: /root/archivo_SA20: error al configurar dispositivo de bucle: Dispositivo o recurso ocupado
+```
+Se puede usar la opcion -f que te busca el archivo loop que este vacío y ese lo puedes usar
+
+```bash
+[root@localhost ~]# losetup -f /root/archivo_SA20
+```
+
+Así ya no daría ese error.
+
 4. **Puedes comprobar la configuración de tus “discos virtuales” mediante la siguiente orden que producirá como salida el siguiente resultado:**
 ```bash
 [root@localhost ~]# fdisk -l /dev/loop0 /dev/loop1
