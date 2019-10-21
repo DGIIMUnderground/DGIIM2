@@ -1,14 +1,6 @@
----
-geometry: margin=2cm
-output: pdf_document
-lang: es-ES
-toc: true
-title: Examen de Sistemas Operativos Módulo 1. (DGIIM).
-date: 21 de Octubre de 2019
-author: Alejandro Villanueva Prados
----
+# Examen SO Módulo I: Administración de Sistemas. Grupos 1 y 2 DGIIM. 2019/20.
 
-# Ejercicio 1. [2.5 puntos]
+## Ejercicio 1. [2.5 puntos]
 
 1. Crea un usuario nuevo en el sistema con la orden `adduser`, con `username=user1` y directorio `home=home-user1`. Al crear el nuevo usuario, ¿se le ha asignado automáticamente un _password_? Muestra el archivo que demuestra si la respuesta es verdadera o falsa, indicando la línea (registro) correspondiente al usuario.Si la respuesta es falsa, indica la orden que utilizas para asignar el _password_ y muestra como queda la línea tras la asignación. Indica cuál es el archivo de configuración en el que se especifican los parámetros de envejecimiento del _password_. Cambia el máximo número de días que puede estar el usuario sin cambiar la contraseña a 7 días. Muestra el cambio en el archivo pertinente.
 
@@ -35,7 +27,7 @@ _Truco:_ Si no recordamos bien el directorio, basta con hacer `whereis <programa
 * `noatime`: Do not update inode access times on this filesystem (e.g. for faster access on the news spool to speed up news servers). This works for all inode types (directories too), so it implies nodiratime.
 
 
-# Ejercicio 2. [3 puntos]
+## Ejercicio 2. [3 puntos]
 
 1. Crea un archivo especial de dispositivo de bloques `/dev/loop0` con un tamaño de 25 MB tal como se hizo en la sesión 2. Realiza el formato del dispositivo con `fdisk` indicando una única partición y muestra la información de la partición una vez realizado el formato.
 
@@ -152,7 +144,7 @@ Journal backup:           inode blocks
 mount /dev/loop -t ext3 -o ro,sync /mnt 
 ```
 
-# Ejericio 3. [4.5 puntos]
+## Ejericio 3. [4.5 puntos]
  
 1. Indica el significado de los siguientes campos mostrados por la orden `top`: 'us', 'ni' y 'si'. Además indica para un determinado proceso de ejemplo cuáles son las columnas que muestran: el tamaño de la memoria RAM que realmente utiliza el proceso y el tamaño de la memoria que puede compartir con otros procesos. 
 
@@ -201,3 +193,7 @@ para probarlo, usamos la siguiente línea:
 * * * * * root /root/scriptmemoria.sh >> /root/log
 ```
 podemos comprobar el funcionamiento con `cat log`.
+
+
+-----
+Autor: Alejandro Villanueva Prados
