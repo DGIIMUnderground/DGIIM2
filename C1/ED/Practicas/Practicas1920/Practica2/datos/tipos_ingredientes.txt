@@ -1,0 +1,17 @@
+Aceite
+Azucar
+Bebida
+Carne
+Cereal
+Crustaceo
+Especias-Condimento
+Fruta
+Frutos Secos
+Huevo
+Leche-Derivados
+Legumbres
+Molusco
+Pescado
+Procesado
+Semillas
+Verdura

@@ -1,0 +1,27 @@
+Almeja / Chirla;50;0;11;0.9;0;Molusco
+Berberechos Cocidos;48;0;11;0;0;Molusco
+Bigaros Cocidos;135;5;26;1;0;Molusco
+Caracol Terrestre;80;0;16;1;0;Molusco
+Mejillones;66;0;12;2;0;Molusco
+Ostras;70;5;9;1;0;Molusco
+Percebes;59;0;14;0;0;Molusco
+Pulpo;57;2;11;1;0;Molusco
+Sepia;79;0;16;1;0;Molusco
+Vieiras;70;0;16;0;0;Molusco
+
+Estadistica_____________________________
+Tipo de Alimento Molusco
+Promedio +-Desviacion
+Calorias	 Hidratos de Carb	 Proteinas	 Grasas	 Fibra	
+71.4+-23.6144	1.2+-1.98997	14.2+-4.6	0.79+-0.597411	0+-0
+
+
+Maximos Valores
+Calorias	 (Alimento)	 Hidratos de Carb	(Alimento)	 Proteinas	(Alimento)	 Grasas	(Alimento)	 Fibra	(Alimento)	
+135 Bigaros Cocidos	5 Bigaros Cocidos	26 Bigaros Cocidos	2 Mejillones	1.17549e-38 Almeja / Chirla
+
+
+Minimos Valores
+Calorias (Alimento)	Hidratos de Carb (Alimento)	 Proteinas (Alimento)	 Grasas (Alimento)	 Fibra (Alimento)	
+48	Berberechos Cocidos		0	Almeja / Chirla		9	Ostras		0	Berberechos Cocidos		0	Almeja / Chirla
+

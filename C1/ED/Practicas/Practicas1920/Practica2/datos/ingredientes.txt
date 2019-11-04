@@ -1,0 +1,372 @@
+Alimento (100 gramos);Calorias (Kcal.);Hidratos de Carb.;Proteinas;Grasas;Fibra;Tipo
+Ketchup;98;24;2;0;0;Procesado
+Salmon;182;0;18;12;0;Pescado
+Cereales Cornflakes;368;85;9;2;11;Cereal
+Gallo;81;0;17;1;0;Carne
+Queso Emmental;377;0;29;29;0;Leche-Derivados
+Cerezas;47;12;0;2;0;Fruta
+Gatorade;39;10;0;0;0;Bebida
+Salsa Ketchup;98;24;2;0;0;Procesado
+Esparragos Enlatados;14;1;2;0;0;Verdura
+Endibias;11;1;2;0;0;Verdura
+Harina Trigo, Panificada;337;75;11;1;3;Cereal
+Nuez Brasil;617;4;12;62;9;Frutos Secos
+Gofio Millo;377;83;6;5;0;Cereal
+Pavo;107;0;22;2;0;Carne
+Mantequilla;740;0;0;82;0;Aceite
+Yogur Liquido;78;11;3;2;0;Leche-Derivados
+Cacao Polvo;357;11;20;24;38;Semillas
+Arenque Ahumado;205;0;26;11;0;Pescado
+Pepinillos en vinagre;12;2.1;0.7;0.1;1;Verdura
+Besugo;118;0;16;6;0;Pescado
+Bacon;427;0;14;41;0;Carne
+Aguacate;223;2;4;22;3;Fruta
+Coco;646;16;6;62;14;Fruta
+Chirimoya;178;0;19;11;0;Fruta
+Leche Vaca, Entera;60;5;3;3;0;Leche-Derivados
+Fresas;26;6;1;0;2;Fruta
+Mango;57;12.45;0.6;0.47;1.7;Fruta
+Sesos Cordero;110;0;10;8;0;Carne
+Ancas Rana, De;68;0;16;0;0;Carne
+Pan Tostado, Blanco;297;65;10;2;3;Cereal
+Carne Vaca, Solomillo;272;0;17;23;0;Carne
+Hamburguesas Vacuno;265;5;15;20;0;Carne
+Uvas Pasas;243;63;2;0;6;Fruta
+Tocino;427;0;14;41;0;Carne
+Hamburguesa Burger- King;290;29;15;13;0;Procesado
+Cebolla;23;5;1;0;1;Verdura
+Rabo Vacuno;171;0;20;10;0;Carne
+Leche de Cabra;66;5;3;4;0;Leche-Derivados
+Leche, Condensada M.G. 7.50 %;137;10;6;8;0;Leche-Derivados
+Mazapan;443;49;9;25;6;Procesado
+Sesos Cerdo;132;0;11;9;0;Carne
+Limon;15;3;1;0;5;Fruta
+Coles Bruselas;26;3;4;0;4;Verdura
+Arroz con Leche;80;13;3;2;0;Cereal
+Cordero Carne, Magra;122;0;20;3;0;Carne
+Dorada;140;0;20.82;6.34;0;Pescado
+Tapioca;359;95;0;0;0;Especias-Condimento
+Pulpo;57;2;11;1;0;Molusco
+Pollo, Frito Kentucky;155;5;13;9;0;Procesado
+Piña;46;12;0;0;1;Fruta
+Cafe Torrefacto;183;2;13;13;66;Bebida
+Sepia;79;0;16;1;0;Molusco
+Turron Media;470;57;10;24;7;Procesado
+Perejil;21;0;5;0;9;Verdura
+Lomo, Cerdo Embuchado;386;0;50;21;0;Carne
+Peras;41;11;0;0;2;Fruta
+Col;20;4;2;0;3;Verdura
+Maiz, Dulce Mazorca;123;23;4;2;5;Cereal
+Higado Cerdo;154;2;21;7;0;Carne
+Pan Con Chocolate;419;51;7;21;2;Procesado
+Caracol Terrestre;80;0;16;1;0;Molusco
+Margarina Vegetal;746;0;0;80;0;Aceite
+Berenjenas;14;3;1;0;2;Verdura
+Magdalena;397;42;6;23;1;Procesado
+Aceite Maiz;899;0;0;100;0;Aceite
+Uvas;61;16;1;0;0;Fruta
+Carne Cerdo, Grasa;329;0;16;30;0;Carne
+Yogur Sabores;88;14;4;2;0;Leche-Derivados
+Cubitos Sopa;154;8;23;3;0;Procesado
+Cuajada;90;6;5;5;0;Leche-Derivados
+Crema Champan, De;62;5;1;4;0;Bebida
+Queso, Manchego Curado;420;1;32;32;0;Leche-Derivados
+Salsa Boloñesa;139;2;8;11;0;Procesado
+Refresco Ligth;1;0;0;0;0;Bebida
+Vermut Seco;118;6;0;0;0;Bebida
+Soja Brotes;9;1;2;0;3;Legumbre
+Rodaballo;102;1;16;4;0;Pescado
+Raviolis Tomate, Salsa;106;13;5;4;0;Procesado
+Berros;14;1;3;0;3;Verdura
+Pescadilla;92;0;21;1;0;Pescado
+Platano;121;31.8;1.3;0;2.3;Fruta
+Yogur Desnatado;52;6;5;1;0;Leche-Derivados
+Caviar Ruso;262;0;26;16;0;Pescado
+Queso Camembert;300;0;23;23;0;Leche-Derivados
+Extracto Carne;174;3;38;1;0;Carne
+Lechuga;12;1;1;0;2;Verdura
+Carne Vaca, Magra;123;0;20;5;0;Carne
+Queso Brie;361;1;23;28;0;Leche-Derivados
+Harina Soja;447;24;37;24;12;Legumbre
+Queso Babibel, Tipo;314;0;23;25;0;Leche-Derivados
+Bombones Media;458;66;5;21;0;Leche-Derivados
+Berberechos Cocidos;48;0;11;0;0;Molusco
+Sardinas;135;0;19;5;0;Pescado
+Carne Cordero, Chuleta;386;0;15;36;0;Carne
+Galletas Media;436;74;7;14;5;Procesado
+Bacalao Salazon, remojado;138;0;32;1;0;Pescado
+Aceite Soja;899;0;0;100;0;Aceite
+Manhattan Cocktail;164;8;0;0;0;Bebida
+Mayonesa;718;0;2;79;0;Procesado
+Cafe Infusion;2;0;0;0;0;Bebida
+Nectarina;64;17.1;0.6;0;2;Fruta
+Chanquetes;79;2;11;3;0;Pescado
+Acerolas;31;8;0;0;0;Fruta
+Aceite de Cacahuete;899;0;0;100;0;Aceite
+Sesos Ternera;110;0;10;8;0;Carne
+Conejo;124;0;22;4;0;Carne
+Salchichas Enlatadas;243;0;13;20;0;Carne
+Atun Conserva;289;0;23;22;0;Pescado
+Alcachofas;22;3;2;0;11;Verdura
+Corazon Cordero;119;0;17;6;0;Carne
+Ajo;137;28;6;0;0;Verdura
+Esparragos Cocidos;18;1;3;0;2;Verdura
+Huevo Duro;153;1;12;11;0;Huevo
+Anchoas Enlatadas;206;0;22;13;0;Pescado
+Salmonete;97;2;14;4;0;Pescado
+Queso Roquefort;355;0;23;29;0;Leche-Derivados
+Lenguado;81;0;17;1;0;Pescado
+Leche Vaca, Esteril;60;5;3;3;0;Leche-Derivados
+Perdiz;106;0;23;2;0;Carne
+Emperador;127;0;19;4;0;Pescado
+Palosanto;64;15;0.5;0.1;1.3;Fruta
+Vinotinto;68;0;0;0;0;Bebida
+Queso Chedar;406;0;26;34;0;Leche-Derivados
+Harina Maiz;354;92;1;0;0;Cereal
+Sopa Minestrone;35;5;2;1;0;Procesado
+Queso Cabra;250;2;17;18;0;Leche-Derivados
+Arenque Seco;122;0;17;6;0;Pescado
+Frambuesas;25;6;1;0;7;Fruta
+Cigala;67;0;15;0.8;0;Crustaceo
+Huevo;147;1;12;11;0;Huevo
+Margarina Industrial;746;0;0;80;0;Aceite
+Caballa;223;0;19;16;0;Pescado
+Leche Desnatada, Polvo;374;53;35;1;0;Leche-Derivados
+Ginebra;222;0;0;0;0;Bebida
+Petit-Suisse Queso, Tipo;173;4;8;14;0;Procesado
+Piñones;660;15;15;60;2.4;Frutos Secos
+Datiles;279;71;2.2;0.4;8.7;Fruta
+Setas Colmenilla;9;0;2;0;7;Verdura
+Garbanzos;314;49;20;3;16;Legumbre
+Jurel;127;1;16;7;0;Pescado
+Merluza;132;1;68;31;0;Pescado
+Soja Germinada;13;1;2;0.1;2.3;Legumbre
+Paloma;106;0;22;2;0;Carne
+Queso Burgos;167;3;11;11;0;Leche-Derivados
+Langosta Cocida;119;0;22;3;0;Crustaceo
+Martini;140;0;0;0;0;Bebida
+Carne Vaca, Guisar;176;0;20;11;0;Carne
+Queso Quark;167;3;11;11;0;Leche-Derivados
+Tarta Manzana Casera;282;43;2;12;0;Procesado
+Judias secas;330;60;19;1.5;7;Legumbre
+Piña Almibar, En;83;20;0;0;1;Fruta
+Rabano;15;3;1;0;1;Verdura
+Azucar Morena;386;96;0;0;0;Azucar
+Chicle;310;95;0;0;0;Procesado
+Cornflakes;368;85;9;2;0;Cereal
+Faisan;160;0;24;6;0;Carne
+Remolacha Cocida;44;10;2;0;2;Verdura
+Arroz Blanco;361;87;6;1;2;Cereal
+Yogur Frutas;102;19;4;2;0;Leche-Derivados
+Melocoton en almibar;84;22;0.4;0;1;Fruta
+Naranja;83;6;2;1;19;Fruta
+Queso Pirineos;355;0;22;30;0;Leche-Derivados
+Guisantes Enlatados;54;9;4;0;4;Verdura
+Mejillones;66;0;12;2;0;Molusco
+Sidra;36;3;0;0;0;Bebida
+Pan Integral;216;42;9;3;8;Cereal
+Papaya;45;10.3;0.6;0.2;0.8;Fruta
+Carne Cerdo, Magra;147;0;21;7;0;Carne
+Carne Cordero, Pierna;240;0;18;19;0;Carne
+Coliflor;13;2;2;0;2;Verdura
+Queso Azul;355;0;23;29;0;Leche-Derivados
+Champan;84;3;0;0;0;Bebida
+Vino Rosado;71;2;0;0;0;Bebida
+Tomate triturado;39;5.5;2.3;0.5;0;Verdura
+Yogur Con Nata;60;4;4;4;0;Leche-Derivados
+Te Infusion;0;0;0;0;0;Bebida
+Nueces;525;5;11;52;5;Frutos Secos
+Pimiento;15;2;1;0;1;Verdura
+Yogurt Desnatado;52;6;5;1;0;Leche-Derivados
+Helado;209;21;4;12;0;Procesado
+Salami;491;2;19;45;0;Carne
+Avellanas;380;7;8;36;6;Frutos Secos
+Yema Huevo Liquida;377;0;16;32;0;Huevo
+Pomelo;22;5;1;0;1;Fruta
+Tomate Frito;69;3;1;6;3;Verdura
+Sangre Vacuno;81;0;18;1;0;Carne
+Grelos;11;0;3;0;4;Verdura
+Cereales Weetabix;340;70;11;3;13;Cereal
+Queso, Blanco Desnatado;68;3;10;2;0;Leche-Derivados
+Queso, Manchego Semicurado;390;0;29;29;0;Leche-Derivados
+Centollo;127;0;20;5;0;Crustaceo
+Champiñon;13;0;2;1;2;Verdura
+Anisete;297;2;0;0;0;Especias-Condimento
+Aceite de Coco;888;0;0;100;0;Aceite
+Pipas Girasol;597;14;22;50;5;Semillas
+Harina Trigo, Integral;318;66;13;2;10;Cereal
+Avena, Salvado;34;2;2;1;6;Cereal
+Leche, Condensada Azucarada;325;52;8;9;0;Leche-Derivados
+Cangrejo;85;0;20;1.6;0;Crustaceo
+Bigaros Cocidos;135;5;26;1;0;Molusco
+Queso, Fresco Mg. 20 %;79;4;8;3;0;Leche-Derivados
+Batido Chocolate;366;77;6;6;0;Leche-Derivados
+Pan Blanco;233;50;8;2;3;Cereal
+Caqui;64;15;0.5;0.1;1.3;Fruta
+Queso Mozzarella;236;0;20;16;0;Leche-Derivados
+Aceitunas Salmuera;103;0;1;11;4;Fruta
+Palomitas Maiz;54;11;2;1;0;Cereal
+Carne Vaca, Chuleta;290;0;16;25;0;Carne
+Batata;91;22;1;8;0;Verdura
+Cordero Paletilla;314;0;16;28;0;Carne
+Sandia;37;8;1;0;0;Fruta
+Huevo Yema, Liquida;377;0;16;32;0;Huevo
+Bollos-Pastas Media;387;49;5;20;1;Cereal
+Almendras;565;4;17;54;14;Frutos Secos
+Cebada;360;84;8;2;6;Cereal
+Vino Blanco;75;3;0;0;0;Bebida
+Albaricoque;28;7;1;0;2;Fruta
+Aceite Uva, Pepita;899;0;0;100;0;Aceite
+Limonada Envasada;21;6;0;0;0;Procesado
+Langostino;96;0;21;1.4;0;Crustaceo
+Calamar-Sepia;82;0.5;17;1.3;0;Pescado
+Salsa Queso;198;9;8;15;0;Procesado
+Gambas Cocidas;107;0;23;2;0;Crustaceo
+Chocolate con leche;550;56;6;34;0;Leche-Derivados
+Diet-Coke;1;0;0;0;0;Bebida
+Yogur. Frutas Semidesnatado;95;18;5;1;0;Leche-Derivados
+Rape;86;0;17;2;0;Pescado
+Salmon ahumado;154;0;20;8.2;0;Pescado
+Pichon;182;0;21;10;0;Carne
+Brecol;23;2;3;0;4;Verdura
+Arroz Integral;357;77;7;2;3;Cereal
+Almeja / Chirla;50;0;11;0.9;0;Molusco
+Patata cocida;86;19;2;0.1;2;Verdura
+Sesamo;566;10;19;50;17;Semillas
+Sopa De Cebolla;54;2;2;4;0;Procesado
+Galletas Saladas;448;76;9;12;3;Procesado
+Carne Oveja;235;0;18;17;0;Carne
+Salchichas Cerdo;367;10;11;32;0;Carne
+Pato;326;0;16;29;0;Carne
+Conguitos;153;13;5;9;0;Procesado
+Higado Pollo;135;1;19;6;0;Carne
+Banana;89;22.6;1;0;2.6;Fruta
+Pizza Queso, Tomate;234;25;9;12;0;Procesado
+Chocolate sin leche;530;63;2;30;0;Procesado
+Kiwi;52;11;1;1;4;Fruta
+Aceite Oliva;899;0;0;100;0;Aceite
+Cafe Instantaneo;100;11;15;0;0;Bebida
+Carne Cabra;161;0;20;8;0;Carne
+Calabaza;15;3;1;0;0;Verdura
+Higos Verdes;41;10;1;0;2;Fruta
+Vieiras;70;0;16;0;0;Molusco
+Carne Cordero, Magra;122;0;20;3;0;Carne
+Cerveza Negra;28;3;0;0;0;Bebida
+Levadura Cerveza, Seca;219;0;48;4;0;Especias-Condimento
+Pollo, Pechugas Kentucky;436;34;25;22;0;Procesado
+Melon;24;5;1;0;1;Fruta
+Faneca;74;1;15;1;0;Pescado
+Higado Ternera;153;2;20;7;0;Carne
+Cordero Pierna;240;0;18;19;0;Carne
+Angulas;205;0;16;16;0;Pescado
+Salchichas Francfort;274;3;10;25;0;Carne
+Lombarda;21;4;2;0;2;Verdura
+Queso Parmesano;408;0;35;30;0;Leche-Derivados
+Puerro;31;6;2;0;3;Verdura
+Foie-Gras;462;0;14;46;0;Carne
+Pollo;121;0;20;4;0;Carne
+Butifarra;243;0;15;20;0;Carne
+Seven-Up;144;36;0;0;0;Bebida
+Guisantes Frescos;67;11;6;0;5;Verdura
+Zanahoria;42;9;1.2;0.3;3;Verdura
+Congrio;112;0;20;3;0;Pescado
+Carne Caballo;113;0;21;3;0;Carne
+Tomate;14;3;1;0;2;Verdura
+Flan Huevo, De;132;22;5;2;0;Procesado
+Anguila;168;0;17;11;0;Pescado
+Carne Cordero, Paletilla;314;0;16;28;0;Carne
+Cheetos Queso, Golosina;158;15;2;10;0;Procesado
+Sardinas En Aceite;217;0;24;14;0;Procesado
+Yogur Natural;75;6;5;4;0;Leche-Derivados
+Higos Secos;213;53;4;0;18;Frutos Secos
+Lentejas;304;53;24;1;15;Legumbre
+Harina Centeno;303;68;7;1;9;Cereal
+Ron;222;0;0;0;0;Bebida
+Granada;75;17;1;1;3;Fruta
+Leche Vaca, U.H.T.;60;5;3;3;0;Leche-Derivados
+Castañas;170;37;2;3;7;Frutos Secos
+Vinagre De Vino;4;1;0;0;0;Especias-Condimento
+Salchichon;454;2;26;38;0;Carne
+Mandarinas;34;8;1;0;2;Fruta
+Pistachos;602;13;21;52;6;Frutos Secos
+Trufas;25;0;6;0;17;Verdura
+Espinacas Cocidas;30;1;5;0;6;Verdura
+Speisequark Tipo Queso;101;3;10;5;0;Procesado
+Agua Manantial;0;0;0;0;0;Bebida
+Coñac;232;0;0;0;0;Bebida
+Chicharro;127;1;16;7;0;Pescado
+Cafe Extracto, Polvo;82;8;11;0;0;Bebida
+Carne Ternera, Magra;109;0;21;3;0;Carne
+Palmitos Enlatados;45;8;3;0;0;Verdura
+Germen Trigo;301;24;27;9;25;Cereal
+Trucha;89;0;16;3;0;Pescado
+Calabacin;16;4;1;0;2;Verdura
+Quiche Lorraine Bacon-Queso;391;21;15;28;0;Leche-Derivados
+Queso Porciones;283;1;18;23;0;Leche-Derivados
+Cacahuetes Tostados;570;9;24;49;8;Legumbre
+Crema chocolate con avellanas;549;60.5;6.2;33;1.2;Procesado
+Bacalao Fresco;76;0;17;1;0;Pescado
+Sardinas Con Tomate, Lata;177;0;18;12;0;Procesado
+Cereales Muesli;368;66;13;8;7;Cereal
+Manzana;46;12;0;0;2;Fruta
+Patatas Fritas;253;37;4;11;0;Verdura
+Harina Avena;401;73;12;9;7;Cereal
+Carne Conejo;124;0;22;4;0;Carne
+Vino Oporto;157;12;0;0;0;Bebida
+Galletas Mantequilla;435;75;8;11;3;Procesado
+Aceite Girasol;899;0;0;100;0;Aceite
+Brocoli;23;2;3;0;4;Verdura
+Cheese, Burger. McDonald;307;30;15;14;0;Procesado
+Carne Vaca, Filete;197;0;19;14;0;Carne
+Habas secas;343;59;23;1.5;4;Verdura
+Biscotes Trigo;366;73;9;4;0;Cereal
+Pepino;10;2;1;0;0;Verdura
+Crema Leche, Chantilly;331;10;2;31;0;Procesado
+Macarrones;370;79;14;2;3;Cereal
+Gofio Trigo;371;82;11;2;0;Cereal
+Datiles Secos, Deshuesados;248;64;2;0;9;Frutos Secos
+Corazon Vacuno;108;0;19;4;0;Carne
+Manteca Cerdo;891;0;0;99;0;Aceite
+Acedias Fritas;256;12;17;16;0;Pescado
+Breca;74;1;15;1;0;Pescado
+Perrito-Caliente Con Mostaza;308;33;11;14;0;Procesado
+Cerveza Lager;29;2;0;0;0;Bebida
+Espinacas;15;1;2;0;2;Verdura
+Jamon Cocido;352;1;22;29;0;Carne
+Queso Gouda;346;0;25;27;0;Leche-Derivados
+Setas Cantharellus;11;0;2;0;6;Verdura
+Atun Fresco;242;0;22;16;0;Pescado
+Membrillo;236;59;0;0;0;Fruta
+Pasta;373;82;13;2;0;Cereal
+Tonica Agua;42;10;0;0;0;Bebida
+Bacalao Seco;322;0;75;2.5;0;Pescado
+Apio;8;1;1;0;2;Verdura
+Cardo;21;4;1;0;1;Procesado
+Setas Boletus, Edulis;16;0;3;0;7;Verdura
+Ostras;70;5;9;1;0;Molusco
+Acelgas;13;1;2;0;6;Verdura
+Chicharrones;540;1;20;51;0;Carne
+Sal;0;0;0;0;0;Especias-Condimento
+Queso Gruyere;406;0;26;34;0;Leche-Derivados
+Melocoton;37;9;1;0;2;Fruta
+Leche Vaca, Semidesnatada;49;5;3;2;0;Leche-Derivados
+Queso, Manchego Fresco;333;0;26;25;0;Leche-Derivados
+Azucar Blanca;394;100;0;0;0;Azucar
+Percebes;59;0;14;0;0;Molusco
+Carne Cabrito;161;0;20;8;0;Carne
+Leche Entera, Polvo;500;37;25;26;0;Leche-Derivados
+Helado Fruta;140;29;2;2;0;Procesado
+Miel;300;75;0.5;0.2;0;Azucar
+Salvado Trigo;206;27;14;6;44;Cereal
+Judia Verde;31;74;21;5;2.4;Verdura
+Jamon Serrano;195;1;59;40;0;Carne
+Patata;260;73;6;20;4.3;Verdura
+Agua;0;0;0;0;0;Bebida
+Nata Liquida para Cocinar;16;11;5;84;0;Leche-Derivados
+Tofu;78;10;37;53;0;Legumbre
+Temphe;103;14;73;13;0;Legumbre
+Pimienta;0;0;0;0;0;Especias-Condimento
+Oregano;0;0;0;0;0;Especias-Condimento
+Canela;0;0;0;0;0;Especias-Condimento
+Cuscus;176;85;14;1;2.2;Cereal
+Estevia;0;0;0;0;0;Azucar
